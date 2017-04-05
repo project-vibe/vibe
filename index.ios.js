@@ -13,10 +13,10 @@ var vibe = React.createClass({
         <NavigatorIOS
             style = {styles.container}
             initialRoute={{
-          title: "Root",
-          navigationBarHidden: true,
-          component:signInScreen
-          }}/>
+              title: "Root",
+              navigationBarHidden: true,
+              component:signInScreen
+        }}/>  
     );
   }
 });
