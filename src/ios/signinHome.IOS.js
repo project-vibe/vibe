@@ -18,6 +18,8 @@ import {
   Alert,
   TouchableOpacity,
   Dimensions,
+  Keyboard,
+  TouchableWithoutFeedback,
   View
 } from 'react-native';
 import Hr from './hr.dist';
@@ -34,8 +36,10 @@ var signInScreen = React.createClass({
             passProps: {myElement: 'text'}
         });
     },
+
     render: function(){
         return(
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
                 {/*spacer */}
                 <View style={{width: 50, height: 25, backgroundColor: '#2ecc71'}} /> 
@@ -47,6 +51,7 @@ var signInScreen = React.createClass({
                     <TextInput
                       style={{height: 50, borderRadius: 5, borderWidth: 0.3, borderColor: 'grey', paddingLeft: 20, backgroundColor: '#f9f9f9'}}
                       autoCorrect= {false}
+                      autoCapitalize="none"
                       clearButtonMode="always"
                       placeholder="Username"
                       onChangeText={(text) => this.setState({text})}
@@ -91,14 +96,14 @@ var signInScreen = React.createClass({
                     <View style={{height: 45}}>
                       <View style={{height: 15}} /> 
                       <TouchableOpacity onPress={() => this.goSignUp()} style={{height: 20}}>
-                          <Text style={{color: 'white', fontWeight: 'bold', color:'#27ae60',margin: 5, fontSize: 12}}>Sign up.</Text>
+                          <Text style={{fontWeight: 'bold', color:'#27ae60',margin: 5, fontSize: 12}}>Sign up.</Text>
                       </TouchableOpacity>
                       <View style={{height: 15}} /> 
                     </View>
-                    
                   </View>
                 </View>  
-            </View>
+              </View>
+            </TouchableWithoutFeedback>
         );
     }
 })
