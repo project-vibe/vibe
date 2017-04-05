@@ -1,0 +1,33 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+
+target 'vibe' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for vibe
+
+  target 'vibe-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'vibeTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
+
+target 'vibe-tvOS' do
+  # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
+  # use_frameworks!
+
+  # Pods for vibe-tvOS
+
+  target 'vibe-tvOSTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
