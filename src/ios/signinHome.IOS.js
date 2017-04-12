@@ -1,13 +1,5 @@
 'use strict';
 
-// import React, { Component } from 'react';
-// import {
-//     StyleSheet,
-//     View,
-//     TouchableHighlight,
-//     Text,
-// } from 'react-native';
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -23,11 +15,28 @@ import {
   View
 } from 'react-native';
 import Hr from './hr.dist';
-
+import FBSDK, { LoginManager } from 'react-native-fbsdk';
 
 var SignUpScreen = require('./signup.IOS.js');
 
 var signInScreen = React.createClass({
+
+      _fbAuth() {
+        LoginManager.logInWithReadPermissions(['public_profile']).then(
+           function(result) {
+              if (result.isCancelled) {
+                 alert('Login cancelled');
+              } else {
+                 alert('Login success with permissions: '
+                 +result.grantedPermissions.toString());
+              }
+           },
+           function(error) {
+              alert('Login fail with error: ' + error);
+           }
+        );
+     },
+
     goSignUp: function() {
         this.props.navigator.push({
             title: 'signUpScreen',
@@ -84,6 +93,11 @@ var signInScreen = React.createClass({
                       <View style={{width: 140, flex: 2}}>
                         <Hr style={{width: 140, flex: 1}}/>
                       </View>   
+                    </View>
+                    <View style={{opacity: 0.8 }}> 
+                      <TouchableOpacity onPress={this._fbAuth} style={styles.buttonContainer}>
+                          <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Sign in to Facebook</Text>
+                      </TouchableOpacity>
                     </View>
 
                   </View>
