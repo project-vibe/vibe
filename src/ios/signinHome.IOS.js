@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: '#EF4836',
-    borderRadius: 5,
+    borderRadius: 50,
     padding: 10,
     shadowColor: '#000000',
     shadowOffset: {
