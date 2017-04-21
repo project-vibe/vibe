@@ -18,6 +18,7 @@ import Hr from './hr.dist';
 import FBSDK, { LoginManager } from 'react-native-fbsdk';
 
 var SignUpScreen = require('./signup.IOS.js');
+var UserHomeScreen = require('./userHome.IOS.js');
 
 var signInScreen = React.createClass({
 
@@ -41,6 +42,15 @@ var signInScreen = React.createClass({
         this.props.navigator.push({
             title: 'signUpScreen',
             component: SignUpScreen,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
+    },
+
+    goUserHome: function() {
+        this.props.navigator.push({
+            title: 'userHomeScreen',
+            component: UserHomeScreen,
             navigationBarHidden: true,
             passProps: {myElement: 'text'}
         });
@@ -75,14 +85,12 @@ var signInScreen = React.createClass({
                     />
                     <View style={{width: 50, height: 20}} /> 
                     <View style={{opacity: 0.8 }}> 
-                      <TouchableOpacity onPress={onPressSignIn} style={styles.buttonContainer}>
+                      <TouchableOpacity onPress={() => this.goUserHome()} style={styles.buttonContainer}>
                           <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Login</Text>
                       </TouchableOpacity>
                     </View>
                     <View style={{width: 50, height: 70}} /> 
                     {/* look in hr.dist.js for changes */}
-                    {/*<Hr text='OR'>
-                    </Hr> }*/}
                     <View style={{width: 300, height: 40, flexDirection: 'row'}}> 
                       <View style={{width: 140, flex: 2}}> 
                         <Hr style={{width: 140}}/>
@@ -141,7 +149,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     backgroundColor: '#EF4836',
-    borderRadius: 50,
+    borderRadius: 100,
     padding: 10,
     shadowColor: '#000000',
     shadowOffset: {

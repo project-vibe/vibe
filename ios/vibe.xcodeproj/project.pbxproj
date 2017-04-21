@@ -38,6 +38,8 @@
 		317DA521168C4E7BA608EECD /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B34BB32AEE4F778AB84F9B /* FBSDKCoreKit.framework */; };
 		566A3F1A088548C09B5128FC /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A36D2B1B4D794D39A0D2007C /* FBSDKLoginKit.framework */; };
 		5A46AB101E94CB8C0042F487 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A46AB0F1E94CB8C0042F487 /* JavaScriptCore.framework */; };
+		5A5C2C4D1E9DFA48001A2D1F /* libjschelpers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */; };
+		5A5C2C4E1E9DFA48001A2D1F /* libjschelpers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EAF1DF850E9000B6D8A /* libjschelpers.a */; };
 		5AD9CE2B1E9570A100B5BDA4 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD9CE291E9570A100B5BDA4 /* Fabric.framework */; };
 		5AD9CE2C1E9570A100B5BDA4 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD9CE2A1E9570A100B5BDA4 /* Crashlytics.framework */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -292,6 +294,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A5C2C4D1E9DFA48001A2D1F /* libjschelpers.a in Frameworks */,
+				5A5C2C4E1E9DFA48001A2D1F /* libjschelpers.a in Frameworks */,
 				5A46AB101E94CB8C0042F487 /* JavaScriptCore.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
@@ -622,6 +626,7 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = XR9TAC2UM5;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
@@ -1040,6 +1045,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = XR9TAC2UM5;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1071,6 +1077,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = XR9TAC2UM5;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1102,6 +1109,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = XR9TAC2UM5;
+				ENABLE_TESTABILITY = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks/",
 					"$(SRCROOT)",
@@ -1112,6 +1120,8 @@
 				);
 				INFOPLIST_FILE = vibe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				ON_DEMAND_RESOURCES_INITIAL_INSTALL_TAGS = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1143,6 +1153,7 @@
 				);
 				INFOPLIST_FILE = vibe/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ON_DEMAND_RESOURCES_INITIAL_INSTALL_TAGS = "";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
