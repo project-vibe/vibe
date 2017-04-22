@@ -127,7 +127,7 @@ var signInScreen = React.createClass({
             </TouchableWithoutFeedback>
         );
     }
-})
+});
 
 const onPressSignIn = () => {
   Alert.alert('Login successful!');

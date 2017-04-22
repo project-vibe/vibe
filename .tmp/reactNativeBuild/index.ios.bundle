@@ -51237,57 +51237,904 @@ module.exports = SignUp;
 }, 436, null, "vibe/src/ios/signup.IOS.js");
 __d(/* vibe/src/ios/userHome.IOS.js */function(global, require, module, exports) {'use strict';
 
+var _reactNative = require(45            ); // 45 = react-native
+
+var _react = require(12     ); // 12 = react
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _rnViewpager = require(439           ); // 439 = rn-viewpager
+
+var UserHome = _react2.default.createClass({
+    displayName: 'UserHome',
+    render: function render() {
+        return _react2.default.createElement(
+            _reactNative.View,
+            { style: { flex: 1 } },
+            _react2.default.createElement(
+                _rnViewpager.IndicatorViewPager,
+                {
+                    style: { flex: 1, paddingTop: 20, backgroundColor: 'white' },
+                    indicator: this._renderTitleIndicator(),
+                    initialPage: 1
+                },
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { backgroundColor: 'cadetblue' } },
+                    _react2.default.createElement(
+                        _reactNative.Text,
+                        null,
+                        'page one'
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { backgroundColor: 'cornflowerblue' } },
+                    _react2.default.createElement(
+                        _reactNative.Text,
+                        null,
+                        'page two'
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { backgroundColor: '#1AA094' } },
+                    _react2.default.createElement(
+                        _reactNative.Text,
+                        null,
+                        'page three'
+                    )
+                )
+            ),
+            _react2.default.createElement(
+                _rnViewpager.IndicatorViewPager,
+                {
+                    style: { flex: 1, backgroundColor: '#27ae60' },
+                    indicator: this._renderTabIndicator(),
+                    initialPage: 1
+                },
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { backgroundColor: 'white' } },
+                    _react2.default.createElement(
+                        _reactNative.Text,
+                        null,
+                        'page one'
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { backgroundColor: 'green' } },
+                    _react2.default.createElement(
+                        _reactNative.Text,
+                        null,
+                        'page two'
+                    )
+                ),
+                _react2.default.createElement(
+                    _reactNative.View,
+                    { style: { backgroundColor: 'yellow' } },
+                    _react2.default.createElement(
+                        _reactNative.Text,
+                        null,
+                        'page three'
+                    )
+                )
+            ),
+            _react2.default.createElement(_reactNative.View, { style: { height: 120, width: 380, backgroundColor: 'white' } })
+        );
+    },
+    _renderTitleIndicator: function _renderTitleIndicator() {
+        return _react2.default.createElement(_rnViewpager.PagerTitleIndicator, { titles: ['Messages', 'Home', 'Profile'] });
+    },
+    _renderTabIndicator: function _renderTabIndicator() {
+        var tabs = [{
+            text: 'Messages'
+        }, {
+            text: 'Home'
+        }, {
+            text: 'Profile'
+        }];
+        return _react2.default.createElement(_rnViewpager.PagerTabIndicator, { style: { backgroundColor: '#27ae60' }, tabs: tabs });
+    }
+});
+
+module.exports = UserHome;
+}, 438, null, "vibe/src/ios/userHome.IOS.js");
+__d(/* rn-viewpager/index.js */function(global, require, module, exports) {
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.PagerTabIndicator = exports.PagerTitleIndicator = exports.PagerDotIndicator = exports.IndicatorViewPager = exports.ViewPager = undefined;
+
+var _ViewPager = require(440                    ); // 440 = ./viewpager/ViewPager
+
+var _ViewPager2 = babelHelpers.interopRequireDefault(_ViewPager);
+
+var _IndicatorViewPager = require(441                             ); // 441 = ./viewpager/IndicatorViewPager
+
+var _IndicatorViewPager2 = babelHelpers.interopRequireDefault(_IndicatorViewPager);
+
+var _PagerDotIndicator = require(442                                      ); // 442 = ./viewpager/indicator/PagerDotIndicator
+
+var _PagerDotIndicator2 = babelHelpers.interopRequireDefault(_PagerDotIndicator);
+
+var _PagerTitleIndicator = require(443                                        ); // 443 = ./viewpager/indicator/PagerTitleIndicator
+
+var _PagerTitleIndicator2 = babelHelpers.interopRequireDefault(_PagerTitleIndicator);
+
+var _PagerTabIndicator = require(444                                      ); // 444 = ./viewpager/indicator/PagerTabIndicator
+
+var _PagerTabIndicator2 = babelHelpers.interopRequireDefault(_PagerTabIndicator);
+
+exports.ViewPager = _ViewPager2.default;
+exports.IndicatorViewPager = _IndicatorViewPager2.default;
+exports.PagerDotIndicator = _PagerDotIndicator2.default;
+exports.PagerTitleIndicator = _PagerTitleIndicator2.default;
+exports.PagerTabIndicator = _PagerTabIndicator2.default;
+}, 439, null, "rn-viewpager/index.js");
+__d(/* rn-viewpager/viewpager/ViewPager.js */function(global, require, module, exports) {
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _react = require(12     ); // 12 = react
 
 var _react2 = babelHelpers.interopRequireDefault(_react);
 
 var _reactNative = require(45            ); // 45 = react-native
 
-var SignInHomeScreen = require(416                  ); // 416 = ./signinHome.IOS.js
+var SCROLLVIEW_REF = 'scrollView';
+var VIEWPAGER_REF = 'viewPager';
 
-var SignUp = _react2.default.createClass({
-    displayName: 'SignUp',
+var SCROLL_STATE = {
+    idle: 'idle',
+    settling: 'settling',
+    dragging: 'dragging'
+};
 
-    render: function render() {
-        return _react2.default.createElement(
-            _reactNative.View,
-            { style: styles.wrapper },
-            _react2.default.createElement(
-                _reactNative.Text,
-                { style: styles.title },
-                ' USER HOME!!! '
-            )
-        );
+var ViewPager = function (_Component) {
+    babelHelpers.inherits(ViewPager, _Component);
+
+    function ViewPager(props) {
+        babelHelpers.classCallCheck(this, ViewPager);
+
+        var _this = babelHelpers.possibleConstructorReturn(this, (ViewPager.__proto__ || Object.getPrototypeOf(ViewPager)).call(this, props));
+
+        _this.state = { width: 0, height: 0 };
+        _this._scrollState = SCROLL_STATE.idle;
+        _this._panResponder = _reactNative.PanResponder.create({
+            onStartShouldSetPanResponder: function onStartShouldSetPanResponder() {
+                return true;
+            },
+            onMoveShouldSetPanResponder: function onMoveShouldSetPanResponder() {
+                return true;
+            },
+            onPanResponderGrant: function onPanResponderGrant() {
+                return _this._setScrollState(SCROLL_STATE.dragging);
+            },
+            onPanResponderMove: function onPanResponderMove() {
+                return null;
+            },
+            onPanResponderRelease: function onPanResponderRelease() {
+                return _this._setScrollState(SCROLL_STATE.settling);
+            },
+            onPanResponderTerminate: function onPanResponderTerminate() {
+                return null;
+            },
+            onPanResponderTerminationRequest: function onPanResponderTerminationRequest(evt, gestureState) {
+                return true;
+            }
+        });
+
+        _this._onPageScrollOnAndroid = _this._onPageScrollOnAndroid.bind(_this);
+        _this._onPageSelectedOnAndroid = _this._onPageSelectedOnAndroid.bind(_this);
+        _this._renderOnIOS = _this._renderOnIOS.bind(_this);
+        _this._onScrollOnIOS = _this._onScrollOnIOS.bind(_this);
+        _this._onScrollViewLayout = _this._onScrollViewLayout.bind(_this);
+        _this._childrenWithOverridenStyle = _this._childrenWithOverridenStyle.bind(_this);
+        _this._setScrollState = _this._setScrollState.bind(_this);
+        _this.setPageWithoutAnimation = _this.setPageWithoutAnimation.bind(_this);
+        _this.setPage = _this.setPage.bind(_this);
+        return _this;
     }
+
+    babelHelpers.createClass(ViewPager, [{
+        key: 'render',
+        value: function render() {
+            return _reactNative.Platform.OS === 'ios' ? this._renderOnIOS() : _react2.default.createElement(_reactNative.ViewPagerAndroid, babelHelpers.extends({}, this.props, {
+                ref: VIEWPAGER_REF,
+                onPageScroll: this._onPageScrollOnAndroid,
+                onPageSelected: this._onPageSelectedOnAndroid
+            }));
+        }
+    }, {
+        key: '_onPageScrollOnAndroid',
+        value: function _onPageScrollOnAndroid(e) {
+            if (this.props.onPageScroll) this.props.onPageScroll(e.nativeEvent);
+        }
+    }, {
+        key: '_onPageSelectedOnAndroid',
+        value: function _onPageSelectedOnAndroid(e) {
+            if (this.props.onPageSelected) this.props.onPageSelected(e.nativeEvent);
+        }
+    }, {
+        key: '_renderOnIOS',
+        value: function _renderOnIOS() {
+            var childrenCount = this.props.children ? this.props.children.length : 0;
+            var initialPage = Math.min(Math.max(0, this.props.initialPage), childrenCount - 1);
+            var needMonitorScroll = !!this.props.onPageScroll || !!this.props.onPageSelected || !!this.props.onPageScrollStateChanged;
+            var needMonitorTouch = !!this.props.onPageScrollStateChanged;
+            var props = babelHelpers.extends({}, this.props, {
+                ref: SCROLLVIEW_REF,
+                onLayout: this._onScrollViewLayout,
+                horizontal: true,
+                pagingEnabled: true,
+                scrollsToTop: false,
+                showsHorizontalScrollIndicator: false,
+                showsVerticalScrollIndicator: false,
+                children: this._childrenWithOverridenStyle(),
+                contentOffset: { x: this.state.width * initialPage, y: 0 },
+                decelerationRate: 0.9,
+                onScroll: needMonitorScroll ? this._onScrollOnIOS : null,
+                scrollEventThrottle: needMonitorScroll ? this.props.onPageScroll ? 8 : 1 : 0
+            });
+            if (needMonitorTouch) props = babelHelpers.extends(props, this._panResponder.panHandlers);
+            var scrollViewStyle = {
+                overflow: 'visible',
+                marginHorizontal: -this.props.pageMargin / 2
+            };
+            if (this.props.style && !this.props.style.height) return _react2.default.createElement(_reactNative.ScrollView, babelHelpers.extends({}, props, { style: [this.props.style, scrollViewStyle] }));else return _react2.default.createElement(
+                _reactNative.View,
+                { style: this.props.style },
+                _react2.default.createElement(_reactNative.ScrollView, babelHelpers.extends({}, props, { style: scrollViewStyle }))
+            );
+        }
+    }, {
+        key: '_onScrollOnIOS',
+        value: function _onScrollOnIOS(e) {
+            var x = e.nativeEvent.contentOffset.x,
+                offset = void 0,
+                position = Math.floor(x / this.state.width);
+            offset = x / this.state.width - position;
+
+            if (this.props.onPageScroll) this.props.onPageScroll({ offset: offset, position: position });
+
+            if (this.props.onPageSelected && offset === 0) {
+                this.props.onPageSelected({ position: position });
+                this.props.onPageScrollStateChanged && this._setScrollState(SCROLL_STATE.idle);
+            }
+        }
+    }, {
+        key: '_onScrollViewLayout',
+        value: function _onScrollViewLayout(event) {
+            var _event$nativeEvent$la = event.nativeEvent.layout,
+                width = _event$nativeEvent$la.width,
+                height = _event$nativeEvent$la.height;
+
+            this.setState({ width: width, height: height });
+        }
+    }, {
+        key: '_childrenWithOverridenStyle',
+        value: function _childrenWithOverridenStyle() {
+            var _this2 = this;
+
+            if (this.state.width === 0 || this.state.height === 0) return null;
+            return _react2.default.Children.map(this.props.children, function (child) {
+                if (!child) return null;
+                var newProps = babelHelpers.extends({}, child.props, {
+                    style: [child.props.style, {
+                        width: _this2.state.width,
+                        height: _this2.state.height,
+                        position: null
+                    }],
+                    collapsable: false
+                });
+                if (child.type && child.type.displayName && child.type.displayName !== 'RCTView' && child.type.displayName !== 'View') {
+                    console.warn('Each ViewPager child must be a <View>. Was ' + child.type.displayName);
+                }
+                return _react2.default.createElement(child.type, newProps);
+            });
+        }
+    }, {
+        key: '_setScrollState',
+        value: function _setScrollState(scrollState) {
+            if (scrollState === this._scrollState) return;
+            this.props.onPageScrollStateChanged && this.props.onPageScrollStateChanged(scrollState);
+            this._scrollState = scrollState;
+        }
+    }, {
+        key: 'setPageWithoutAnimation',
+        value: function setPageWithoutAnimation(selectedPage) {
+            if (_reactNative.Platform.OS === 'ios') this.refs[SCROLLVIEW_REF].scrollTo({ x: this.state.width * selectedPage, animated: false });else {
+                this.refs[VIEWPAGER_REF].setPageWithoutAnimation(selectedPage);
+                if (this.props.onPageSelected) this.props.onPageSelected({ position: selectedPage });
+            }
+        }
+    }, {
+        key: 'setPage',
+        value: function setPage(selectedPage) {
+            if (_reactNative.Platform.OS === 'ios') this.refs[SCROLLVIEW_REF].scrollTo({ x: this.state.width * selectedPage });else {
+                this.refs[VIEWPAGER_REF].setPage(selectedPage);
+                if (this.props.onPageSelected) this.props.onPageSelected({ position: selectedPage });
+            }
+        }
+    }]);
+    return ViewPager;
+}(_react.Component);
+
+ViewPager.propTypes = babelHelpers.extends({}, _reactNative.ViewPagerAndroid.propTypes);
+ViewPager.defaultProps = {
+    initialPage: 0,
+    keyboardDismissMode: 'on-drag',
+    onPageScroll: null,
+    onPageSelected: null,
+    onPageScrollStateChanged: null,
+    pageMargin: 0
+};
+exports.default = ViewPager;
+}, 440, null, "rn-viewpager/viewpager/ViewPager.js");
+__d(/* rn-viewpager/viewpager/IndicatorViewPager.js */function(global, require, module, exports) {
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
+
+var _react = require(12     ); // 12 = react
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require(45            ); // 45 = react-native
+
+var _ViewPager = require(440          ); // 440 = ./ViewPager
+
+var _ViewPager2 = babelHelpers.interopRequireDefault(_ViewPager);
+
+var VIEWPAGER_REF = 'viewPager';
+var INDICATOR_REF = 'indicator';
+
+var IndicatorViewPager = function (_Component) {
+    babelHelpers.inherits(IndicatorViewPager, _Component);
+
+    function IndicatorViewPager(props) {
+        babelHelpers.classCallCheck(this, IndicatorViewPager);
+
+        var _this = babelHelpers.possibleConstructorReturn(this, (IndicatorViewPager.__proto__ || Object.getPrototypeOf(IndicatorViewPager)).call(this, props));
+
+        _this._onPageScroll = _this._onPageScroll.bind(_this);
+        _this._onPageSelected = _this._onPageSelected.bind(_this);
+        _this._goToNextPage = _this._goToNextPage.bind(_this);
+        _this._renderIndicator = _this._renderIndicator.bind(_this);
+        _this.setPage = _this.setPage.bind(_this);
+        _this.setPageWithoutAnimation = _this.setPageWithoutAnimation.bind(_this);
+        _this._startAutoPlay = _this._startAutoPlay.bind(_this);
+        _this._stopAutoPlay = _this._stopAutoPlay.bind(_this);
+        _this._currentIndex = props.initialPage;
+        _this._childrenCount = _react2.default.Children.count(props.children);
+        return _this;
+    }
+
+    babelHelpers.createClass(IndicatorViewPager, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            if (this.props.autoPlayEnable) this._startAutoPlay();else this._stopAutoPlay();
+        }
+    }, {
+        key: 'componentWillUpdate',
+        value: function componentWillUpdate(nextProps, nextState) {
+            this._childrenCount = _react2.default.Children.count(nextProps.children);
+            if (this.props.autoPlayEnable !== nextProps.autoPlayEnable) {
+                nextProps.autoPlayEnable ? this._startAutoPlay() : this._stopAutoPlay();
+            }
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: [styles.container, this.props.style] },
+                _react2.default.createElement(_ViewPager2.default, babelHelpers.extends({}, this.props, {
+                    ref: VIEWPAGER_REF,
+                    style: [styles.pager, this.props.pagerStyle],
+                    onPageScroll: this._onPageScroll,
+                    onPageSelected: this._onPageSelected
+                })),
+                this._renderIndicator()
+            );
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this._stopAutoPlay();
+        }
+    }, {
+        key: '_onPageScroll',
+        value: function _onPageScroll(params) {
+            var indicator = this.refs[INDICATOR_REF];
+            indicator && indicator.onPageScroll && indicator.onPageScroll(params);
+            this.props.onPageScroll && this.props.onPageScroll(params);
+        }
+    }, {
+        key: '_onPageSelected',
+        value: function _onPageSelected(params) {
+            var indicator = this.refs[INDICATOR_REF];
+            indicator && indicator.onPageSelected && indicator.onPageSelected(params);
+            this.props.onPageSelected && this.props.onPageSelected(params);
+            this._currentIndex = params.position;
+        }
+    }, {
+        key: '_renderIndicator',
+        value: function _renderIndicator() {
+            var _props = this.props,
+                indicator = _props.indicator,
+                initialPage = _props.initialPage;
+
+            if (!indicator) return null;
+            return _react2.default.cloneElement(indicator, {
+                ref: INDICATOR_REF,
+                pager: this,
+                initialPage: initialPage
+            });
+        }
+    }, {
+        key: '_goToNextPage',
+        value: function _goToNextPage() {
+            var nextIndex = (this._currentIndex + 1) % this._childrenCount;
+            this.setPage(nextIndex);
+        }
+    }, {
+        key: '_startAutoPlay',
+        value: function _startAutoPlay() {
+            if (this._timerId) clearInterval(this._timerId);
+            this._timerId = setInterval(this._goToNextPage, this.props.autoPlayInterval);
+        }
+    }, {
+        key: '_stopAutoPlay',
+        value: function _stopAutoPlay() {
+            if (this._timerId) {
+                clearInterval(this._timerId);
+                this._timerId = null;
+            }
+        }
+    }, {
+        key: 'setPage',
+        value: function setPage(selectedPage) {
+            this.refs[VIEWPAGER_REF].setPage(selectedPage);
+        }
+    }, {
+        key: 'setPageWithoutAnimation',
+        value: function setPageWithoutAnimation(selectedPage) {
+            this.refs[VIEWPAGER_REF].setPageWithoutAnimation(selectedPage);
+        }
+    }]);
+    return IndicatorViewPager;
+}(_react.Component);
+
+IndicatorViewPager.propTypes = babelHelpers.extends({}, _ViewPager2.default.propTypes, {
+    indicator: _react.PropTypes.node,
+    pagerStyle: _reactNative.View.propTypes.style,
+    autoPlayEnable: _react.PropTypes.bool,
+    autoPlayInterval: _react.PropTypes.number
+});
+IndicatorViewPager.defaultProps = {
+    indicator: null,
+    initialPage: 0,
+    autoPlayInterval: 3000,
+    autoPlayEnable: false
+};
+exports.default = IndicatorViewPager;
+
 
 var styles = _reactNative.StyleSheet.create({
-    wrapper: {
-        backgroundColor: '#1abc9c',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    title: {
-        color: 'white',
-        fontSize: 35,
-        fontWeight: 'bold'
-    },
-    subtitles: {
-        color: 'white',
-        fontWeight: '200',
-        paddingBottom: 20
-    },
-    buttonBack: {
-        color: 'green',
-        fontWeight: 'bold',
-        margin: 5,
-        fontSize: 12
-    }
+    container: {},
+    pager: { flex: 1 }
+});
+}, 441, null, "rn-viewpager/viewpager/IndicatorViewPager.js");
+__d(/* rn-viewpager/viewpager/indicator/PagerDotIndicator.js */function(global, require, module, exports) {
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
 });
 
-module.exports = SignUp;
-}, 438, null, "vibe/src/ios/userHome.IOS.js");
+var _react = require(12     ); // 12 = react
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require(45            ); // 45 = react-native
+
+var _IndicatorViewPager = require(441                    ); // 441 = ../IndicatorViewPager
+
+var _IndicatorViewPager2 = babelHelpers.interopRequireDefault(_IndicatorViewPager);
+
+var DEFAULT_DOT_RADIUS = 6;
+
+var PagerDotIndicator = function (_Component) {
+    babelHelpers.inherits(PagerDotIndicator, _Component);
+
+    function PagerDotIndicator() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        babelHelpers.classCallCheck(this, PagerDotIndicator);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = PagerDotIndicator.__proto__ || Object.getPrototypeOf(PagerDotIndicator)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            selectedIndex: _this.props.initialPage
+        }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+    }
+
+    babelHelpers.createClass(PagerDotIndicator, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return this.state.selectedIndex != nextState.selectedIndex || this.props.pageCount != nextProps.pageCount || this.props.dotStyle != nextProps.dotStyle || this.props.selectedDotStyle != nextProps.selectedDotStyle || this.props.style != nextProps.style;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _props = this.props,
+                pageCount = _props.pageCount,
+                dotStyle = _props.dotStyle,
+                selectedDotStyle = _props.selectedDotStyle;
+
+            if (pageCount <= 0) return null;
+            if (this.props.hideSingle && pageCount == 1) return null;
+            var dotsView = [];
+            for (var i = 0; i < pageCount; i++) {
+                var isSelect = i === this.state.selectedIndex;
+                dotsView.push(_react2.default.createElement(_reactNative.View, {
+                    style: [styles.dot, isSelect ? styles.selectDot : null, isSelect ? selectedDotStyle : dotStyle],
+                    key: i
+                }));
+            }
+            return _react2.default.createElement(
+                _reactNative.View,
+                babelHelpers.extends({}, this.props, { style: [styles.container, this.props.style] }),
+                dotsView
+            );
+        }
+    }, {
+        key: 'onPageSelected',
+        value: function onPageSelected(e) {
+            this.setState({ selectedIndex: e.position });
+        }
+    }]);
+    return PagerDotIndicator;
+}(_react.Component);
+
+PagerDotIndicator.propTypes = babelHelpers.extends({}, _reactNative.View.propTypes, {
+    pageCount: _react.PropTypes.number.isRequired,
+    initialPage: _react.PropTypes.number,
+    pager: _react.PropTypes.instanceOf(_IndicatorViewPager2.default),
+    dotStyle: _reactNative.View.propTypes.style,
+    selectedDotStyle: _reactNative.View.propTypes.style,
+    hideSingle: _react2.default.PropTypes.bool
+});
+PagerDotIndicator.defaultProps = {
+    pageCount: 0,
+    initialPage: 0,
+    hideSingle: false
+};
+exports.default = PagerDotIndicator;
+
+var styles = _reactNative.StyleSheet.create({
+    container: {
+        position: 'absolute',
+        bottom: 10,
+        left: 0,
+        right: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    dot: {
+        width: DEFAULT_DOT_RADIUS,
+        height: DEFAULT_DOT_RADIUS,
+        borderRadius: DEFAULT_DOT_RADIUS >> 1,
+        backgroundColor: '#BBBBBB',
+        margin: DEFAULT_DOT_RADIUS >> 1
+    },
+    selectDot: {
+        backgroundColor: 'white'
+    }
+});
+}, 442, null, "rn-viewpager/viewpager/indicator/PagerDotIndicator.js");
+__d(/* rn-viewpager/viewpager/indicator/PagerTitleIndicator.js */function(global, require, module, exports) {
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = require(12     ); // 12 = react
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require(45            ); // 45 = react-native
+
+var _IndicatorViewPager = require(441                    ); // 441 = ../IndicatorViewPager
+
+var _IndicatorViewPager2 = babelHelpers.interopRequireDefault(_IndicatorViewPager);
+
+var PagerTitleIndicator = function (_Component) {
+    babelHelpers.inherits(PagerTitleIndicator, _Component);
+
+    function PagerTitleIndicator() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        babelHelpers.classCallCheck(this, PagerTitleIndicator);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = PagerTitleIndicator.__proto__ || Object.getPrototypeOf(PagerTitleIndicator)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            selectedIndex: _this.props.initialPage
+        }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+    }
+
+    babelHelpers.createClass(PagerTitleIndicator, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate(nextProps, nextState) {
+            return this.state.selectedIndex != nextState.selectedIndex || this.props.titles + '' != nextProps.titles + '' || this.props.style != nextProps.style || this.props.itemStyle != nextProps.itemStyle || this.props.itemTextStyle != nextProps.itemTextStyle || this.props.selectedItemTextStyle != nextProps.selectedItemTextStyle || this.props.selectedBorderStyle != nextProps.selectedBorderStyle;
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _props = this.props,
+                titles = _props.titles,
+                pager = _props.pager,
+                itemStyle = _props.itemStyle,
+                itemTextStyle = _props.itemTextStyle,
+                selectedItemTextStyle = _props.selectedItemTextStyle,
+                selectedBorderStyle = _props.selectedBorderStyle;
+
+            if (!titles || titles.length === 0) return null;
+
+            var titleViews = titles.map(function (title, index) {
+                var isSelected = _this2.state.selectedIndex === index;
+
+                var titleView = _this2.props.renderTitle ? _this2.props.renderTitle(index, title, isSelected) : _react2.default.createElement(
+                    _reactNative.Text,
+                    { style: isSelected ? [styles.titleTextSelected, selectedItemTextStyle] : [styles.titleText, itemTextStyle] },
+                    title
+                );
+
+                return _react2.default.createElement(
+                    _reactNative.TouchableOpacity,
+                    {
+                        style: [styles.titleContainer, itemStyle],
+                        activeOpacity: 0.6,
+                        key: index,
+                        onPress: function onPress() {
+                            !isSelected && pager.setPage(index);
+                        }
+                    },
+                    titleView,
+                    isSelected ? _react2.default.createElement(_reactNative.View, { style: [styles.selectedBorder, selectedBorderStyle] }) : null
+                );
+            });
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: [styles.indicatorContainer, this.props.style] },
+                titleViews
+            );
+        }
+    }, {
+        key: 'onPageSelected',
+        value: function onPageSelected(e) {
+            this.setState({ selectedIndex: e.position });
+        }
+    }]);
+    return PagerTitleIndicator;
+}(_react.Component);
+
+PagerTitleIndicator.propTypes = babelHelpers.extends({}, _reactNative.View.propTypes, {
+    initialPage: _react.PropTypes.number,
+    pager: _react.PropTypes.instanceOf(_IndicatorViewPager2.default),
+    titles: _react.PropTypes.arrayOf(_react.PropTypes.string).isRequired,
+    itemStyle: _reactNative.View.propTypes.style,
+    itemTextStyle: _reactNative.Text.propTypes.style,
+    selectedItemTextStyle: _reactNative.Text.propTypes.style,
+    selectedBorderStyle: _reactNative.View.propTypes.style,
+    renderTitle: _react2.default.PropTypes.func
+});
+PagerTitleIndicator.defaultProps = {
+    titles: [],
+    initialPage: 0
+};
+exports.default = PagerTitleIndicator;
+
+
+var styles = _reactNative.StyleSheet.create({
+    indicatorContainer: {
+        height: 40,
+        flexDirection: 'row',
+        backgroundColor: '#F6F6F6'
+    },
+    titleText: {
+        color: '#333333',
+        fontSize: 15
+    },
+    titleTextSelected: {
+        color: '#FF7200',
+        fontSize: 15
+    },
+    titleContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    selectedBorder: {
+        backgroundColor: '#FF7200',
+        height: 2,
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0
+    }
+});
+}, 443, null, "rn-viewpager/viewpager/indicator/PagerTitleIndicator.js");
+__d(/* rn-viewpager/viewpager/indicator/PagerTabIndicator.js */function(global, require, module, exports) {
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = require(12     ); // 12 = react
+
+var _react2 = babelHelpers.interopRequireDefault(_react);
+
+var _reactNative = require(45            ); // 45 = react-native
+
+var _IndicatorViewPager = require(441                    ); // 441 = ../IndicatorViewPager
+
+var _IndicatorViewPager2 = babelHelpers.interopRequireDefault(_IndicatorViewPager);
+
+var PagerTabIndicator = function (_Component) {
+    babelHelpers.inherits(PagerTabIndicator, _Component);
+
+    function PagerTabIndicator() {
+        var _ref;
+
+        var _temp, _this, _ret;
+
+        babelHelpers.classCallCheck(this, PagerTabIndicator);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return _ret = (_temp = (_this = babelHelpers.possibleConstructorReturn(this, (_ref = PagerTabIndicator.__proto__ || Object.getPrototypeOf(PagerTabIndicator)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+            selectedIndex: _this.props.initialPage
+        }, _temp), babelHelpers.possibleConstructorReturn(_this, _ret);
+    }
+
+    babelHelpers.createClass(PagerTabIndicator, [{
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var _props = this.props,
+                tabs = _props.tabs,
+                pager = _props.pager,
+                style = _props.style,
+                itemStyle = _props.itemStyle,
+                selectedItemStyle = _props.selectedItemStyle,
+                iconStyle = _props.iconStyle,
+                selectedIconStyle = _props.selectedIconStyle,
+                textStyle = _props.textStyle,
+                selectedTextStyle = _props.selectedTextStyle;
+
+            if (!tabs || tabs.length === 0) return null;
+
+            var tabsView = tabs.map(function (tab, index) {
+                var isSelected = _this2.state.selectedIndex === index;
+                return _react2.default.createElement(
+                    _reactNative.TouchableOpacity,
+                    {
+                        style: [styles.itemContainer, isSelected ? selectedItemStyle : itemStyle],
+                        activeOpacity: 0.6,
+                        key: index,
+                        onPress: function onPress() {
+                            !isSelected && pager.setPage(index);
+                        }
+                    },
+                    _react2.default.createElement(_reactNative.Image, {
+                        style: [styles.image, isSelected ? selectedIconStyle : iconStyle],
+                        source: isSelected ? tab.selectedIconSource : tab.iconSource
+                    }),
+                    _react2.default.createElement(
+                        _reactNative.Text,
+                        {
+                            style: [isSelected ? styles.textSelected : styles.text, isSelected ? selectedTextStyle : textStyle]
+                        },
+                        tab.text
+                    )
+                );
+            });
+            return _react2.default.createElement(
+                _reactNative.View,
+                { style: [styles.container, style] },
+                tabsView
+            );
+        }
+    }, {
+        key: 'onPageSelected',
+        value: function onPageSelected(e) {
+            this.setState({ selectedIndex: e.position });
+        }
+    }]);
+    return PagerTabIndicator;
+}(_react.Component);
+
+PagerTabIndicator.propTypes = babelHelpers.extends({}, _reactNative.View.propTypes, {
+    initialPage: _react.PropTypes.number,
+    pager: _react.PropTypes.instanceOf(_IndicatorViewPager2.default),
+    tabs: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+        text: _react.PropTypes.string,
+        iconSource: _reactNative.Image.propTypes.source,
+        selectedIconSource: _reactNative.Image.propTypes.source
+    })).isRequired,
+    itemStyle: _reactNative.View.propTypes.style,
+    selectedItemStyle: _reactNative.View.propTypes.style,
+    iconStyle: _reactNative.Image.propTypes.style,
+    selectedIconStyle: _reactNative.Image.propTypes.style,
+    textStyle: _reactNative.Text.propTypes.style,
+    selectedTextStyle: _reactNative.Text.propTypes.style
+});
+PagerTabIndicator.defaultProps = {
+    tabs: []
+};
+exports.default = PagerTabIndicator;
+
+
+var styles = _reactNative.StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        paddingTop: 8,
+        paddingBottom: 4,
+        borderTopWidth: 0.5,
+        borderTopColor: '#E0E0E0',
+        backgroundColor: '#F7F7F7'
+    },
+    itemContainer: {
+        alignItems: 'center',
+        flex: 1
+    },
+    image: {},
+    text: {
+        marginTop: 4,
+        fontSize: 11,
+        color: '#999999'
+    },
+    textSelected: {
+        marginTop: 4,
+        fontSize: 11,
+        color: '#3584F6'
+    }
+});
+}, 444, null, "rn-viewpager/viewpager/indicator/PagerTabIndicator.js");
 ;require(96);
 ;require(0);
 //# sourceMappingURL=index.ios.map
