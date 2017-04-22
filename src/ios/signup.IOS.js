@@ -4,8 +4,12 @@ import React, { Component } from 'react';
 import {
     View, 
     Text,
+    Image,
     TouchableOpacity,
-    StyleSheet
+    StyleSheet,
+    TextInput,
+    Keyboard,
+    TouchableWithoutFeedback
 } from 'react-native';
 
 var SignInHomeScreen = require('./signinHome.IOS.js');
@@ -22,28 +26,55 @@ var SignUp = React.createClass({
 
     render: function() {
         return (
-            <View style={styles.wrapper}>
-                <Text style={styles.title}> Vibe </Text>
-                <Text style={styles.subtitles}> Powered by CPP </Text>
-                <TouchableOpacity onPress={() => this.goSignUp()} style={{backgroundColor: 'white', height: 20}}>
-                  <Text style={styles.buttonBack}>Go back.</Text>
-                </TouchableOpacity>
-            </View> 
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style = {styles.wrapper}>
+            <Image source = {require('./roseImage.jpg')} style = {{backgroundColor: 'transparent'}}>
+                    <View style = {styles.nameStyle}>
+                        <TextInput
+                            style={styles.textInputStyle}
+                            placeholder= "First Name"
+                            placeholderTextColor= "white"
+                        />
+                    </View>
+                <View><Text>test</Text></View>
+            </Image>
+            </View>
+            </TouchableWithoutFeedback>
         );
     }
 });
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: '#1abc9c', 
-        flex: 1, 
-        justifyContent: 'center', 
-        alignItems: 'center'
+        backgroundColor: 'transparent',
+        flex: 1,
+    },
+    nameStyle:{
+        height: 20,
+        paddingTop: 200,
+        paddingHorizontal: 125,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+
+    },
+
+    textInputStyle: {
+        height: 50,
+        width: 150,
+        color: 'white',
+        borderBottomColor: 'blue',
+        backgroundColor: 'green',
+        borderBottomWidth:5,
+        borderBottomWidth: 5,
+        fontSize: 20,
+
     },
     title: {
         color: 'white',
         fontSize: 35,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        borderColor: 'transparent'
     },
     subtitles: {
         color: 'white',
