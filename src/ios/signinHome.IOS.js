@@ -2,20 +2,18 @@
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   TextInput,
-  Button,
   Alert,
   TouchableOpacity,
-  Dimensions,
   Keyboard,
   TouchableWithoutFeedback,
   View
 } from 'react-native';
 import Hr from './hr.dist';
 import FBSDK, { LoginManager } from 'react-native-fbsdk';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 var SignUpScreen = require('./signup.IOS.js');
 var UserHomeScreen = require('./userHome.IOS.js');
@@ -102,9 +100,11 @@ var signInScreen = React.createClass({
                         <Hr style={{width: 140, flex: 1}}/>
                       </View>   
                     </View>
-                    <View style={{opacity: 0.8 }}> 
+                    <View style={{opacity: 0.8, paddingTop: 20}}>
                       <TouchableOpacity onPress={this._fbAuth} style={styles.fbButton}>
-                          <Text style={{color: '#EF4836', fontWeight: 'bold', margin: 5, fontSize: 16}}>Log In with Facebook</Text>
+                          <View style={{width: 50}}/>
+                          <Icon name="logo-facebook" size={20} color="#3a87ea" />
+                          <Text style={{color: '#3a87ea', paddingLeft: 5, fontWeight: 'bold', margin: 5, fontSize: 16}}>Log In with Facebook</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
   },
   fbButton: {
     backgroundColor: 'white',
+    flexDirection: 'row',
     borderRadius: 5,
     padding: 10,
     shadowColor: '#000000',

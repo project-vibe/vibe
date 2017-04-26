@@ -5,7 +5,6 @@ import { SquarePagerView, TrianglePagerView, CirclePagerView } from './PagerItem
 import { IndicatorViewPager, PagerTitleIndicator } from 'rn-viewpager'
 import NavigationBar from 'react-native-navbar';
 import Hr from './hr.dist';
-import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class UserHome extends Component {
     state = {
@@ -41,9 +40,6 @@ export default class UserHome extends Component {
                 <View style={styles.wrapper}>
                     <Text style={styles.username}>Abhay Varshney</Text>
                     <Text style={styles.location}>Pomona, CA</Text>
-                    <Icon.Button name="facebook" backgroundColor="#3b5998">
-                        Login with Facebook
-                    </Icon.Button>
                     <TouchableOpacity style={styles.buttonContainer}>
                         <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>PICTURE HERE!</Text>
                     </TouchableOpacity>
