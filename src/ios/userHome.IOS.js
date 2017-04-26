@@ -1,8 +1,10 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Platform, Image, TouchableOpacity, Animated } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity, Animated } from 'react-native'
 import { SquarePagerView, TrianglePagerView, CirclePagerView } from './PagerItemView.js'
 import { IndicatorViewPager, PagerTitleIndicator } from 'rn-viewpager'
+import NavigationBar from 'react-native-navbar';
+import Hr from './hr.dist';
 
 export default class UserHome extends Component {
     state = {
@@ -14,11 +16,33 @@ export default class UserHome extends Component {
         let bgColor = this.state.bgColor.interpolate({
             inputRange: [0, 1, 2],
             outputRange: ['hsl(187, 74%, 47%)', 'hsl(89, 47%, 54%)', 'hsl(12, 97%, 59%)']
-        })
+        });
+
+        const rightButtonConfig = {
+            title: 'Settings',
+            handler: () => alert('hello!'),
+        };
+
+        const titleConfig = {
+            title: 'Vibe',
+            style: {fontWeight: 'bold', fontSize: 26, fontFamily: 'Noteworthy',}
+        };
+
         return (
-            <Animated.View style={{flex: 1, backgroundColor: '#EF4836'}} >
+            <Animated.View style={{flex: 1, backgroundColor: '#f33443'}} >
             {/* <Animated.View style={{flex: 1, backgroundColor: bgColor}} > */}
+                <NavigationBar
+                    title={titleConfig}
+                    rightButton={rightButtonConfig}
+                    tintColor={'#eeeeee'}
+                />
+                <Hr style={{width: 250}}/>
                 <View style={styles.wrapper}>
+                    <Text style={styles.username}>Abhay Varshney</Text>
+                    <Text style={styles.location}>Pomona, CA</Text>
+                    <TouchableOpacity style={styles.buttonContainer}>
+                        <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>PICTURE HERE!</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={styles.buttonContainer}>
                         <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Settings</Text>
                     </TouchableOpacity>
@@ -43,7 +67,6 @@ export default class UserHome extends Component {
                 style={styles.indicatorContainer}
                 itemTextStyle={styles.indicatorText}
                 selectedItemTextStyle={styles.indicatorSelectedText}
-                selectedBorderStyle={styles.selectedBorderStyle}
                 titles={['Messages', 'Home', 'Your events']}
             />
         )
@@ -59,14 +82,27 @@ export default class UserHome extends Component {
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: 'white',
+        backgroundColor: '#f33443',
         justifyContent: 'center',
-        height: 200,
+        height: 180,
         alignItems: 'center'
     },
+    username: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 16,
+        fontFamily: 'Noteworthy',
+    },
+    location: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 10,
+        opacity: 0.8,
+        fontFamily: 'Noteworthy',
+    },
     buttonContainer: {
-        backgroundColor: 'green',
-        borderRadius: 100,
+        backgroundColor: 'transparent',
+        borderRadius: 5,
         padding: 10,
         shadowColor: '#000000',
         shadowOffset: {
@@ -89,10 +125,6 @@ const styles = StyleSheet.create({
     indicatorSelectedText: {
         fontSize: 14,
         color: 0xFFFFFFFF
-    },
-    selectedBorderStyle: {
-        height: 3,
-        backgroundColor: 'white'
     },
     statusBar: {
         height: 24,

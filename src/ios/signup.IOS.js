@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
         borderBottomColor: 'blue',
         backgroundColor: 'green',
         borderBottomWidth:5,
-        borderBottomWidth: 5,
         fontSize: 20,
 
     },

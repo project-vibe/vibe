@@ -17,16 +17,17 @@ const styles = StyleSheet.create({
     pageContainer: {
         alignItems: 'center',
         justifyContent: 'center',
+        backgroundColor: 'white'
     },
     mainRec: {
-        backgroundColor: '#FFFFFFAA',
+        backgroundColor: 'green',
         width: 256,
         height: 48,
         marginBottom: 10,
         marginTop: 156
     },
     subRec: {
-        backgroundColor: '#FFFFFF55',
+        backgroundColor: 'blue',
         width: 256,
         height: 30,
         marginTop: 10
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     shapeBase: {
         width: 128,
         height: 128,
-        backgroundColor: 'white'
+        backgroundColor: 'red'
     },
     square: {},
     circle: {
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
         borderTopColor: 'transparent',
         borderRightColor: 'transparent',
         borderLeftColor: 'transparent',
-        borderBottomColor: 'white',
+        borderBottomColor: 'red',
         backgroundColor: 'transparent',
         width: 140
     }
