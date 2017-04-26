@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import * as firebase from "firebase";
 import {
   AppRegistry,
   StyleSheet,
@@ -56,6 +57,50 @@ var signInScreen = React.createClass({
         });
     },
 
+    async login(email, pass) {
+
+        try {
+            await firebase.auth()
+                .signInWithEmailAndPassword(email, pass);
+
+            console.log("Logged In!");
+            alert("Logged in!");
+
+            // Navigate to the Home page
+
+        } catch (error) {
+            console.log(error.toString())
+            alert("Error!");
+        }
+
+    },
+
+    async logout() {
+
+        try {
+
+            await firebase.auth().signOut();
+            alert("Logged out!");
+
+            // Navigate to login view
+
+        } catch (error) {
+            console.log(error);
+            alert("Error!");
+        }
+
+    },
+
+    _handlePressLogin(event) {
+        let email = "test@test.com"
+        let pass = "abraham";
+        this.login(email, pass);
+    },
+
+    _handlePressLogout(event) {
+        this.logout();
+    },
+
     render: function(){
         return(
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -85,7 +130,7 @@ var signInScreen = React.createClass({
                     />
                     <View style={{width: 50, height: 20}} /> 
                     <View style={{opacity: 0.8 }}> 
-                      <TouchableOpacity onPress={() => this.goUserHome()} style={styles.buttonContainer}>
+                      <TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>
                           <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Login</Text>
                       </TouchableOpacity>
                     </View>

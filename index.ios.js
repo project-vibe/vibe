@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
+import * as firebase from "firebase";
 import {
     View,
     AppRegistry,
     StyleSheet,
     NavigatorIOS
 } from 'react-native';
+
+firebase.initializeApp({
+    apiKey: "AIzaSyD-AigGdzjuSbv_He5GX-NlMqlSk582gNw",
+    authDomain: "vibe-backend.firebaseapp.com",
+    databaseURL: "https://vibe-backend.firebaseio.com",
+    storageBucket: "vibe-backend.appspot.com",
+});
 
 var signInScreen = require('./src//ios/signinHome.IOS.js');
 var vibe = React.createClass({
