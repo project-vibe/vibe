@@ -1,10 +1,10 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity, Animated } from 'react-native'
+import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, StatusBar } from 'react-native'
 import { SquarePagerView, TrianglePagerView, CirclePagerView } from './PagerItemView.js'
-import { IndicatorViewPager, PagerTitleIndicator } from 'rn-viewpager'
+import { IndicatorViewPager, PagerTitleIndicator, PagerDotIndicator } from 'rn-viewpager'
 import NavigationBar from 'react-native-navbar';
-import Hr from './hr.dist';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default class UserHome extends Component {
     state = {
@@ -18,34 +18,40 @@ export default class UserHome extends Component {
             outputRange: ['hsl(187, 74%, 47%)', 'hsl(89, 47%, 54%)', 'hsl(12, 97%, 59%)']
         });
 
-        const rightButtonConfig = {
-            title: 'Settings',
-            handler: () => alert('hello!'),
-        };
+        const settingsConfig = (
+            <Icon.Button name="ios-settings" size={30} color="white" backgroundColor="transparent">
+            </Icon.Button>
+        );
+
+        const addFriendsConfig = (
+            <Icon.Button name="ios-person-add" size={30} color="white" backgroundColor="transparent">
+            </Icon.Button>
+        );
 
         const titleConfig = {
             title: 'Vibe',
-            style: {fontWeight: 'bold', fontSize: 26, fontFamily: 'Noteworthy',}
+            style: {fontWeight: 'bold', fontSize: 26, fontFamily: 'Noteworthy', color: 'white'}
         };
 
         return (
-            <Animated.View style={{flex: 1, backgroundColor: '#f33443'}} >
+            <Animated.View style={{flex: 1, backgroundColor: 'white'}} >
             {/* <Animated.View style={{flex: 1, backgroundColor: bgColor}} > */}
+                <StatusBar
+                    color="white"
+                    barStyle="light-content"
+                />
                 <NavigationBar
                     title={titleConfig}
-                    rightButton={rightButtonConfig}
-                    tintColor={'#eeeeee'}
+                    rightButton={settingsConfig}
+                    leftButton={addFriendsConfig}
+                    tintColor={'#010004'}
                 />
-                <Hr style={{width: 250}}/>
-                <View style={styles.wrapper}>
-                    <Text style={styles.username}>Abhay Varshney</Text>
+                <View style={styles.userInfo}>
+                    <TouchableHighlight style={{paddingBottom: 5}}>
+                        <Image style={ styles.image } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
+                    </TouchableHighlight>
+                    <Text style={styles.username}>Rushi Shah</Text>
                     <Text style={styles.location}>Pomona, CA</Text>
-                    <TouchableOpacity style={styles.buttonContainer}>
-                        <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>PICTURE HERE!</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.buttonContainer}>
-                        <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Settings</Text>
-                    </TouchableOpacity>
                 </View>
                 <IndicatorViewPager
                     style={{flex: 1, flexDirection: 'column-reverse'}}
@@ -57,8 +63,13 @@ export default class UserHome extends Component {
                     {CirclePagerView()}
                     {TrianglePagerView()}
                 </IndicatorViewPager>
+
             </Animated.View>
         )
+    }
+
+    _renderDotIndicator() {
+        return <PagerDotIndicator pageCount={2} />;
     }
 
     _renderTitleIndicator () {
@@ -81,11 +92,15 @@ export default class UserHome extends Component {
 }
 
 const styles = StyleSheet.create({
-    wrapper: {
-        backgroundColor: '#f33443',
+    userInfo: {
+        backgroundColor: '#e8505c',
         justifyContent: 'center',
-        height: 180,
+        height: 200,
         alignItems: 'center'
+    },
+    eventInfo: {
+        backgroundColor: 'red',
+        width: 250
     },
     username: {
         color: 'white',
@@ -96,7 +111,7 @@ const styles = StyleSheet.create({
     location: {
         color: 'white',
         fontWeight: 'bold',
-        fontSize: 10,
+        fontSize: 9,
         opacity: 0.8,
         fontFamily: 'Noteworthy',
     },
@@ -114,17 +129,20 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     indicatorContainer: {
-        backgroundColor: 0x00000020,
+        backgroundColor: '#eeeeee',
         height: 48
     },
     indicatorText: {
         fontSize: 14,
-        color: 'white',
-        fontWeight: '200'
+        fontFamily: 'Noteworthy',
+        color: 'black',
+        fontWeight: '800'
     },
     indicatorSelectedText: {
         fontSize: 14,
-        color: 0xFFFFFFFF
+        color: 'black',
+        fontFamily: 'Noteworthy',
+        fontWeight: '800'
     },
     statusBar: {
         height: 24,
@@ -146,7 +164,20 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         fontWeight: '800'
-    }
+    },
+    image: {
+        height:100,
+        width: 100,
+        borderRadius: 50,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowRadius: 10,
+        borderWidth: 2,
+        borderColor: 'white'
+    },
 });
 
 module.exports = UserHome;
