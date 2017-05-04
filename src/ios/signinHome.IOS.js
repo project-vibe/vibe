@@ -59,7 +59,7 @@ var signInScreen = React.createClass({
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
                 {/*spacer */}
-                <View style={{width: 50, height: 25, backgroundColor: '#e8505c'}} />
+                <View style={{width: 50, height: 25, backgroundColor: '#0A81D1'}} />
                 <Text style={styles.header}>Vibe</Text>
                 {/* view component 4fc492*/}
                 <View style={{width: 375, height: 400, alignItems: 'center', backgroundColor: 'white'}}> 
@@ -103,8 +103,8 @@ var signInScreen = React.createClass({
                     <View style={{opacity: 0.8, paddingTop: 20}}>
                       <TouchableOpacity onPress={this._fbAuth} style={styles.fbButton}>
                           <View style={{width: 50}}/>
-                          <Icon name="logo-facebook" size={20} color="#3a87ea" />
-                          <Text style={{color: '#3a87ea', paddingLeft: 5, fontWeight: 'bold', margin: 5, fontSize: 16}}>Log In with Facebook</Text>
+                          <Icon name="logo-facebook" size={20} color="#0A81D1" />
+                          <Text style={{color: '#0A81D1', paddingLeft: 5, fontWeight: 'bold', margin: 5, fontSize: 16}}>Log In with Facebook</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -117,7 +117,7 @@ var signInScreen = React.createClass({
                     <View style={{height: 45}}>
                       <View style={{height: 15}} /> 
                           <TouchableOpacity onPress={() => this.goSignUp()} style={{height: 20}}>
-                              <Text style={{fontWeight: 'bold', color:'#e8505c',margin: 5, fontSize: 12}}>Sign up.</Text>
+                              <Text style={{fontWeight: 'bold', color:'#0A81D1',margin: 5, fontSize: 12}}>Sign up.</Text>
                           </TouchableOpacity>
                       <View style={{height: 15}} /> 
                     </View>
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#e8505c',
+    backgroundColor: '#0A81D1',
     opacity: 1
   },
   header: {
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     /* possible fonts -- didot, futura, Georgia, GillSans-UltraBold, IowanOldStyle-Roman, KohinoorDevanagari-Semibold, Noteworthy*/
   },
   buttonContainer: {
-    backgroundColor: '#e8505c',
+    backgroundColor: '#0A81D1',
     borderRadius: 100,
     padding: 10,
     shadowColor: '#000000',

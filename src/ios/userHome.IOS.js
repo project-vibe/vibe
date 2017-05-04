@@ -5,26 +5,68 @@ import { SquarePagerView, TrianglePagerView, CirclePagerView } from './PagerItem
 import { IndicatorViewPager, PagerTitleIndicator, PagerDotIndicator } from 'rn-viewpager'
 import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { TabViewAnimated, TabBar } from 'react-native-tab-view';
+
+import HomeEvents from './scrollScreens/homeEventList.IOS.js';
+import CreateEvents from './scrollScreens/createEvents.IOS.js';
+import UserMessages from './scrollScreens/userMessages.IOS.js';
+
+var UserSettingsScreen = require('./userSettings.IOS.js');
+var AddFriendsScreen = require('./addFriends.IOS.js');
 
 export default class UserHome extends Component {
     state = {
-        bgColor: new Animated.Value(0)
-    }
-    _setBgColor = Animated.event([{bgColor: this.state.bgColor}])
+        index: 1,
+        routes: [
+            /* Messages, Home, Events */
+            { key: '1', val: 0, icon: 'ios-chatbubbles' },
+            { key: '2', val: 1, icon: 'ios-home' },
+            { key: '3', val: 2, icon: 'ios-list-box'}
+        ],
+    };
+
+    _handleChangeTab = index => {
+        this.setState({ index });
+    };
+
+    _renderIcon = ({ route }) => {
+        return <Icon.Button onPress={() => this._handleChangeTab(route.val)} name={route.icon} size={22} color="black" backgroundColor="transparent">
+        </Icon.Button>
+    };
+
+    _renderHeader = props => {
+        return <TabBar
+            labelStyle={{color: 'black'}}
+            indicatorStyle={{backgroundColor: '#14c7af'}}
+            renderIcon={this._renderIcon}
+            style={{height: 55, backgroundColor: '#eeeeee'}}
+            {...props}
+        />;
+    };
+
+    _renderScene = ({ route }) => {
+        switch (route.key) {
+            case '1':
+                return <UserMessages />;
+
+            case '2':
+                return <HomeEvents />;
+            case '3':
+                return <CreateEvents />;
+            default:
+                return null;
+        }
+    };
+
 
     render () {
-        let bgColor = this.state.bgColor.interpolate({
-            inputRange: [0, 1, 2],
-            outputRange: ['hsl(187, 74%, 47%)', 'hsl(89, 47%, 54%)', 'hsl(12, 97%, 59%)']
-        });
-
         const settingsConfig = (
-            <Icon.Button name="ios-settings" size={30} color="white" backgroundColor="transparent">
+            <Icon.Button name="ios-settings" size={30} color="white" onPress={() => this.userSettingsListener()} backgroundColor="transparent">
             </Icon.Button>
         );
 
         const addFriendsConfig = (
-            <Icon.Button name="ios-person-add" size={30} color="white" backgroundColor="transparent">
+            <Icon.Button name="ios-person-add" size={30} color="white" onPress={() => this.addFriendsListener()} backgroundColor="transparent">
             </Icon.Button>
         );
 
@@ -35,7 +77,7 @@ export default class UserHome extends Component {
 
         return (
             <Animated.View style={{flex: 1, backgroundColor: 'white'}} >
-            {/* <Animated.View style={{flex: 1, backgroundColor: bgColor}} > */}
+                {/* <Animated.View style={{flex: 1, backgroundColor: bgColor}} > */}
                 <StatusBar
                     color="white"
                     barStyle="light-content"
@@ -53,47 +95,49 @@ export default class UserHome extends Component {
                     <Text style={styles.username}>Rushi Shah</Text>
                     <Text style={styles.location}>Pomona, CA</Text>
                 </View>
-                <IndicatorViewPager
-                    style={{flex: 1, flexDirection: 'column-reverse'}}
-                    initialPage={1}
-                    indicator={this._renderTitleIndicator()}
-                    onPageScroll={this._onPageScroll.bind(this)}
-                >
-                    {SquarePagerView()}
-                    {CirclePagerView()}
-                    {TrianglePagerView()}
-                </IndicatorViewPager>
+
+                <TabViewAnimated
+                    style={styles.container}
+                    navigationState={this.state}
+                    renderScene={this._renderScene}
+                    renderHeader={this._renderHeader}
+                    onRequestChangeTab={this._handleChangeTab}
+                />
 
             </Animated.View>
         )
     }
 
-    _renderDotIndicator() {
-        return <PagerDotIndicator pageCount={2} />;
+    userSettingsListener() {
+        this.props.navigator.push({
+            title: 'userSettingsScreen',
+            component: UserSettingsScreen,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
     }
 
-    _renderTitleIndicator () {
-        return (
-            <PagerTitleIndicator
-                style={styles.indicatorContainer}
-                itemTextStyle={styles.indicatorText}
-                selectedItemTextStyle={styles.indicatorSelectedText}
-                titles={['Messages', 'Home', 'Your events']}
-            />
-        )
+    addFriendsListener() {
+        this.props.navigator.push({
+            title: 'addFriendsScreen',
+            component: AddFriendsScreen,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
     }
-
-    _onPageScroll (scrollData) {
-        let {offset, position} = scrollData
-        if (position < 0 || position >= 2) return
-        this._setBgColor({bgColor: offset + position})
-    }
-
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 2
+    },
+    page: {
+        flex: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
     userInfo: {
-        backgroundColor: '#e8505c',
+        backgroundColor: '#14c7af',
         justifyContent: 'center',
         height: 200,
         alignItems: 'center'
