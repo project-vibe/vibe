@@ -23,6 +23,13 @@ var UserHomeScreen = require('./userHome.IOS.js');
 
 var signInScreen = React.createClass({
 
+    getInitialState () {
+        return {
+            username: '',
+            password: ''
+        };
+    },
+
       _fbAuth() {
         LoginManager.logInWithReadPermissions(['public_profile']).then(
            function(result) {
@@ -66,39 +73,19 @@ var signInScreen = React.createClass({
             console.log("Logged In!");
             alert("Logged in!");
 
-            // Navigate to the Home page
+            //Navigate to home page after sign in
+            this.goUserHome();
 
         } catch (error) {
             console.log(error.toString())
             alert("Error!");
         }
-
-    },
-
-    async logout() {
-
-        try {
-
-            await firebase.auth().signOut();
-            alert("Logged out!");
-
-            // Navigate to login view
-
-        } catch (error) {
-            console.log(error);
-            alert("Error!");
-        }
-
     },
 
     _handlePressLogin(event) {
-        let email = "test@test.com"
-        let pass = "abraham";
-        this.login(email, pass);
-    },
-
-    _handlePressLogout(event) {
-        this.logout();
+        let username = this.state.username;
+        let password = this.state.password;
+        this.login(username, password);
     },
 
     render: function(){
@@ -118,7 +105,8 @@ var signInScreen = React.createClass({
                       autoCapitalize="none"
                       clearButtonMode="always"
                       placeholder="Username"
-                      onChangeText={(text) => this.setState({text})}
+                      onChangeText={(username) => this.setState({username})}
+                      value={this.state.username}
                     />
                     <View style={{width: 50, height: 10}} /> 
                     <TextInput
@@ -126,7 +114,8 @@ var signInScreen = React.createClass({
                       secureTextEntry={true}
                       placeholder="Password"
                       clearButtonMode="always"
-                      onChangeText={(text) => this.setState({text})}
+                      onChangeText={(password) => this.setState({password})}
+                      value={this.state.password}
                     />
                     <View style={{width: 50, height: 20}} /> 
                     <View style={{opacity: 0.8 }}> 
