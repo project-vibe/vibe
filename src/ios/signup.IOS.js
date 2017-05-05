@@ -1,127 +1,244 @@
 'use strict';
 
 import React, { Component } from 'react';
-import * as firebase from "firebase";
+import Hr from './hr2.dist';
+
 import {
-    View, 
+    View,
     Text,
     Image,
     TouchableOpacity,
     StyleSheet,
     TextInput,
+    KeyboardAvoidingView,
     Keyboard,
     TouchableWithoutFeedback
 } from 'react-native';
 
 var SignInHomeScreen = require('./signinHome.IOS.js');
-var SignUp = React.createClass({
 
+var SignUp = React.createClass({
     goSignUp: function() {
         this.props.navigator.push({
             title: 'signInHomeScreen',
             component: SignInHomeScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text', email: '', pass: ''}
+            passProps: {myElement: 'text'}
         });
-    },
-
-    async signup(email, pass) {
-
-        try {
-            await firebase.auth()
-                .createUserWithEmailAndPassword(email, pass);
-
-            console.log("Account created");
-            alert("New User Created!");
-
-            // Navigate to the Home page, the user is auto logged in
-
-        } catch (error) {
-            console.log(error.toString())
-            alert("Error!");
-        }
-
-    },
-
-    _handlePressSignUp(event) {
-        let email = this.email;
-        let pass = this.pass;
-        alert("email is " + email + " pass is " +pass);
-        this.signup(email, pass);
     },
 
     render: function() {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style = {styles.wrapper}>
-                <View style={{opacity: 0.8 }}>
-                    <TouchableOpacity onPress = {this._handlePressSignUp} style={styles.buttonContainer}>
-                        <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Sign Up</Text>
-                    </TouchableOpacity>
-                </View>
-            <Image source = {require('./roseImage.jpg')} style = {{backgroundColor: 'transparent'}}>
-                    <View style = {styles.nameStyle}>
+                <Image source = {require('./purpleImage.jpg')} style = {styles.container}>
+                    <View>
+                        <Text style={styles.Title}>Vibe</Text>
+                    </View>
+
+                    <View style = {styles.inputStyle}>
+                        <View style = {{flexDirection: 'row'}}>
+                            <TextInput
+                                style={styles.nameTextInputStyle}
+                                placeholder= "First Name"
+                                placeholderTextColor= "white"
+                                clearButtonMode= "always"
+                                multiline={false}
+                                autoCorrect={false}
+                                onChangeText={(text) => this.setState({text})}
+                            />
+
+                            <TextInput
+                                style={styles.nameTextInputStyle}
+                                placeholder= "Last Name"
+                                placeholderTextColor= "white"
+                                clearButtonMode= "always"
+                                multiline={false}
+                                autoCorrect={false}
+                                onChangeText={(text) => this.setState({text})}
+                            />
+
+                        </View>
+                    </View>
+                    <Hr marginLeft = {61} marginRight = {55} text = "        "/>
+
+                    <View style = {{paddingTop: 5}}>
                         <TextInput
                             style={styles.textInputStyle}
-                            placeholder= "First Name"
+                            placeholder= "Email"
                             placeholderTextColor= "white"
+                            clearButtonMode= "always"
+                            multiline={false}
+                            autoCorrect={false}
+                            onChangeText={(text) => this.setState({text})}
                         />
-                        <TextInput
-                            style={{height: 50, borderRadius: 5, borderWidth: 0.3, borderColor: 'grey', paddingLeft: 20, backgroundColor: '#f9f9f9'}}
-                            autoCorrect= {false}
-                            autoCapitalize="none"
-                            clearButtonMode="always"
-                            placeholder="Email"
-                            ref= {(el) => { this.email = el; }}
-                            onChangeText={(email) => this.setState({email})}
-                            value={this.email}
-                        />
-                        <TextInput
-                            style={{height: 50, borderRadius : 5, borderWidth: 0.3, borderColor: 'grey', paddingLeft: 20, backgroundColor: '#f9f9f9'}}
-                            secureTextEntry={true}
-                            placeholder="Password"
-                            clearButtonMode="always"
-                            onChangeText={(pass) => this.setState({pass})}
-                            value={this.pass}
-                        />
+
                     </View>
-                <View style={{opacity: 0.8 }}>
-                    <TouchableOpacity onPress={() => this._handlePressSignUp()} style={styles.buttonContainer}>
-                        <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Sign Up</Text>
-                    </TouchableOpacity>
-                </View>
-                <View><Text>test</Text></View>
-            </Image>
-            </View>
+                    <Hr marginLeft = {100} marginRight = {100}/>
+
+                    <View style = {{paddingTop: 15}}>
+                        <TextInput
+                            style={styles.textInputStyle}
+                            placeholder= "Password"
+                            placeholderTextColor= "white"
+                            clearButtonMode= "always"
+                            secureTextEntry={true}
+                            multiline={false}
+                            autoCorrect={false}
+                            onChangeText={(text) => this.setState({text})}
+                        />
+
+                    </View>
+                    <Hr marginLeft = {100} marginRight = {100}/>
+
+                    <View style = {{paddingTop: 15}}>
+                        <TextInput
+                            style={styles.textInputStyle}
+                            placeholder= "Confirm Password"
+                            placeholderTextColor= "white"
+                            clearButtonMode= "always"
+                            secureTextEntry={true}
+                            multiline={false}
+                            autoCorrect={false}
+                            onChangeText={(text) => this.setState({text})}
+                        />
+
+                    </View>
+                    <Hr marginLeft = {100} marginRight = {100}/>
+
+                    <View style = {{paddingTop: 15}}>
+                        <TextInput
+                            style={styles.textInputStyle}
+                            placeholder= "Phone Number"
+                            placeholderTextColor= "white"
+                            clearButtonMode= "always"
+                            multiline={false}
+                            autoCorrect={false}
+                            dataDetectorTypes= "phoneNumber"
+                            onChangeText={(text) => this.setState({text})}
+                        />
+
+                    </View>
+                    <Hr marginLeft = {100} marginRight = {100}/>
+
+
+                    <View>
+                        <TouchableOpacity style={styles.signUpButton}>
+                            <Text style={styles.signUpButtonText}> Sign up</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View>
+                        <Text style={styles.belowSignUpButtonText}>Already have an account?
+                        </Text>
+                    </View>
+
+                    <View>
+                        <TouchableOpacity style = {styles.loginButton}>
+                            <Text style = {styles.loginButtonText}> Log in
+                            </Text>
+
+                        </TouchableOpacity>
+                    </View>
+
+                </Image>
             </TouchableWithoutFeedback>
         );
     }
 });
 
 const styles = StyleSheet.create({
-    wrapper: {
-        backgroundColor: 'transparent',
+    container: {
         flex: 1,
-    },
-    nameStyle:{
-        height: 20,
-        paddingTop: 200,
-        paddingHorizontal: 125,
-        justifyContent: 'center',
-        alignItems: 'center',
+        width:  undefined,
+        height: undefined,
         backgroundColor: 'transparent',
+        alignItems:'center'
+    },
 
+    Title: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 50,
+        paddingTop: 20,
+        fontFamily: 'Noteworthy',
+        alignSelf: 'center'
+    },
+    signUpButton: {
+        backgroundColor: 'white',
+        borderRadius: 40,
+        height: 50,
+        width: 300,
+        marginTop: 50,
+        marginBottom: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        borderColor: 'white'
+    },
+
+    signUpButtonText: {
+        color: '#9a0030',
+        fontWeight: 'bold',
+        fontSize: 13,
+    },
+
+    belowSignUpButtonText: {
+        color: 'white',
+        fontSize: 13,
+        textAlign: 'center',
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        paddingLeft: 35,
+        paddingRight: 35,
+        paddingBottom: 5,
+        paddingTop: 40
+    },
+    loginButton: {
+        backgroundColor: 'transparent',
+        borderRadius: 40,
+        height: 50,
+        width: 300,
+        marginTop: 10,
+        marginBottom: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        borderColor: 'white',
+        borderWidth: 2
+    },
+
+    loginButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 13,
+    },
+
+    inputStyle:{
+        paddingTop: 25,
+    },
+    nameTextInputStyle: {
+        height: 35,
+        width: 145,
+        color: 'white',
+        backgroundColor: 'transparent',
+        fontSize: 15,
+        borderWidth: 1.5,
+        borderBottomColor: 'white',
+        borderColor: 'transparent',
+        textAlign: 'center',
     },
 
     textInputStyle: {
-        height: 50,
-        width: 150,
+        height: 35,
+        width: 200,
         color: 'white',
-        borderBottomColor: 'blue',
-        backgroundColor: 'green',
-        borderBottomWidth:5,
-        fontSize: 20,
-
+        backgroundColor: 'transparent',
+        fontSize: 15,
+        borderWidth: 1.5,
+        borderBottomColor: 'white',
+        borderColor: 'transparent',
+        textAlign: 'center',
     },
     title: {
         color: 'white',
@@ -137,7 +254,7 @@ const styles = StyleSheet.create({
     buttonBack: {
         color: 'green',
         fontWeight: 'bold',
-        margin: 5, 
+        margin: 5,
         fontSize: 12
     }
 });

@@ -71,7 +71,7 @@ var signInScreen = React.createClass({
                 .signInWithEmailAndPassword(email, pass);
 
             console.log("Logged In!");
-            
+
             //Navigate to home page after sign in
             this.goUserHome();
 

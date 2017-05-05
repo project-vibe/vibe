@@ -11,6 +11,7 @@
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.0",
     "react-native-fbsdk": "^0.5.0",
+    "react-native-navbar": "^1.7.1",
     "react-native-viewpager": "^0.2.13",
     "rn-viewpager": "^1.2.1"
   },
