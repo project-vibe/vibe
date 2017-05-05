@@ -7,11 +7,8 @@
     "test": "jest"
   },
   "dependencies": {
-<<<<<<< HEAD
     "firebase": "^3.8.0",
-=======
     "expo": "^16.0.0",
->>>>>>> homescreen-contents-abhay
     "react": "16.0.0-alpha.6",
     "react-native": "0.43.0",
     "react-native-carousel": "^0.10.0",
