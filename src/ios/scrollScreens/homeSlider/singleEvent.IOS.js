@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, StatusBar} from 'react-native';
+import { StyleSheet } from 'react-native'
+import HomeEvents from './singleEvent.IOS.js';
 
-export default class UserEventsList extends Component {
+export default class EventComponent extends Component {
     render () {
         return (
             <View style={[ styles.page, { backgroundColor: 'white' } ]}>
@@ -10,16 +11,11 @@ export default class UserEventsList extends Component {
                     barStyle="light-content"
                 />
             </View>
+            <Event
         )
     }
 }
 
 const styles = StyleSheet.create({
-    page: {
-        flex: 2,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
 
-module.exports = UserEventsList;
+});

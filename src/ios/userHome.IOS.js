@@ -1,18 +1,18 @@
 'use strict'
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, StatusBar } from 'react-native'
-import { SquarePagerView, TrianglePagerView, CirclePagerView } from './PagerItemView.js'
-import { IndicatorViewPager, PagerTitleIndicator, PagerDotIndicator } from 'rn-viewpager'
+import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
 import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 
-import HomeEvents from './scrollScreens/homeEventList.IOS.js';
+import HomeEvents from './scrollScreens/homeSlider/homeEventList.IOS.js';
 import CreateEvents from './scrollScreens/createEvents.IOS.js';
 import UserMessages from './scrollScreens/userMessages.IOS.js';
 
 var UserSettingsScreen = require('./userSettings.IOS.js');
 var AddFriendsScreen = require('./addFriends.IOS.js');
+
 
 export default class UserHome extends Component {
     state = {
@@ -48,7 +48,6 @@ export default class UserHome extends Component {
         switch (route.key) {
             case '1':
                 return <UserMessages />;
-
             case '2':
                 return <HomeEvents />;
             case '3':
@@ -57,7 +56,6 @@ export default class UserHome extends Component {
                 return null;
         }
     };
-
 
     render () {
         const settingsConfig = (
@@ -88,13 +86,33 @@ export default class UserHome extends Component {
                     leftButton={addFriendsConfig}
                     tintColor={'#010004'}
                 />
-                <View style={styles.userInfo}>
+
+                <IndicatorViewPager
+                    style={{height:200, backgroundColor: 'yellow'}}
+                    indicator={this._renderDotIndicator()}
+                >
+                    <View style={styles.userInfo}>
+                        <TouchableHighlight style={{paddingBottom: 5}}>
+                            <Image style={ styles.image } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
+                        </TouchableHighlight>
+                        <Text style={styles.username}>Rushi Shah</Text>
+                        <Text style={styles.location}>Pomona, CA</Text>
+                        <View style={{height: 20}} />
+                    </View>
+                    <View style={{backgroundColor:'#14c7af'}}>
+                        <Text>page two</Text>
+                    </View>
+                </IndicatorViewPager>
+
+
+                {/*<View style={styles.userInfo}>
                     <TouchableHighlight style={{paddingBottom: 5}}>
                         <Image style={ styles.image } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
                     </TouchableHighlight>
                     <Text style={styles.username}>Rushi Shah</Text>
                     <Text style={styles.location}>Pomona, CA</Text>
-                </View>
+                    <View style={{height: 20}} />
+                </View>*/}
 
                 <TabViewAnimated
                     style={styles.container}
@@ -106,6 +124,10 @@ export default class UserHome extends Component {
 
             </Animated.View>
         )
+    }
+
+    _renderDotIndicator() {
+        return <PagerDotIndicator pageCount={2} />;
     }
 
     userSettingsListener() {
@@ -128,6 +150,12 @@ export default class UserHome extends Component {
 }
 
 const styles = StyleSheet.create({
+    slide2: {
+        flex: 2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#97CAE5',
+    },
     container: {
         flex: 2
     },
@@ -157,7 +185,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 9,
         opacity: 0.8,
-        fontFamily: 'Noteworthy',
+        fontFamily: 'Noteworthy'
     },
     buttonContainer: {
         backgroundColor: 'transparent',
