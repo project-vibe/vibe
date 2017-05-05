@@ -88,7 +88,7 @@ export default class UserHome extends Component {
                 />
 
                 <IndicatorViewPager
-                    style={{height:200, backgroundColor: 'yellow'}}
+                    style={{height:210, backgroundColor: 'yellow'}}
                     indicator={this._renderDotIndicator()}
                 >
                     <View style={styles.userInfo}>

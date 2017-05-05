@@ -11,12 +11,14 @@ const {
 
 const styles = StyleSheet.create({
     row: {
-        borderColor: 'grey',
-        borderWidth: 1,
-        borderRadius: 1,
-        padding: 20,
+        borderTopColor: 'grey',
+        borderBottomColor: 'white',
+        borderRightColor: 'white',
+        borderLeftColor: 'white',
+        borderWidth: 0.5,
+        borderRadius: 0.6,
+        padding: 25,
         backgroundColor: 'white',
-        margin: 5,
     },
     text: {
         alignSelf: 'center',
@@ -49,6 +51,7 @@ class RefreshControlExample extends React.Component {
     static title = '<RefreshControl>';
     static description = 'Adds pull-to-refresh support to a scrollview.';
 
+    // pass number of elements here!
     state = {
         isRefreshing: false,
         loaded: 0,
