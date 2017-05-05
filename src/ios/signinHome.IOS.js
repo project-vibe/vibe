@@ -3,20 +3,18 @@
 import React, { Component } from 'react';
 import * as firebase from "firebase";
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   TextInput,
-  Button,
   Alert,
   TouchableOpacity,
-  Dimensions,
   Keyboard,
   TouchableWithoutFeedback,
   View
 } from 'react-native';
 import Hr from './hr.dist';
 import FBSDK, { LoginManager } from 'react-native-fbsdk';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 var SignUpScreen = require('./signup.IOS.js');
 var UserHomeScreen = require('./userHome.IOS.js');
@@ -92,7 +90,7 @@ var signInScreen = React.createClass({
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
                 {/*spacer */}
-                <View style={{width: 50, height: 25, backgroundColor: '#EF4836'}} /> 
+                <View style={{width: 50, height: 25, backgroundColor: '#0A81D1'}} />
                 <Text style={styles.header}>Vibe</Text>
                 {/* view component 4fc492*/}
                 <View style={{width: 375, height: 400, alignItems: 'center', backgroundColor: 'white'}}> 
@@ -116,7 +114,7 @@ var signInScreen = React.createClass({
                       onChangeText={(password) => this.setState({password})}
                       value={this.state.password}
                     />
-                    <View style={{width: 50, height: 20}} /> 
+                    <View style={{width: 50, height: 20}} />
                     <View style={{opacity: 0.8 }}> 
                       <TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>
                           <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Login</Text>
@@ -135,9 +133,11 @@ var signInScreen = React.createClass({
                         <Hr style={{width: 140, flex: 1}}/>
                       </View>   
                     </View>
-                    <View style={{opacity: 0.8 }}> 
+                    <View style={{opacity: 0.8, paddingTop: 20}}>
                       <TouchableOpacity onPress={this._fbAuth} style={styles.fbButton}>
-                          <Text style={{color: '#EF4836', fontWeight: 'bold', margin: 5, fontSize: 16}}>Log In with Facebook</Text>
+                          <View style={{width: 50}}/>
+                          <Icon name="logo-facebook" size={20} color="#0A81D1" />
+                          <Text style={{color: '#0A81D1', paddingLeft: 5, fontWeight: 'bold', margin: 5, fontSize: 16}}>Log In with Facebook</Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -149,9 +149,9 @@ var signInScreen = React.createClass({
                     <Text style={{fontWeight: 'bold', color: '#474e55', opacity: 0.8, fontSize: 12, paddingLeft: 85, paddingTop: 20}}> Don't have an account? </Text>
                     <View style={{height: 45}}>
                       <View style={{height: 15}} /> 
-                      <TouchableOpacity onPress={() => this.goSignUp()} style={{height: 20}}>
-                          <Text style={{fontWeight: 'bold', color:'#EF4836',margin: 5, fontSize: 12}}>Sign up.</Text>
-                      </TouchableOpacity>
+                          <TouchableOpacity onPress={() => this.goSignUp()} style={{height: 20}}>
+                              <Text style={{fontWeight: 'bold', color:'#0A81D1',margin: 5, fontSize: 12}}>Sign up.</Text>
+                          </TouchableOpacity>
                       <View style={{height: 15}} /> 
                     </View>
                   </View>
@@ -170,8 +170,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#EF4836',
-    opacity: 0.8
+    backgroundColor: '#0A81D1',
+    opacity: 1
   },
   header: {
     color: 'white',
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     /* possible fonts -- didot, futura, Georgia, GillSans-UltraBold, IowanOldStyle-Roman, KohinoorDevanagari-Semibold, Noteworthy*/
   },
   buttonContainer: {
-    backgroundColor: '#EF4836',
+    backgroundColor: '#0A81D1',
     borderRadius: 100,
     padding: 10,
     shadowColor: '#000000',
@@ -191,10 +191,12 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 10,
     height: 50,
-    alignItems: 'center'
+    alignItems: 'center',
+      opacity: 0.9
   },
   fbButton: {
     backgroundColor: 'white',
+    flexDirection: 'row',
     borderRadius: 5,
     padding: 10,
     shadowColor: '#000000',
