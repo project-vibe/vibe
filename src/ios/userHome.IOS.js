@@ -6,7 +6,7 @@ import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 
-import HomeEvents from './scrollScreens/homeSlider/homeEventList.IOS.js';
+import HomeEvents from './scrollScreens/homeEventList.IOS.js';
 import CreateEvents from './scrollScreens/createEvents.IOS.js';
 import UserMessages from './scrollScreens/userMessages.IOS.js';
 
