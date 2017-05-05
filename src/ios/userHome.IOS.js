@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, StatusBar } from 'react-native'
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
 import NavigationBar from 'react-native-navbar';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 
 import HomeEvents from './scrollScreens/homeEventList.IOS.js';
@@ -19,9 +19,9 @@ export default class UserHome extends Component {
         index: 1,
         routes: [
             /* Messages, Home, Events */
-            { key: '1', val: 0, icon: 'ios-chatbubbles' },
-            { key: '2', val: 1, icon: 'ios-home' },
-            { key: '3', val: 2, icon: 'ios-list-box'}
+            { key: '1', val: 0, icon: 'contacts' },
+            { key: '2', val: 1, icon: 'home' },
+            { key: '3', val: 2, icon: 'format-list-bulleted'}
         ],
     };
 
@@ -59,12 +59,12 @@ export default class UserHome extends Component {
 
     render () {
         const settingsConfig = (
-            <Icon.Button name="ios-settings" size={30} color="white" onPress={() => this.userSettingsListener()} backgroundColor="transparent">
+            <Icon.Button name="settings" size={30} color="white" onPress={() => this.userSettingsListener()} backgroundColor="transparent">
             </Icon.Button>
         );
 
         const addFriendsConfig = (
-            <Icon.Button name="ios-person-add" size={30} color="white" onPress={() => this.addFriendsListener()} backgroundColor="transparent">
+            <Icon.Button name="account-multiple-plus" size={30} color="white" onPress={() => this.addFriendsListener()} backgroundColor="transparent">
             </Icon.Button>
         );
 

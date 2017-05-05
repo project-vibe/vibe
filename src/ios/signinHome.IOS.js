@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import Hr from './hr.dist';
 import FBSDK, { LoginManager } from 'react-native-fbsdk';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 var SignUpScreen = require('./signup.IOS.js');
 var UserHomeScreen = require('./userHome.IOS.js');
@@ -79,6 +79,9 @@ var signInScreen = React.createClass({
         }
     },
 
+    _simplePressLogin(event) {
+        this.goUserHome();
+    },
     _handlePressLogin(event) {
         let username = this.state.username;
         let password = this.state.password;
@@ -116,9 +119,10 @@ var signInScreen = React.createClass({
                     />
                     <View style={{width: 50, height: 20}} />
                     <View style={{opacity: 0.8 }}> 
-                      <TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>
-                          <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Login</Text>
-                      </TouchableOpacity>
+                      {/*<TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>*/}
+                        <TouchableOpacity onPress={() => this._simplePressLogin()} style={styles.buttonContainer}>
+                            <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Login</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={{width: 50, height: 70}} /> 
                     {/* look in hr.dist.js for changes */}
@@ -136,7 +140,7 @@ var signInScreen = React.createClass({
                     <View style={{opacity: 0.8, paddingTop: 20}}>
                       <TouchableOpacity onPress={this._fbAuth} style={styles.fbButton}>
                           <View style={{width: 50}}/>
-                          <Icon name="logo-facebook" size={20} color="#0A81D1" />
+                          <Icon name="facebook-official" size={20} color="#0A81D1" />
                           <Text style={{color: '#0A81D1', paddingLeft: 5, fontWeight: 'bold', margin: 5, fontSize: 16}}>Log In with Facebook</Text>
                       </TouchableOpacity>
                     </View>
