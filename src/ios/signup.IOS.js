@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import * as firebase from "firebase";
 import Hr from './hr2.dist';
 
 import {
@@ -16,9 +17,22 @@ import {
 } from 'react-native';
 
 var SignInHomeScreen = require('./signinHome.IOS.js');
+var UserHomeScreen = require('./userHome.IOS.js');
 
 var SignUp = React.createClass({
-    goSignUp: function() {
+
+    getInitialState () {
+        return {
+            email: '',
+            password: '',
+            first: '',
+            last: '',
+            confirmPassword: '',
+            phoneNumber: ''
+        };
+    },
+
+    goLogin: function() {
         this.props.navigator.push({
             title: 'signInHomeScreen',
             component: SignInHomeScreen,
@@ -26,6 +40,41 @@ var SignUp = React.createClass({
             passProps: {myElement: 'text'}
         });
     },
+
+    goUserHome: function() {
+        this.props.navigator.push({
+            title: 'userHomeScreen',
+            component: UserHomeScreen,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
+    },
+
+    async signup(email, password) {
+
+        try {
+            await firebase.auth()
+                .createUserWithEmailAndPassword(email, password);
+
+            console.log("Account created");
+
+            // Navigate to the Home page, the user is auto logged in
+            this.goUserHome();
+
+
+        } catch (error) {
+            console.log(error.toString())
+            alert("Error!");
+        }
+
+    },
+
+    _handlePressSignUp(event) {
+        let email = this.state.email;
+        let password = this.state.password;
+        this.signup(email, password);
+    },
+
 
     render: function() {
         return (
@@ -69,7 +118,8 @@ var SignUp = React.createClass({
                             clearButtonMode= "always"
                             multiline={false}
                             autoCorrect={false}
-                            onChangeText={(text) => this.setState({text})}
+                            onChangeText={(email) => this.setState({email})}
+                            value={this.state.email}
                         />
 
                     </View>
@@ -84,7 +134,8 @@ var SignUp = React.createClass({
                             secureTextEntry={true}
                             multiline={false}
                             autoCorrect={false}
-                            onChangeText={(text) => this.setState({text})}
+                            onChangeText={(password) => this.setState({password})}
+                            value={this.state.password}
                         />
 
                     </View>
@@ -122,9 +173,10 @@ var SignUp = React.createClass({
 
 
                     <View>
-                        <TouchableOpacity style={styles.signUpButton}>
+                        <TouchableOpacity onPress={() => this._handlePressSignUp()} style={styles.signUpButton}>
                             <Text style={styles.signUpButtonText}> Sign up</Text>
                         </TouchableOpacity>
+
                     </View>
 
                     <View>
@@ -133,7 +185,7 @@ var SignUp = React.createClass({
                     </View>
 
                     <View>
-                        <TouchableOpacity style = {styles.loginButton}>
+                        <TouchableOpacity onPress={() => alert("Needs implementation")} style = {styles.loginButton}>
                             <Text style = {styles.loginButtonText}> Log in
                             </Text>
 
