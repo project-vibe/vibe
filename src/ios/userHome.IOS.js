@@ -37,7 +37,7 @@ export default class UserHome extends Component {
     _renderHeader = props => {
         return <TabBar
             labelStyle={{color: 'black'}}
-            indicatorStyle={{backgroundColor: '#14c7af'}}
+            indicatorStyle={{backgroundColor: '#0A81D1'}}
             renderIcon={this._renderIcon}
             style={{height: 55, backgroundColor: '#eeeeee'}}
             {...props}
@@ -84,9 +84,9 @@ export default class UserHome extends Component {
                     title={titleConfig}
                     rightButton={settingsConfig}
                     leftButton={addFriendsConfig}
-                    tintColor={'#010004'}
+                    // tintColor={'#010004'}
+                    tintColor={'#0A81D1'}
                 />
-
                 <IndicatorViewPager
                     style={{height:210, backgroundColor: 'yellow'}}
                     indicator={this._renderDotIndicator()}
@@ -99,7 +99,7 @@ export default class UserHome extends Component {
                         <Text style={styles.location}>Pomona, CA</Text>
                         <View style={{height: 20}} />
                     </View>
-                    <View style={{backgroundColor:'#14c7af'}}>
+                    <View style={{backgroundColor:'#0A81D1'}}>
                         <Text>page two</Text>
                     </View>
                 </IndicatorViewPager>
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     userInfo: {
-        backgroundColor: '#14c7af',
+        backgroundColor: '#0A81D1',
         justifyContent: 'center',
         height: 200,
         alignItems: 'center'
@@ -238,9 +238,9 @@ const styles = StyleSheet.create({
         fontWeight: '800'
     },
     image: {
-        height:100,
-        width: 100,
-        borderRadius: 50,
+        height:120,
+        width: 120,
+        borderRadius: 60,
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,
