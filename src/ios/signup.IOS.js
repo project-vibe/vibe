@@ -79,7 +79,7 @@ var SignUp = React.createClass({
     render: function() {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <Image source = {require('./purpleImage.jpg')} style = {styles.container}>
+                <Image source = {require('./img/purpleImage.jpg')} style = {styles.container}>
                     <View>
                         <Text style={styles.Title}>Vibe</Text>
                     </View>
