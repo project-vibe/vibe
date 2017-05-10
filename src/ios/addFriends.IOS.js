@@ -1,15 +1,105 @@
 'use strict'
-import React, { Component } from 'react'
-import { StyleSheet, View, Text, StatusBar } from 'react-native'
+import React, {
+    Component,
+} from 'react'
+
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    Alert,
+    TouchableOpacity,
+    Touchable,
+    Keyboard,
+    TouchableWithoutFeedback,
+    TouchableHighlight,
+    View,
+    StatusBar
+} from 'react-native';
+
 import NavigationBar from 'react-native-navbar';
 import Hr from './hr.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Search from 'react-native-search-box';
+import AtoZListView from 'react-native-atoz-listview';
 
-var addFriendsScreen = React.createClass({
+const rowHeight = 40;
+
+
+    class addFriendsScreen extends Component {
+
+        state = {
+            data: {
+                "A": [
+                    {
+                        "name": "Anh Tuan Nguyen",
+                        "age": 28
+                    },
+                    {
+                        "name": "An Nhien",
+                        "age": 20
+                    },
+                ],
+                "Z": [
+                    {
+                        "name": "Zue Dang",
+                        "age": 22
+                    },
+                    {
+                        "name": "Zoom Jane",
+                        "age": 30
+                    },
+                ]
+            }
+        }
+
+
+        renderRow = (item, sectionId, index) => {
+            return (
+                <TouchableHighlight
+                    style={{
+                        height: rowHeight,
+                        justifyContent: 'center',
+                        alignItems: 'center'}}
+                >
+                    <Text>{item.name}</Text>
+                </TouchableHighlight>
+            );
+        }
+
+        // Important: You must return a Promise
+        beforeFocus = () => {
+            return new Promise((resolve, reject) => {
+                console.log('beforeFocus');
+                resolve();
+            });
+        }
+
+        // Important: You must return a Promise
+        onFocus = (text) => {
+            return new Promise((resolve, reject) => {
+                console.log('beforeFocus', text);
+                resolve();
+            });
+        }
+
+        // Important: You must return a Promise
+        afterFocus = () => {
+            return new Promise((resolve, reject) => {
+                console.log('afterFocus');
+                resolve();
+            });
+        }
+
+
+
+
     backButtonListener() {
         alert('back button clicked!');
-    },
-    render: function(){
+    }
+
+
+    render() {
         const titleConfig = {
             title: 'Add Friends',
             style: {fontWeight: 'bold', fontSize: 20, fontFamily: 'Noteworthy', color: 'white'}
@@ -21,6 +111,7 @@ var addFriendsScreen = React.createClass({
         );
 
         return (
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
                 <StatusBar
                     backgroundColor="blue"
@@ -32,19 +123,45 @@ var addFriendsScreen = React.createClass({
                     tintColor={'#010004'}
                 />
                 <Hr style={{width: 140, flex: 1}}/>
-                <Text>
-                    Add Friend
-                </Text>
+
+                <View style={{ flex: 1 }}>
+                    <Search
+                        ref="search_bar"
+                        titleSearch="Tìm kiếm"
+                        titleCancel="Huỷ"
+                        onSearch={this.onSearch}
+                        onChangeText={this.onChangeText}
+                        onDelete={() => console.log('onDelete')}
+                        afterDelete={this.afterDelete}
+                        beforeFocus={this.beforeFocus}
+                        onFocus={this.onFocus}
+                        afterFocus={this.afterFocus}
+                        onCancel={this.onCancel}
+                        backgroundColor="gray"
+                        placeholderTextColor="black"
+                        tintColorSearch="blue"
+                        tintColorDelete="blue"
+                    />
+                    <AtoZListView
+                        data={this.state.data}
+                        renderRow={this.renderRow}
+                        rowHeight={rowHeight}
+                        sectionHeaderHeight={40}
+                    />
+                </View>
+
             </View>
+            </TouchableWithoutFeedback>
         )
     }
-});
+};
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#e8505c',
         flex: 1
-    }
+    },
+
 });
 
 module.exports = addFriendsScreen;
