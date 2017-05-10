@@ -6,8 +6,10 @@ const {
     RefreshControl,
     Text,
     TouchableWithoutFeedback,
+    TouchableOpacity,
     View,
 } = ReactNative;
+import Modal from 'react-native-simple-modal';
 
 const styles = StyleSheet.create({
     row: {
@@ -53,6 +55,7 @@ class RefreshControlExample extends React.Component {
 
     // pass number of elements here!
     state = {
+        open: false,
         isRefreshing: false,
         loaded: 0,
         rowData: Array.from(new Array(20)).map(
@@ -63,6 +66,7 @@ class RefreshControlExample extends React.Component {
         row.clicks++;
         this.setState({
             rowData: this.state.rowData,
+            open: true
         });
     };
 
@@ -70,20 +74,49 @@ class RefreshControlExample extends React.Component {
         const rows = this.state.rowData.map((row, ii) => {
             return <Row key={ii} data={row} onClick={this._onClick}/>;
         });
+
         return (
-            <ScrollView
-                style={styles.scrollview}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.state.isRefreshing}
-                        onRefresh={this._onRefresh}
-                        tintColor="black"
-                        colors={['#ff0000', '#00ff00', '#0000ff']}
-                        progressBackgroundColor="#ffff00"
-                    />
-                }>
-                {rows}
-            </ScrollView>
+            <View style={{flex: 1}}>
+                <ScrollView
+                    style={styles.scrollview}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            onRefresh={this._onRefresh}
+                            tintColor="black"
+                            colors={['#ff0000', '#00ff00', '#0000ff']}
+                            progressBackgroundColor="#ffff00"
+                        />
+                    }>
+                    {rows}
+                </ScrollView>
+
+                <Modal
+                    offset={this.state.offset}
+                    open={this.state.open}
+                    modalDidOpen={() => console.log('modal did open')}
+                    modalDidClose={() => this.setState({open: false})}
+                    style={{alignItems: 'center'}}>
+                    <View>
+                        <Text style={{fontSize: 20, marginBottom: 10}}>Hello world!</Text>
+                        <TouchableOpacity
+                            style={{margin: 5}}
+                            onPress={() => this.setState({offset: -100})}>
+                            <Text>Move modal up</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{margin: 5}}
+                            onPress={() => this.setState({offset: 0})}>
+                            <Text>Reset modal position</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{margin: 5}}
+                            onPress={() => this.setState({open: false})}>
+                            <Text>Close modal</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
+            </View>
         );
     }
 
