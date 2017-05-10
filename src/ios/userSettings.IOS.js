@@ -5,10 +5,15 @@ import NavigationBar from 'react-native-navbar';
 import Hr from './hr.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-
+var BackToHome = require('./userHome.IOS.js');
 var userSettingsScreen = React.createClass({
     backButtonListener() {
-        alert('back button clicked!');
+        this.props.navigator.pop({
+            title: 'BackToHome',
+            component: BackToHome,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
     },
     render: function(){
         const titleConfig = {
@@ -17,6 +22,11 @@ var userSettingsScreen = React.createClass({
         };
 
         const backButtonConfig = (
+            <Icon.Button name="ios-arrow-back" size={30} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
+            </Icon.Button>
+        );
+
+        const backToHomepage = (
             <Icon.Button name="ios-arrow-back" size={30} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
             </Icon.Button>
         );
