@@ -118,7 +118,7 @@ var signInScreen = React.createClass({
                       value={this.state.password}
                     />
                     <View style={{width: 50, height: 20}} />
-                    <View style={{opacity: 0.8 }}> 
+                    <View style={{opacity: 1.0 }}>
                       {/*<TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>*/}
                         <TouchableOpacity onPress={() => this._simplePressLogin()} style={styles.buttonContainer}>
                             <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Login</Text>
@@ -137,7 +137,7 @@ var signInScreen = React.createClass({
                         <Hr style={{width: 140, flex: 1}}/>
                       </View>   
                     </View>
-                    <View style={{opacity: 0.8, paddingTop: 20}}>
+                    <View style={{opacity: 1.0, paddingTop: 20}}>
                       <TouchableOpacity onPress={this._fbAuth} style={styles.fbButton}>
                           <View style={{width: 50}}/>
                           <Icon name="facebook-official" size={20} color="#0A81D1" />

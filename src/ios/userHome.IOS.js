@@ -3,7 +3,9 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, StatusBar } from 'react-native'
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
 import NavigationBar from 'react-native-navbar';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 
 import HomeEvents from './scrollScreens/homeEventList.IOS.js';
@@ -19,7 +21,7 @@ export default class UserHome extends Component {
         index: 1,
         routes: [
             /* Messages, Home, Events */
-            { key: '1', val: 0, icon: 'contacts' },
+            { key: '1', val: 0, icon: 'account-box' },
             { key: '2', val: 1, icon: 'home' },
             { key: '3', val: 2, icon: 'format-list-bulleted'}
         ],
@@ -37,7 +39,7 @@ export default class UserHome extends Component {
     _renderHeader = props => {
         return <TabBar
             labelStyle={{color: 'black'}}
-            indicatorStyle={{backgroundColor: '#0A81D1'}}
+            indicatorStyle={{backgroundColor: '#14c7af'}}
             renderIcon={this._renderIcon}
             style={{height: 55, backgroundColor: '#eeeeee'}}
             {...props}
@@ -84,9 +86,9 @@ export default class UserHome extends Component {
                     title={titleConfig}
                     rightButton={settingsConfig}
                     leftButton={addFriendsConfig}
-                    // tintColor={'#010004'}
-                    tintColor={'#0A81D1'}
+                    tintColor={'#010004'}
                 />
+
                 <IndicatorViewPager
                     style={{height:210, backgroundColor: 'yellow'}}
                     indicator={this._renderDotIndicator()}
@@ -99,7 +101,7 @@ export default class UserHome extends Component {
                         <Text style={styles.location}>Pomona, CA</Text>
                         <View style={{height: 20}} />
                     </View>
-                    <View style={{backgroundColor:'#0A81D1'}}>
+                    <View style={{backgroundColor:'#14c7af'}}>
                         <Text>page two</Text>
                     </View>
                 </IndicatorViewPager>
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     userInfo: {
-        backgroundColor: '#0A81D1',
+        backgroundColor: '#14c7af',
         justifyContent: 'center',
         height: 200,
         alignItems: 'center'
@@ -238,9 +240,9 @@ const styles = StyleSheet.create({
         fontWeight: '800'
     },
     image: {
-        height:120,
-        width: 120,
-        borderRadius: 60,
+        height:100,
+        width: 100,
+        borderRadius: 50,
         shadowColor: '#000000',
         shadowOffset: {
             width: 0,

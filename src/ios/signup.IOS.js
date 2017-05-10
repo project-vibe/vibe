@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import * as firebase from "firebase";
 import Hr from './hr2.dist';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import {
     View,
@@ -18,6 +19,7 @@ import {
 
 var SignInHomeScreen = require('./signinHome.IOS.js');
 var UserHomeScreen = require('./userHome.IOS.js');
+var BackPage = require('./signinHome.IOS.js');
 
 var SignUp = React.createClass({
 
@@ -45,6 +47,14 @@ var SignUp = React.createClass({
         this.props.navigator.push({
             title: 'userHomeScreen',
             component: UserHomeScreen,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
+    },
+    backButtonListener() {
+        this.props.navigator.pop({
+            title: 'BackPage',
+            component: BackPage,
             navigationBarHidden: true,
             passProps: {myElement: 'text'}
         });
@@ -80,17 +90,23 @@ var SignUp = React.createClass({
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <Image source = {require('./img/purpleImage.jpg')} style = {styles.container}>
-                    <View>
-                        <Text style={styles.Title}>Vibe</Text>
+                    <View style = {{flexDirection: 'row',alignItems: 'flex-end' }}>
+                        <View style = {{paddingRight:70 }}>
+                            <Icon.Button name="ios-arrow-back" size={40} color="white" onPress={() => this.backButtonListener()} backgroundColor="transparent">
+                            </Icon.Button>
+                        </View>
+                        <View style = {{paddingRight: 110}}>
+                            <Text style={styles.Title}>Vibe</Text>
+                        </View>
                     </View>
 
                     <View style = {styles.inputStyle}>
-                        <View style = {{flexDirection: 'row'}}>
+                        <View style = {{flexDirection: 'row' }}>
                             <TextInput
                                 style={styles.nameTextInputStyle}
                                 placeholder= "First Name"
                                 placeholderTextColor= "white"
-                                clearButtonMode= "always"
+                                clearButtonMode= "while-editing"
                                 multiline={false}
                                 autoCorrect={false}
                                 onChangeText={(text) => this.setState({text})}
@@ -100,7 +116,7 @@ var SignUp = React.createClass({
                                 style={styles.nameTextInputStyle}
                                 placeholder= "Last Name"
                                 placeholderTextColor= "white"
-                                clearButtonMode= "always"
+                                clearButtonMode= "while-editing"
                                 multiline={false}
                                 autoCorrect={false}
                                 onChangeText={(text) => this.setState({text})}
@@ -115,7 +131,7 @@ var SignUp = React.createClass({
                             style={styles.textInputStyle}
                             placeholder= "Email"
                             placeholderTextColor= "white"
-                            clearButtonMode= "always"
+                            clearButtonMode= "while-editing"
                             multiline={false}
                             autoCorrect={false}
                             onChangeText={(email) => this.setState({email})}
@@ -130,7 +146,7 @@ var SignUp = React.createClass({
                             style={styles.textInputStyle}
                             placeholder= "Password"
                             placeholderTextColor= "white"
-                            clearButtonMode= "always"
+                            clearButtonMode= "while-editing"
                             secureTextEntry={true}
                             multiline={false}
                             autoCorrect={false}
@@ -146,7 +162,7 @@ var SignUp = React.createClass({
                             style={styles.textInputStyle}
                             placeholder= "Confirm Password"
                             placeholderTextColor= "white"
-                            clearButtonMode= "always"
+                            clearButtonMode= "while-editing"
                             secureTextEntry={true}
                             multiline={false}
                             autoCorrect={false}
@@ -161,7 +177,7 @@ var SignUp = React.createClass({
                             style={styles.textInputStyle}
                             placeholder= "Phone Number"
                             placeholderTextColor= "white"
-                            clearButtonMode= "always"
+                            clearButtonMode= "while-editing"
                             multiline={false}
                             autoCorrect={false}
                             dataDetectorTypes= "phoneNumber"
@@ -185,7 +201,7 @@ var SignUp = React.createClass({
                     </View>
 
                     <View>
-                        <TouchableOpacity onPress={() => alert("Needs implementation")} style = {styles.loginButton}>
+                        <TouchableOpacity onPress={() => this.backButtonListener()} style = {styles.loginButton}>
                             <Text style = {styles.loginButtonText}> Log in
                             </Text>
 
