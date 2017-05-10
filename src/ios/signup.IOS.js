@@ -22,13 +22,12 @@ var UserHomeScreen = require('./userHome.IOS.js');
 var BackPage = require('./signinHome.IOS.js');
 
 var SignUp = React.createClass({
-
     getInitialState () {
         return {
             email: '',
             password: '',
-            first: '',
-            last: '',
+            firstName: '',
+            lastName: '',
             confirmPassword: '',
             phoneNumber: ''
         };
@@ -60,29 +59,58 @@ var SignUp = React.createClass({
         });
     },
 
-    async signup(email, password) {
+    async signup(email, password, firstName, lastName, phoneNumber) {
 
         try {
-            await firebase.auth()
-                .createUserWithEmailAndPassword(email, password);
+            await firebase.auth().createUserWithEmailAndPassword(email, password);
+
+            let userId = "";
+
+            // MUST CHECK CONDITIONS!
+
+            // extract email
+            for(let i = 0; i < email.length; i++) {
+                if(email.charAt(i) === '@' || email.charAt(i) === '.') {
+                } else {
+                    userId += email.charAt(i).toLowerCase();
+                }
+            }
+            let userSettingsPath = "/user/" + userId;
+
+            firebase.database().ref(userSettingsPath).set({
+                UserInfo: {
+                    FirstName: firstName,
+                    LastName: lastName,
+                    Email: email.toLowerCase(),
+                    PhoneNumber: phoneNumber
+                }
+            });
 
             console.log("Account created");
 
             // Navigate to the Home page, the user is auto logged in
             this.goUserHome();
-
-
         } catch (error) {
-            console.log(error.toString())
-            alert("Error!");
+            alert(error.toString());
         }
 
     },
 
+
+
     _handlePressSignUp(event) {
         let email = this.state.email;
         let password = this.state.password;
-        this.signup(email, password);
+        let firstName = this.state.firstName;
+        let lastName = this.state.lastName;
+        let phoneNumber = this.state.phoneNumber;
+        let confirmPassword = this.state.confirmPassword;
+
+        if(confirmPassword.toLowerCase() === password.toLowerCase()) {
+            this.signup(email, password, firstName, lastName, phoneNumber);
+        } else {
+            alert("Passwords are not correct!")
+        }
     },
 
 
@@ -109,7 +137,8 @@ var SignUp = React.createClass({
                                 clearButtonMode= "while-editing"
                                 multiline={false}
                                 autoCorrect={false}
-                                onChangeText={(text) => this.setState({text})}
+                                onChangeText={(firstName) => this.setState({firstName})}
+                                value={this.state.firstName}
                             />
 
                             <TextInput
@@ -119,7 +148,8 @@ var SignUp = React.createClass({
                                 clearButtonMode= "while-editing"
                                 multiline={false}
                                 autoCorrect={false}
-                                onChangeText={(text) => this.setState({text})}
+                                onChangeText={(lastName) => this.setState({lastName})}
+                                value={this.state.lastName}
                             />
 
                         </View>
@@ -166,7 +196,8 @@ var SignUp = React.createClass({
                             secureTextEntry={true}
                             multiline={false}
                             autoCorrect={false}
-                            onChangeText={(text) => this.setState({text})}
+                            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+                            value={this.state.confirmPassword}
                         />
 
                     </View>
@@ -181,7 +212,8 @@ var SignUp = React.createClass({
                             multiline={false}
                             autoCorrect={false}
                             dataDetectorTypes= "phoneNumber"
-                            onChangeText={(text) => this.setState({text})}
+                            onChangeText={(phoneNumber) => this.setState({phoneNumber})}
+                            value={this.state.phoneNumber}
                         />
 
                     </View>
