@@ -66,8 +66,6 @@ var SignUp = React.createClass({
 
             let userId = "";
 
-            // MUST CHECK CONDITIONS!
-
             // extract email
             for(let i = 0; i < email.length; i++) {
                 if(email.charAt(i) === '@' || email.charAt(i) === '.') {
