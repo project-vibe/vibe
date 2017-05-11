@@ -58,8 +58,6 @@ var signInScreen = React.createClass({
                                 isFirstName = false;
                             }
                         }
-                        //alert("FN: " + firstName + " , LN: " + lastName + ", email: " + credData.email);
-
                         // extract email
                         let userId = "";
                         let tempPhoneNum = "584939392";
@@ -70,7 +68,6 @@ var signInScreen = React.createClass({
                             }
                         }
 
-                        //alert("extracted email: " + userId);
                         let userSettingsPath = "/user/" + userId;
 
                         firebase.database().ref(userSettingsPath).set({
@@ -83,7 +80,7 @@ var signInScreen = React.createClass({
                             }
                         });
 
-                        //this.goUserHome();
+                        // CHANGE SCREEN HERE!!!
                     })
                     .catch(err => {
                         alert("Error: " + err);
@@ -115,7 +112,6 @@ var signInScreen = React.createClass({
     },
 
     async login(email, pass) {
-
         try {
             await firebase.auth()
                 .signInWithEmailAndPassword(email, pass);
@@ -134,6 +130,7 @@ var signInScreen = React.createClass({
     _simplePressLogin(event) {
         this.goUserHome();
     },
+
     _handlePressLogin(event) {
         let username = this.state.username;
         let password = this.state.password;
