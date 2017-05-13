@@ -26,7 +26,7 @@ var styles = _reactNative.StyleSheet.create({
         flex: 1,
         height: .6,
         backgroundColor: 'white',
-        opacity: 0.8
+        opacity: 0.8,
     },
 
 
