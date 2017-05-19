@@ -6,7 +6,6 @@ import Hr from './hr2.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PhoneInput from 'react-native-phone-input';
 
-
 import {
     View,
     Text,
