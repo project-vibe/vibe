@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, StatusBar } from 'react-native'
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
 import NavigationBar from 'react-native-navbar';
-
+import * as firebase from "firebase";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
@@ -17,6 +17,11 @@ var AddFriendsScreen = require('./addFriends.IOS.js');
 
 
 export default class UserHome extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
     state = {
         index: 1,
         routes: [
@@ -24,8 +29,45 @@ export default class UserHome extends Component {
             { key: '1', val: 0, icon: 'account-box' },
             { key: '2', val: 1, icon: 'home' },
             { key: '3', val: 2, icon: 'format-list-bulleted'}
-        ],
+        ]
     };
+
+    _getDataNew = () => {
+        let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
+        var counter = 0;
+        var childData = "";
+        var firstName = "FirstNameDefault";
+        var lastName = "LastNameDefault";
+        var leadsRef = firebase.database().ref(userSettingsPath);
+
+        leadsRef.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                childData = childSnapshot.val();
+                counter++;
+                if(counter==2)
+                    firstName = childData;
+                if(counter==3) {
+                    lastName = childData;
+                }
+            });
+        });
+        return <Text> {firstName + " " +lastName} </Text>
+    };
+
+    setData() {
+        let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
+        var counter = 0;
+        var childData = "";
+        var leadsRef = firebase.database().ref(userSettingsPath);
+        leadsRef.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                childData = childSnapshot.val();
+                counter++;
+                if(counter==2)
+                    this.state.firstName = childData;
+            });
+        });
+    }
 
     _handleChangeTab = index => {
         this.setState({ index });
@@ -97,7 +139,7 @@ export default class UserHome extends Component {
                         <TouchableHighlight style={{paddingBottom: 5}}>
                             <Image style={ styles.image } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
                         </TouchableHighlight>
-                        <Text style={styles.username}>Rushi Shah</Text>
+                        <Text style={styles.username}>{this._getDataNew()}</Text>
                         <Text style={styles.location}>Pomona, CA</Text>
                         <View style={{height: 20}} />
                     </View>

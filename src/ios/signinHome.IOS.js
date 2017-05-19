@@ -24,7 +24,10 @@ var signInScreen = React.createClass({
     getInitialState () {
         return {
             username: '',
-            password: ''
+            password: '',
+            loginId: '',
+            firstName: '',
+            lastName: ''
         };
     },
 
@@ -53,14 +56,20 @@ var signInScreen = React.createClass({
         });
     },
 
-    goUserHome: function() {
+    goUserHome: function(firstName, lastName) {
+
+        this.state.firstName = firstName;
+        this.state.lastName = lastName;
+
         this.props.navigator.push({
             title: 'userHomeScreen',
             component: UserHomeScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', userId: this.state.loginId,
+               first: this.state.firstName, last: this.state.lastName }
         });
     },
+
 
     async login(email, pass) {
 
@@ -68,10 +77,45 @@ var signInScreen = React.createClass({
             await firebase.auth()
                 .signInWithEmailAndPassword(email, pass);
 
-            console.log("Logged In!");
+            let userId = "";
 
-            //Navigate to home page after sign in
-            this.goUserHome();
+            for (let i = 0; i < email.length; i++) {
+                if (email.charAt(i) === '@' || email.charAt(i) === '.') {
+                } else {
+                    userId += email.charAt(i).toLowerCase();
+                }
+            }
+
+            this.state.loginId = userId;
+
+            let userSettingsPath = "/user/" + userId + "/UserInfo";
+            //alert(userSettingsPath);
+            //alert(this);
+            var counter = 0;
+            var childData = "";
+            var leadsRef = firebase.database().ref(userSettingsPath);
+            var firstName = "";
+            var lastName = "";
+            var gotData = false;
+            var that = this;
+            leadsRef.on('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    //alert(this);
+                    childData = childSnapshot.val();
+                    //alert(childData);
+                    counter++;
+                   if(counter==2) {
+                       firstName = childData;
+                   }
+                    if(counter==3) {
+                        lastName = childData;
+                        gotData = true;
+                    }
+                });
+                that.goUserHome(firstName, lastName);
+            });
+
+            console.log("Logged In!");
 
         } catch (error) {
             console.log(error.toString())
@@ -80,7 +124,7 @@ var signInScreen = React.createClass({
     },
 
     _simplePressLogin(event) {
-        this.goUserHome();
+        this.goUserHome("abraham", "yepremian");
     },
     _handlePressLogin(event) {
         let username = this.state.username;
@@ -119,8 +163,8 @@ var signInScreen = React.createClass({
                     />
                     <View style={{width: 50, height: 20}} />
                     <View style={{opacity: 1.0 }}>
-                      {/*<TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>*/}
-                        <TouchableOpacity onPress={() => this._simplePressLogin()} style={styles.buttonContainer}>
+                      <TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>
+                          {/*<TouchableOpacity onPress={() => this._simplePressLogin()} style={styles.buttonContainer}>*/}
                             <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Login</Text>
                         </TouchableOpacity>
                     </View>
