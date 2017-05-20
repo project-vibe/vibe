@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import * as firebase from "firebase";
 import Hr from './hr2.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PhoneInput from 'react-native-phone-input';
 
 import {
     View,
@@ -16,6 +17,7 @@ import {
     Keyboard,
     TouchableWithoutFeedback
 } from 'react-native';
+import WelcomeText from "react-native/local-cli/templates/HelloNavigation/views/welcome/WelcomeText.android";
 
 var SignInHomeScreen = require('./signinHome.IOS.js');
 var UserHomeScreen = require('./userHome.IOS.js');
@@ -70,8 +72,6 @@ export default class SignUp extends Component {
 
             let userId = "";
 
-            // MUST CHECK CONDITIONS!
-
             // extract email
             for (let i = 0; i < email.length; i++) {
                 if (email.charAt(i) === '@' || email.charAt(i) === '.') {
@@ -93,8 +93,6 @@ export default class SignUp extends Component {
                 }
             });
 
-           // var user = firebase.auth().currentUser;
-
             console.log("Account created");
 
             // Navigate to the Home page, the user is auto logged in
@@ -104,7 +102,6 @@ export default class SignUp extends Component {
         }
 
     }
-
 
     _handlePressSignUp(event) {
         let email = this.state.email;
@@ -124,7 +121,7 @@ export default class SignUp extends Component {
     render(){
         return(
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <Image source={require('./img/purpleImage.jpg')} style={styles.container}>
+                <Image source={require('./img/blueImage.png')} style={styles.container}>
                     <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                         <View style={{paddingRight: 70}}>
                             <Icon.Button name="ios-arrow-back" size={40} color="white"
@@ -139,7 +136,7 @@ export default class SignUp extends Component {
                     <View style={styles.inputStyle}>
                         <View style={{flexDirection: 'row'}}>
                             <TextInput
-                                style={styles.nameTextInputStyle}
+                                style={styles.firstNameTextInputStyle}
                                 placeholder="First Name"
                                 placeholderTextColor="white"
                                 clearButtonMode="while-editing"
@@ -150,7 +147,7 @@ export default class SignUp extends Component {
                             />
 
                             <TextInput
-                                style={styles.nameTextInputStyle}
+                                style={styles.lastNameTextInputStyle}
                                 placeholder="Last Name"
                                 placeholderTextColor="white"
                                 clearButtonMode="while-editing"
@@ -162,9 +159,9 @@ export default class SignUp extends Component {
 
                         </View>
                     </View>
-                    <Hr marginLeft={61} marginRight={55} text="        "/>
+                    <Hr marginLeft={24} marginRight={18} text="          "/>
 
-                    <View style={{paddingTop: 5}}>
+                    <View style={{marginTop: 15}}>
                         <TextInput
                             style={styles.textInputStyle}
                             placeholder="Email"
@@ -210,21 +207,32 @@ export default class SignUp extends Component {
 
                     </View>
                     <Hr marginLeft={100} marginRight={100}/>
+                    <View style={{flexDirection: 'row', width: 200}}>
 
-                    <View style={{paddingTop: 15}}>
-                        <TextInput
-                            style={styles.textInputStyle}
-                            placeholder="Phone Number"
-                            placeholderTextColor="white"
-                            clearButtonMode="while-editing"
-                            multiline={false}
-                            autoCorrect={false}
-                            dataDetectorTypes="phoneNumber"
-                            onChangeText={(phoneNumber) => this.setState({phoneNumber})}
-                            value={this.state.phoneNumber}
-                        />
+
+                        <View style={{paddingLeft: 13, paddingTop: 31, width: 75, height: 20, alignItems: 'center'}}>
+                            <PhoneInput
+                                textStyle={{fontSize: 15, color: 'white'}}
+                                flagStyle={{width: 20, height: 15}}
+                            />
+                        </View>
+                        <View style={{paddingTop: 14, alignSelf: 'flex-start'}}>
+                            <TextInput
+                                style={styles.phoneTextInputStyle}
+                                placeholder="Phone Number"
+                                placeholderTextColor="white"
+                                clearButtonMode="always"
+                                multiline={false}
+                                keyboardType='numeric'
+                                autoCorrect={false}
+                                dataDetectorTypes="phoneNumber"
+                                onChangeText={(text) => this.setState({text})}
+                            />
+
+                        </View>
 
                     </View>
+
                     <Hr marginLeft={100} marginRight={100}/>
 
 
@@ -262,6 +270,17 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         alignItems: 'center'
     },
+    phoneTextInputStyle: {
+        height: 35,
+        width: 130,
+        color: 'white',
+        backgroundColor: 'transparent',
+        fontSize: 15,
+        borderWidth: 1.5,
+        borderBottomColor: 'white',
+        borderColor: 'transparent',
+        textAlign: 'left',
+    },
 
     Title: {
         color: 'white',
@@ -285,7 +304,7 @@ const styles = StyleSheet.create({
     },
 
     signUpButtonText: {
-        color: '#9a0030',
+        color: '#0A81D1',
         fontWeight: 'bold',
         fontSize: 13,
     },
@@ -325,9 +344,22 @@ const styles = StyleSheet.create({
     inputStyle: {
         paddingTop: 25,
     },
-    nameTextInputStyle: {
-        height: 35,
-        width: 145,
+    firstNameTextInputStyle: {
+        height: 20,
+        width: 165,
+        color: 'white',
+        backgroundColor: 'transparent',
+        fontSize: 15,
+        borderWidth: 1.5,
+        borderBottomColor: 'white',
+        borderColor: 'transparent',
+        textAlign: 'center',
+        marginRight: 20,
+    },
+
+    lastNameTextInputStyle: {
+        height: 20,
+        width: 165,
         color: 'white',
         backgroundColor: 'transparent',
         fontSize: 15,
@@ -336,6 +368,7 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         textAlign: 'center',
     },
+
 
     textInputStyle: {
         height: 35,
@@ -348,23 +381,14 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         textAlign: 'center',
     },
+
     title: {
         color: 'white',
         fontSize: 35,
         fontWeight: 'bold',
         borderColor: 'transparent'
     },
-    subtitles: {
-        color: 'white',
-        fontWeight: '200',
-        paddingBottom: 20
-    },
-    buttonBack: {
-        color: 'green',
-        fontWeight: 'bold',
-        margin: 5,
-        fontSize: 12
-    }
+
 });
 
 module.exports = SignUp;

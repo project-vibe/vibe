@@ -1,9 +1,11 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, StatusBar } from 'react-native'
+import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, StatusBar, TouchableOpacity } from 'react-native'
 import { IndicatorViewPager, PagerDotIndicator } from 'rn-viewpager'
 import NavigationBar from 'react-native-navbar';
 import * as firebase from "firebase";
+
+import Modal from 'react-native-simple-modal';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
@@ -15,12 +17,18 @@ import UserMessages from './scrollScreens/userMessages.IOS.js';
 var UserSettingsScreen = require('./userSettings.IOS.js');
 var AddFriendsScreen = require('./addFriends.IOS.js');
 
-
 export default class UserHome extends Component {
-
     constructor(props) {
         super(props);
-    }
+    };
+
+    openModal = () => {
+        alert("yo!!!");
+        this.setState({
+            open: true
+        });
+
+    };
 
     state = {
         index: 1,
@@ -29,7 +37,8 @@ export default class UserHome extends Component {
             { key: '1', val: 0, icon: 'account-box' },
             { key: '2', val: 1, icon: 'home' },
             { key: '3', val: 2, icon: 'format-list-bulleted'}
-        ]
+        ],
+        open: false
     };
 
     _getDataNew = () => {
@@ -54,7 +63,7 @@ export default class UserHome extends Component {
         return <Text> {firstName + " " +lastName} </Text>
     };
 
-    setData() {
+    /*setData() {
         let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
         var counter = 0;
         var childData = "";
@@ -67,7 +76,7 @@ export default class UserHome extends Component {
                     this.state.firstName = childData;
             });
         });
-    }
+    }*/
 
     _handleChangeTab = index => {
         this.setState({ index });
@@ -165,6 +174,32 @@ export default class UserHome extends Component {
                     renderHeader={this._renderHeader}
                     onRequestChangeTab={this._handleChangeTab}
                 />
+
+                <Modal
+                    offset={this.state.offset}
+                    open={this.state.open}
+                    modalDidOpen={() => console.log('modal did open')}
+                    modalDidClose={() => this.setState({open: false})}
+                    style={{alignItems: 'center'}}>
+                    <View style={{height: 500}}>
+                        <Text style={{fontSize: 20, marginBottom: 10}}>Hello world!</Text>
+                        <TouchableOpacity
+                            style={{margin: 5}}
+                            onPress={() => this.setState({offset: -100})}>
+                            <Text>Move modal up</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{margin: 5}}
+                            onPress={() => this.setState({offset: 0})}>
+                            <Text>Reset modal position</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{margin: 5}}
+                            onPress={() => this.setState({open: false})}>
+                            <Text>Close modal</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
 
             </Animated.View>
         )
