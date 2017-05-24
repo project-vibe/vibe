@@ -1,9 +1,14 @@
 'use strict'
 import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
+<<<<<<< HEAD:src/ios/userSettings.IOS.js
 import Hr from './hr.dist';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import Switch from 'react-native-switch-pro'
+=======
+import Hr from '../hr.dist';
+import Icon from 'react-native-vector-icons/Ionicons';
+>>>>>>> 5533f93939e4a0b881261168f5ebd6ae987c3406:src/ios/MyHomeContents/userSettings.IOS.js
 import {
     StyleSheet,
     Text,

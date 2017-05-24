@@ -6,9 +6,8 @@ const {
     RefreshControl,
     Text,
     TouchableWithoutFeedback,
-    View,
+    View
 } = ReactNative;
-import UserHome from '../userHome.IOS.js';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = StyleSheet.create({
@@ -43,17 +42,14 @@ class Row extends React.Component {
             </Icon.Button>
     };
 
-    _removeRow = () => {
-
-    };
-
     _onClick = () => {
         this.props.onClick(this.props.data);
     };
 
+
     render() {
         const renderRemoveIcon = (
-            <Icon.Button onPress={() => this._removeRow} name="close-box" size={25} color="grey" backgroundColor="transparent">
+            <Icon.Button onPress={() => this._checking(this.props.data)} name="close-box" size={25} color="grey" backgroundColor="transparent">
             </Icon.Button>
         );
 
@@ -76,18 +72,16 @@ class Row extends React.Component {
 class RefreshControlExample extends React.Component {
     static title = '<RefreshControl>';
     static description = 'Adds pull-to-refresh support to a scrollview.';
-    userHomeInstance: UserHome;
 
     constructor(props) {
         super();
-        this.userHomeInstance = new UserHome(props);
     }
 
     //pass number of elements here!
     state = {
-        open: false,
         isRefreshing: false,
         loaded: 0,
+        isShown: true,
         rowData: Array.from(new Array(20)).map(
             (val, i) => ({text: 'Initial row ' + i,
                           clicks: 0,
@@ -98,16 +92,29 @@ class RefreshControlExample extends React.Component {
     // open modal here
     _onClick = (row) => {
         row.clicks++;
-        this.userHomeInstance.openModal(UserHome);
+        this.props.openFriendsModal(row.text);
         this.setState({
             rowData: this.state.rowData,
-            open: true
+        });
+    };
+
+    _checking = (row) => {
+        alert("hi!" + row);
+        this.setState({
+            isShown : false,
+            rowData: this.state.rowData,
         });
     };
 
     render() {
+        const renderRemoveIcon = (
+            <Icon.Button onPress={() => this._checking} name="close-box" size={25} color="grey" backgroundColor="transparent">
+            </Icon.Button>
+        );
+
         const rows = this.state.rowData.map((row, ii) => {
-            return <Row key={ii} data={row} onClick={this._onClick}/>;
+            if(this.state.isShown)
+                return <Row key={ii} data={row} onClick={this._onClick}/>;
         });
 
         return (
