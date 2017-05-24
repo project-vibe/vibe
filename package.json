@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "algoliasearch": "^3.22.2",
     "expo": "^16.0.0",
     "firebase": "^3.8.0",
     "react": "16.0.0-alpha.6",
@@ -18,6 +19,8 @@
     "react-native-mswiper": "^2.0.0",
     "react-native-navbar": "^1.7.1",
     "react-native-phone-input": "^0.1.8",
+    "react-native-row": "latest",
+    "react-native-search-box": "latest",
     "react-native-simple-modal": "^5.0.0",
     "react-native-swiper": "^1.5.4",
     "react-native-tab-view": "0.0.62",

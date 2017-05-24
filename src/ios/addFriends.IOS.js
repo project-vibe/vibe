@@ -14,86 +14,26 @@ import {
     TouchableWithoutFeedback,
     TouchableHighlight,
     View,
+    ListView,
+    Image,
     StatusBar
 } from 'react-native';
 
 import NavigationBar from 'react-native-navbar';
 import Hr from './hr.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
+
 import Search from 'react-native-search-box';
-import AtoZListView from 'react-native-atoz-listview';
+import Row from './Row.js';
+import ActionButton from 'react-native-action-button';
+import AlgoliaDropdown from 'react-native-algolia-dropdown';
 
-const rowHeight = 40;
+const myIcon = (<ion-icon name="alert" size={30} color="red" />)
+var data = require('./demoData.js');
 var BackPage = require('./userHome.IOS.js');
-
-
+var inSearch = false;
 
 class addFriendsScreen extends Component {
-
-    state = {
-        data: {
-            "A": [
-                {
-                    "name": "Anh Tuan Nguyen",
-                    "age": 28
-                },
-                {
-                    "name": "An Nhien",
-                    "age": 20
-                },
-            ],
-            "Z": [
-                {
-                    "name": "Zue Dang",
-                    "age": 22
-                },
-                {
-                    "name": "Zoom Jane",
-                    "age": 30
-                },
-            ]
-        }
-    }
-
-
-    renderRow = (item, sectionId, index) => {
-        return (
-            <TouchableHighlight
-                style={{
-                    height: rowHeight,
-                    justifyContent: 'center',
-                    alignItems: 'center'}}
-            >
-                <Text>{item.name}</Text>
-            </TouchableHighlight>
-        );
-    }
-
-    // Important: You must return a Promise
-    beforeFocus = () => {
-        return new Promise((resolve, reject) => {
-            console.log('beforeFocus');
-            resolve();
-        });
-    }
-
-    // Important: You must return a Promise
-    onFocus = (text) => {
-        return new Promise((resolve, reject) => {
-            console.log('beforeFocus', text);
-            resolve();
-        });
-    }
-
-    // Important: You must return a Promise
-    afterFocus = () => {
-        return new Promise((resolve, reject) => {
-            console.log('afterFocus');
-            resolve();
-        });
-    }
-
-
 
 
     backButtonListener() {
@@ -112,19 +52,42 @@ class addFriendsScreen extends Component {
     }
 
 
+    constructor(props) {
+        super(props);
+
+        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.state = {
+            dataSource: ds.cloneWithRows(data),
+        };
+    }
+
+
+
     render() {
         const titleConfig = {
             title: 'Add Friends',
-            style: {fontWeight: 'bold', fontSize: 20, fontFamily: 'Noteworthy', color: 'white'}
+            style: {fontWeight: 'bold', fontSize: 20, fontFamily: 'Noteworthy', color: 'black'}
         };
 
+        function renderIf(condition, content) {
+            if (condition) {
+                return content;
+            } else {
+                return null;
+            }
+        }
+        function changeStatus(trueOrFalse){
+            inSearch = trueOrFalse;
+        }
+
         const backButtonConfig = (
-            <Icon.Button name="ios-arrow-back" size={30} color="white" onPress={() => this.backButtonListener()} backgroundColor="transparent">
+            <Icon.Button name="ios-arrow-back" size={30} color="black" onPress={() => this.backButtonListener()}
+                         backgroundColor="transparent">
             </Icon.Button>
         );
 
-        return (
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            return (
+              //  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
                     <StatusBar
                         backgroundColor="blue"
@@ -133,11 +96,11 @@ class addFriendsScreen extends Component {
                     <NavigationBar
                         title={titleConfig}
                         leftButton={backButtonConfig}
-                        tintColor={'#010004'}
+                        tintColor={'white'}
                     />
-                    <Hr style={{width: 140, flex: 1}}/>
 
-                    <View style={{ flex: 1 }}>
+                    <View style={{flex: 1}}>
+
                         <Search
                             ref="search_bar"
                             titleSearch="Tìm kiếm"
@@ -147,32 +110,59 @@ class addFriendsScreen extends Component {
                             onDelete={() => console.log('onDelete')}
                             afterDelete={this.afterDelete}
                             beforeFocus={this.beforeFocus}
-                            onFocus={this.onFocus}
                             afterFocus={this.afterFocus}
                             onCancel={this.onCancel}
-                            backgroundColor="gray"
+                            backgroundColor="white"
                             placeholderTextColor="black"
-                            tintColorSearch="blue"
+                            tintColorSearch="black"
                             tintColorDelete="blue"
+                            titleCancelColor='black'
+                            onFocus={this.onFocus}
+                            //onFocus = {() => changeStatus(true)}
                         />
-                        <AtoZListView
-                            data={this.state.data}
-                            renderRow={this.renderRow}
-                            rowHeight={rowHeight}
-                            sectionHeaderHeight={40}
-                        />
-                    </View>
 
+
+                            <ListView
+                                style={styles.listViewStyle}
+                                dataSource={this.state.dataSource}
+                                automaticallyAdjustContentInsets={false}
+                                renderRow={(data) => <Row {...data} />}
+                                renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}/>}
+                            />
+
+
+
+                        <ActionButton Icon={myIcon} offsetX={10} offsetY={10} buttonColor="#279AF1">
+                            <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {
+                            }}>
+                                <Icon name="md-notifications-off" style={styles.actionButtonIcon}/>
+                            </ActionButton.Item>
+                        </ActionButton>
+                    </View>
                 </View>
-            </TouchableWithoutFeedback>
-        )
-    }
+               //  </TouchableWithoutFeedback>
+            )
+        }
 };
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#e8505c',
+        backgroundColor: 'white',
         flex: 1
+    },
+
+    listViewContainer: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+
+    listViewStyle: {
+        flex: 1
+    },
+    separator: {
+        flex: 1,
+        height: StyleSheet.hairlineWidth,
+        backgroundColor: '#8E8E8E',
     },
 
 });

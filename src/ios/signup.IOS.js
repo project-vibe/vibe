@@ -117,7 +117,7 @@ var SignUp = React.createClass({
     render: function () {
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <Image source={require('./img/blueImage.png')} style={styles.container}>
+                <Image blurRadius={2} source={require('./img/blueImage.png')} style={styles.container}>
                     <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                         <View style={{paddingRight: 70}}>
                             <Icon.Button name="ios-arrow-back" size={40} color="white"
@@ -155,7 +155,7 @@ var SignUp = React.createClass({
 
                         </View>
                     </View>
-                    <Hr marginLeft={24} marginRight={18} text="          "/>
+                    <Hr marginLeft={24} marginRight={18} text="     "/>
 
                     <View style={{marginTop: 15}}>
                         <TextInput
@@ -170,7 +170,7 @@ var SignUp = React.createClass({
                         />
 
                     </View>
-                    <Hr marginLeft={100} marginRight={100}/>
+                    <Hr marginLeft={45} marginRight={45}/>
 
                     <View style={{paddingTop: 15}}>
                         <TextInput
@@ -186,7 +186,7 @@ var SignUp = React.createClass({
                         />
 
                     </View>
-                    <Hr marginLeft={100} marginRight={100}/>
+                    <Hr marginLeft={45} marginRight={45}/>
 
                     <View style={{paddingTop: 15}}>
                         <TextInput
@@ -202,7 +202,7 @@ var SignUp = React.createClass({
                         />
 
                     </View>
-                    <Hr marginLeft={100} marginRight={100}/>
+                    <Hr marginLeft={45} marginRight={45}/>
                     <View style={{flexDirection: 'row', width: 200}}>
 
 
@@ -222,14 +222,16 @@ var SignUp = React.createClass({
                                 keyboardType='numeric'
                                 autoCorrect={false}
                                 dataDetectorTypes="phoneNumber"
-                                onChangeText={(text) => this.setState({text})}
+                                onChangeText={(phoneNumber) => this.setState({phoneNumber})}
+                                value={this.state.phoneNumber}
+
                             />
 
                         </View>
 
                     </View>
 
-                    <Hr marginLeft={100} marginRight={100}/>
+                    <Hr marginLeft={45} marginRight={45}/>
 
 
                     <View>
@@ -268,7 +270,7 @@ const styles = StyleSheet.create({
     },
     phoneTextInputStyle: {
         height: 35,
-        width: 130,
+        width: 145,
         color: 'white',
         backgroundColor: 'transparent',
         fontSize: 15,
@@ -342,7 +344,7 @@ const styles = StyleSheet.create({
     },
     firstNameTextInputStyle: {
         height: 20,
-        width: 165,
+        width: 155,
         color: 'white',
         backgroundColor: 'transparent',
         fontSize: 15,
@@ -350,12 +352,12 @@ const styles = StyleSheet.create({
         borderBottomColor: 'white',
         borderColor: 'transparent',
         textAlign: 'center',
-        marginRight: 20,
+        marginRight: 13,
     },
 
     lastNameTextInputStyle: {
         height: 20,
-        width: 165,
+        width: 155,
         color: 'white',
         backgroundColor: 'transparent',
         fontSize: 15,
@@ -363,12 +365,13 @@ const styles = StyleSheet.create({
         borderBottomColor: 'white',
         borderColor: 'transparent',
         textAlign: 'center',
+        marginLeft: 10
     },
 
 
     textInputStyle: {
         height: 35,
-        width: 200,
+        width: 285,
         color: 'white',
         backgroundColor: 'transparent',
         fontSize: 15,

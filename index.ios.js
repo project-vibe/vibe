@@ -15,6 +15,8 @@ firebase.initializeApp({
 });
 
 var signInScreen = require('./src//ios/signinHome.IOS.js');
+var landingPage = require('./src//ios/landingPage.IOS.js');
+
 var vibe = React.createClass({
   render() {
     return (
@@ -23,7 +25,7 @@ var vibe = React.createClass({
             initialRoute={{
               title: "Root",
               navigationBarHidden: true,
-              component:signInScreen
+              component:landingPage
         }}/>  
     );
   }
