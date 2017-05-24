@@ -1,14 +1,9 @@
 'use strict'
 import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
-<<<<<<< HEAD:src/ios/userSettings.IOS.js
-import Hr from './hr.dist';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import Switch from 'react-native-switch-pro'
-=======
-import Hr from '../hr.dist';
-import Icon from 'react-native-vector-icons/Ionicons';
->>>>>>> 5533f93939e4a0b881261168f5ebd6ae987c3406:src/ios/MyHomeContents/userSettings.IOS.js
+import Hr from '../settingsStuff/hr.dist';
 import {
     StyleSheet,
     Text,
@@ -22,9 +17,9 @@ import {
 } from 'react-native';
 
 var BackPage = require('./userHome.IOS.js');
-var passwordChange = require('./settingsStuff/changePassword.IOS.js')
-var editProfile = require('./settingsStuff/editProfile.IOS.js')
-var eventSettings = require('./settingsStuff/eventSettings.IOS')
+var passwordChange = require('../settingsStuff/changePassword.IOS.js')
+var editProfile = require('../settingsStuff/editProfile.IOS.js')
+var eventSettings = require('../settingsStuff/eventSettings.IOS')
 
 class userSettingsScreen extends Component {
 
