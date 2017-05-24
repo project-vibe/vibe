@@ -33,7 +33,8 @@ export default class SignUp extends Component {
             lastName: '',
             confirmPassword: '',
             phoneNumber: '',
-            id: ''
+            id: '',
+            photoUrl: ''
         }
     }
 
@@ -51,7 +52,7 @@ export default class SignUp extends Component {
             title: 'userHomeScreen',
             component: UserHomeScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text', userId: this.state.id}
+            passProps: {myElement: 'text', userId: this.state.id, photoUrl: this.state.photoUrl}
         });
     }
 
@@ -63,7 +64,6 @@ export default class SignUp extends Component {
             passProps: {myElement: 'text'}
         });
     }
-
 
     async signup(email, password, firstName, lastName, phoneNumber) {
 
@@ -89,10 +89,12 @@ export default class SignUp extends Component {
                     FirstName: firstName,
                     LastName: lastName,
                     Email: email.toLowerCase(),
-                    PhoneNumber: phoneNumber
+                    PhoneNumber: phoneNumber,
+                    PhotoUrl: "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg",
                 }
             });
 
+            this.state.photoUrl = "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg";
             console.log("Account created");
 
             // Navigate to the Home page, the user is auto logged in
@@ -226,7 +228,8 @@ export default class SignUp extends Component {
                                 keyboardType='numeric'
                                 autoCorrect={false}
                                 dataDetectorTypes="phoneNumber"
-                                onChangeText={(text) => this.setState({text})}
+                                onChangeText={(phoneNumber) => this.setState({phoneNumber})}
+                                value={this.state.phoneNumber}
                             />
 
                         </View>

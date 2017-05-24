@@ -81,15 +81,17 @@ signInScreen = React.createClass({
                                 LastName: lastName,
                                 Email: credData.email,
                                 PhoneNumber: tempPhoneNum,
-                                PhotoUrl: credData.photoURL
+                                PhotoUrl: credData.photoURL,
                             }
                         });
+
+                        let photoLink = credData.photoURL;
 
                         that.props.navigator.push({
                             title: 'userHomeScreen',
                             component: UserHomeScreen,
                             navigationBarHidden: true,
-                            passProps: {myElement: 'text'}
+                            passProps: {myElement: 'text', userId: userId, photoUrl: photoLink}
                         })
                     })
                     .catch(err => {
@@ -113,7 +115,7 @@ signInScreen = React.createClass({
         });
     },
 
-    goUserHome: function(firstName, lastName) {
+    goUserHome: function(firstName, lastName, photo) {
 
         this.state.firstName = firstName;
         this.state.lastName = lastName;
@@ -123,7 +125,7 @@ signInScreen = React.createClass({
             component: UserHomeScreen,
             navigationBarHidden: true,
             passProps: {myElement: 'text', userId: this.state.loginId,
-                first: this.state.firstName, last: this.state.lastName }
+                first: this.state.firstName, last: this.state.lastName, photoUrl: photo }
         });
     },
 
@@ -134,6 +136,7 @@ signInScreen = React.createClass({
                 .signInWithEmailAndPassword(email, pass);
 
             let userId = "";
+
 
             for (let i = 0; i < email.length; i++) {
                 if (email.charAt(i) === '@' || email.charAt(i) === '.') {
@@ -152,6 +155,7 @@ signInScreen = React.createClass({
             var leadsRef = firebase.database().ref(userSettingsPath);
             var firstName = "";
             var lastName = "";
+            var photo = "";
             var gotData = false;
             var that = this;
             leadsRef.on('value', function(snapshot) {
@@ -165,10 +169,13 @@ signInScreen = React.createClass({
                    }
                     if(counter==3) {
                         lastName = childData;
-                        gotData = true;
                     }
+                    if(counter==5){
+                       photo = childData
+                    }
+                    gotData = true;
                 });
-                that.goUserHome(firstName, lastName);
+                that.goUserHome(firstName, lastName, photo);
             });
 
             console.log("Logged In!");
