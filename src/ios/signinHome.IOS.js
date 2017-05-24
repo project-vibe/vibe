@@ -17,7 +17,7 @@ import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 var SignUpScreen = require('./signup.IOS.js');
-var UserHomeScreen = require('./userHome.IOS.js');
+var UserHomeScreen = require('./MyHomeContents/userHome.IOS.js');
 
 
 const auth = firebase.auth();
@@ -241,9 +241,8 @@ signInScreen = React.createClass({
                             />
                             <View style={{width: 50, height: 20}}/>
                             <View style={{opacity: 1.0}}>
-                                {/*<TouchableOpacity onPress={() => this._simplePressLogin()} style={styles.buttonContainer}>*/}
-                                <TouchableOpacity onPress={() => this._handlePressLogin()}
-                                                  style={styles.buttonContainer}>
+                                <TouchableOpacity onPress={() => this._simplePressLogin()} style={styles.buttonContainer}>
+                                {/*<TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>*/}
                                     <Text style={{
                                         color: 'white',
                                         fontWeight: 'bold',
@@ -314,10 +313,6 @@ signInScreen = React.createClass({
         );
     }
 });
-
-const onPressSignIn = () => {
-    Alert.alert('Login successful!');
-};
 
 const styles = StyleSheet.create({
     container: {

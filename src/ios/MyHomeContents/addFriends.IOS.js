@@ -18,7 +18,7 @@ import {
 } from 'react-native';
 
 import NavigationBar from 'react-native-navbar';
-import Hr from './hr.dist';
+import Hr from '../hr.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Search from 'react-native-search-box';
 import AtoZListView from 'react-native-atoz-listview';
