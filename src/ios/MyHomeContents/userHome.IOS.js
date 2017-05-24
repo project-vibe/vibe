@@ -189,9 +189,9 @@ export default class UserHome extends Component {
                         >
                             <View style={styles.userInfo}>
                                 <TouchableHighlight style={{paddingBottom: 5}}>
-                                    <Image style={ styles.image } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
+                                    <Image style={ styles.image } source={{ uri: this.props.photoUrl }} />
                                 </TouchableHighlight>
-                                <Text style={styles.username}>Rushi Shah</Text>
+                                <Text style={styles.username}>{this._getDataNew()}</Text>
                                 <Text style={styles.location}>Pomona, CA</Text>
                                 <View style={{height: 20}} />
                             </View>

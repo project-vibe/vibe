@@ -241,7 +241,7 @@ signInScreen = React.createClass({
                             />
                             <View style={{width: 50, height: 20}}/>
                             <View style={{opacity: 1.0}}>
-                                <TouchableOpacity onPress={() => this._simplePressLogin()} style={styles.buttonContainer}>
+                                <TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>
                                 {/*<TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>*/}
                                     <Text style={{
                                         color: 'white',

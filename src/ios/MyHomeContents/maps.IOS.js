@@ -5,7 +5,7 @@ import {
     Text
 } from 'react-native';
 import NavigationBar from 'react-native-navbar';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/EvilIcons';
 import MapView from 'react-native-maps';
 import Polyline from '@mapbox/polyline';
 
@@ -50,7 +50,7 @@ export default class VibeMaps extends Component {
         };
 
         const backButtonConfig = (
-            <Icon.Button name="ios-arrow-back" size={27} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
+            <Icon.Button name="chevron-left" size={40} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
             </Icon.Button>
         );
 
