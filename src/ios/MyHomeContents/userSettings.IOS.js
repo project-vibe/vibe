@@ -150,7 +150,7 @@ class userSettingsScreen extends Component {
                 <View style={{height: 40}}/>
                 <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
                     <TouchableOpacity onPress={() => this.backToHome()} style={styles.logoutButtonContainer}>
-                        <Text style={{color: 'red',  margin: 0, fontSize: 18}}>Logout</Text>
+                        <Text style={{color: 'red',  margin: 0, fontSize: 18, paddingLeft:'40%'}}>Logout</Text>
                         <View style={{width: 250}}/>
                     </TouchableOpacity>
                 </View>
