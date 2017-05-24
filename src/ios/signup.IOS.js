@@ -20,7 +20,7 @@ import {
 import WelcomeText from "react-native/local-cli/templates/HelloNavigation/views/welcome/WelcomeText.android";
 
 var SignInHomeScreen = require('./signinHome.IOS.js');
-var UserHomeScreen = require('./userHome.IOS.js');
+var UserHomeScreen = require('./MyHomeContents/userHome.IOS.js');
 var BackPage = require('./signinHome.IOS.js');
 
 export default class SignUp extends Component {

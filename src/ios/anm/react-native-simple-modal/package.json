@@ -1,0 +1,96 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "react-native-simple-modal",
+        "scope": null,
+        "escapedName": "react-native-simple-modal",
+        "name": "react-native-simple-modal",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/AbhayVarshney/Documents/iOS-Apps/React-Native-iOS/vibe"
+    ]
+  ],
+  "_from": "react-native-simple-modal@latest",
+  "_id": "react-native-simple-modal@5.0.0",
+  "_inCache": true,
+  "_location": "/react-native-simple-modal",
+  "_nodeVersion": "7.6.0",
+  "_npmOperationalInternal": {
+    "host": "packages-18-east.internal.npmjs.com",
+    "tmp": "tmp/react-native-simple-modal-5.0.0.tgz_1489520234896_0.3850844034459442"
+  },
+  "_npmUser": {
+    "name": "bodyflex",
+    "email": "max.huttunen@gmail.com"
+  },
+  "_npmVersion": "4.1.2",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "react-native-simple-modal",
+    "scope": null,
+    "escapedName": "react-native-simple-modal",
+    "name": "react-native-simple-modal",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-simple-modal/-/react-native-simple-modal-5.0.0.tgz",
+  "_shasum": "c1c6bbf122d5a2310f15f44c1a46854a3da4c5f1",
+  "_shrinkwrap": null,
+  "_spec": "react-native-simple-modal",
+  "_where": "/Users/AbhayVarshney/Documents/iOS-Apps/React-Native-iOS/vibe",
+  "author": {
+    "name": "bodyflex"
+  },
+  "bugs": {
+    "url": "https://github.com/bodyflex/react-native-simple-modal/issues"
+  },
+  "dependencies": {},
+  "description": "A simple JavaScript modal component for React Native.",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "c1c6bbf122d5a2310f15f44c1a46854a3da4c5f1",
+    "tarball": "https://registry.npmjs.org/react-native-simple-modal/-/react-native-simple-modal-5.0.0.tgz"
+  },
+  "gitHead": "226c76593b0d67335bc40a43e7dbab709bd9c14c",
+  "homepage": "https://github.com/bodyflex/react-native-simple-modal#readme",
+  "keywords": [
+    "modal",
+    "react-native",
+    "dialog",
+    "react-component",
+    "ios",
+    "android"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "bodyflex",
+      "email": "max.huttunen@gmail.com"
+    }
+  ],
+  "name": "react-native-simple-modal",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "react-native": ">=0.17.0"
+  },
+  "readme": "# react-native-simple-modal\nA simple JavaScript modal component for React Native. Works on both iOS and Android.\n\n<img src=\"https://i.imgur.com/EiwkCWn.gif\" width=\"300\" />\n\n## Installation\n`npm install react-native-simple-modal --save`\n\n## Usage\nSee example. Make sure to put the `<Modal>` at the end of the render function so that it renders above the content! (RN currently doesn't yet have support for z-index).\n### Properties and their default values\n\n```javascript\nimport Modal from 'react-native-simple-modal';\n\n<Modal\n\topen={false}\n\toffset={0}\n\toverlayBackground={'rgba(0, 0, 0, 0.75)'}\n\tanimationDuration={200}\n\tanimationTension={40}\n\tmodalDidOpen={() => undefined}\n\tmodalDidClose={() => undefined}\n\tcloseOnTouchOutside={true}\n\tcontainerStyle={{\n\t   justifyContent: 'center'\n\t}}\n\tmodalStyle={{\n\t   borderRadius: 2,\n\t   margin: 20,\n\t   padding: 10,\n\t   backgroundColor: '#F5F5F5'\n\t}}>\n</Modal>\n```\n\n### Methods\n\n**Deprecated! The usage of these methods is discouraged. Use the properties `open` and `offset` instead.**\n\n```javascript\n// opens the modal\nmodalRef.open();\n\n// closes the modal\nmodalRef.close();\n\n// can be used to animate a translation of the modal along the Y-axis\n// useful when for example the modal has a text input and the modal needs to move up so that it's not hidden behind the keyboard\nmodalRef.animateOffset(number);\n```\n\n## Example\n```javascript\nimport React from 'react';\nimport Modal from 'react-native-simple-modal';\nimport {AppRegistry, Text, TouchableOpacity, View} from 'react-native';\n\nexport default class Example extends React.Component {\n  state = {open: false};\n  render() {\n    return (\n    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>\n      <TouchableOpacity onPress={() => this.setState({open: true})}>\n        <Text>Open modal</Text>\n      </TouchableOpacity>\n      <Modal\n        offset={this.state.offset}\n        open={this.state.open}\n        modalDidOpen={() => console.log('modal did open')}\n        modalDidClose={() => this.setState({open: false})}\n        style={{alignItems: 'center'}}>\n        <View>\n          <Text style={{fontSize: 20, marginBottom: 10}}>Hello world!</Text>\n          <TouchableOpacity\n          style={{margin: 5}}\n          onPress={() => this.setState({offset: -100})}>\n            <Text>Move modal up</Text>\n          </TouchableOpacity>\n          <TouchableOpacity\n            style={{margin: 5}}\n            onPress={() => this.setState({offset: 0})}>\n            <Text>Reset modal position</Text>\n          </TouchableOpacity>\n          <TouchableOpacity\n            style={{margin: 5}}\n            onPress={() => this.setState({open: false})}>\n            <Text>Close modal</Text>\n          </TouchableOpacity>\n        </View>\n      </Modal>\n    </View>\n    );\n  }\n}\n\nAppRegistry.registerComponent('ExampleModal', () => Example);\n\n```\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bodyflex/react-native-simple-modal.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "5.0.0"
+}

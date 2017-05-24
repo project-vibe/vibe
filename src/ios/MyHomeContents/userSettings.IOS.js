@@ -1,7 +1,7 @@
 'use strict'
 import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
-import Hr from './hr.dist';
+import Hr from '../hr.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
     StyleSheet,

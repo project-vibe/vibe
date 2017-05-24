@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {
-    View,
+    View
 } from 'react-native';
-import Timeline from 'react-native-timeline-listview';
+import Timeline from '../anm/react-native-timeline-listview';
 import ActionButton from 'react-native-action-button';
 
 export default class CreateEvents extends Component {
@@ -15,6 +15,10 @@ export default class CreateEvents extends Component {
             {time: '5/26', title: 'Event 4', description: 'Event 4 Description'},
             {time: '6/18', title: 'Event 5', description: 'Event 5 Description'}
         ]
+    }
+
+    changeState() {
+        this.props.openUsersModal();
     }
 
     render(){
@@ -37,7 +41,7 @@ export default class CreateEvents extends Component {
                         style:{paddingTop:10}
                     }}
                 />
-                <ActionButton offsetX={10} offsetY={10} buttonColor="#279AF1" onPress={() => alert('open.')}>
+                <ActionButton offsetX={25} offsetY={25} buttonColor="#279AF1" onPress={() => this.changeState()}>
                 </ActionButton>
             </View>
         )
