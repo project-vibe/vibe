@@ -17,23 +17,28 @@ import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 var SignUpScreen = require('./signup.IOS.js');
-var UserHomeScreen = require('./userHome.IOS.js');
+var UserHomeScreen = require('./MyHomeContents/userHome.IOS.js');
+
 
 const auth = firebase.auth();
 const provider = firebase.auth.FacebookAuthProvider;
 
-var signInScreen = React.createClass({
-
+var signInScreen;
+signInScreen = React.createClass({
     getInitialState () {
         return {
             username: '',
-            password: ''
+            password: '',
+            loginId: '',
+            firstName: '',
+            lastName: ''
         };
     },
 
     // Attempt a login using the Facebook login dialog,
     // asking for default permissions.
-    _fbAuth() {
+    _fbAuth () {
+        var that = this;
         LoginManager.logInWithReadPermissions(['email', 'user_friends', 'public_profile']).then(
             function(result) {
                 if (result.isCancelled) {
@@ -76,24 +81,32 @@ var signInScreen = React.createClass({
                                 LastName: lastName,
                                 Email: credData.email,
                                 PhoneNumber: tempPhoneNum,
-                                PhotoUrl: credData.photoURL
+                                PhotoUrl: credData.photoURL,
                             }
                         });
 
-                        // CHANGE SCREEN HERE!!!
+                        let photoLink = credData.photoURL;
+
+                        that.props.navigator.push({
+                            title: 'userHomeScreen',
+                            component: UserHomeScreen,
+                            navigationBarHidden: true,
+                            passProps: {myElement: 'text', userId: userId, photoUrl: photoLink}
+                        })
                     })
                     .catch(err => {
-                        alert("Error: " + err);
+                        alert("Error Here: " + err.valueOf());
+                        //alert("Sorry, you already have an account with this account! Please try again.")
                     });
                 }
             },
             function(error) {
                 alert('Login fail with error: ' + error);
-            }
-        );
+            },
+        )
     },
 
-    goSignUp: function() {
+    goSignUp: function () {
         this.props.navigator.push({
             title: 'signUpScreen',
             component: SignUpScreen,
@@ -102,24 +115,70 @@ var signInScreen = React.createClass({
         });
     },
 
-    goUserHome: function() {
+    goUserHome: function(firstName, lastName, photo) {
+
+        this.state.firstName = firstName;
+        this.state.lastName = lastName;
+
         this.props.navigator.push({
             title: 'userHomeScreen',
             component: UserHomeScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', userId: this.state.loginId,
+                first: this.state.firstName, last: this.state.lastName, photoUrl: photo }
         });
     },
+
 
     async login(email, pass) {
         try {
             await firebase.auth()
                 .signInWithEmailAndPassword(email, pass);
 
-            console.log("Logged In!");
+            let userId = "";
 
-            //Navigate to home page after sign in
-            this.goUserHome();
+
+            for (let i = 0; i < email.length; i++) {
+                if (email.charAt(i) === '@' || email.charAt(i) === '.') {
+                } else {
+                    userId += email.charAt(i).toLowerCase();
+                }
+            }
+
+            this.state.loginId = userId;
+
+            let userSettingsPath = "/user/" + userId + "/UserInfo";
+            //alert(userSettingsPath);
+            //alert(this);
+            var counter = 0;
+            var childData = "";
+            var leadsRef = firebase.database().ref(userSettingsPath);
+            var firstName = "";
+            var lastName = "";
+            var photo = "";
+            var gotData = false;
+            var that = this;
+            leadsRef.on('value', function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    //alert(this);
+                    childData = childSnapshot.val();
+                    //alert(childData);
+                    counter++;
+                   if(counter==2) {
+                       firstName = childData;
+                   }
+                    if(counter==3) {
+                        lastName = childData;
+                    }
+                    if(counter==5){
+                       photo = childData
+                    }
+                    gotData = true;
+                });
+                that.goUserHome(firstName, lastName, photo);
+            });
+
+            console.log("Logged In!");
 
         } catch (error) {
             console.log(error.toString());
@@ -128,7 +187,7 @@ var signInScreen = React.createClass({
     },
 
     _simplePressLogin(event) {
-        this.goUserHome();
+        this.goUserHome("abraham", "yepremian");
     },
 
     _handlePressLogin(event) {
@@ -137,50 +196,70 @@ var signInScreen = React.createClass({
         this.login(username, password);
     },
 
-    render: function(){
-        return(
+    render: function () {
+        return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
                     {/*spacer */}
-                    <View style={{width: 50, height: 25, backgroundColor: '#0A81D1'}} />
+                    <View style={{width: 50, height: 25, backgroundColor: '#0A81D1'}}/>
                     <Text style={styles.header}>Vibe</Text>
                     {/* view component 4fc492*/}
                     <View style={{width: 375, height: 400, alignItems: 'center', backgroundColor: 'white'}}>
                         <View style={{width: 300, height: 600}}>
-                            <View style={{width: 50, height: 30}} />
+                            <View style={{width: 50, height: 30}}/>
                             <TextInput
-                                style={{height: 50, borderRadius: 5, borderWidth: 0.3, borderColor: 'grey', paddingLeft: 20, backgroundColor: '#f9f9f9'}}
-                                autoCorrect= {false}
+                                style={{
+                                    height: 50,
+                                    borderRadius: 5,
+                                    borderWidth: 0.3,
+                                    borderColor: 'grey',
+                                    paddingLeft: 20,
+                                    backgroundColor: '#f9f9f9'
+                                }}
+                                autoCorrect={false}
                                 autoCapitalize="none"
                                 clearButtonMode="always"
                                 placeholder="Username"
                                 onChangeText={(username) => this.setState({username})}
                                 value={this.state.username}
                             />
-                            <View style={{width: 50, height: 10}} />
+                            <View style={{width: 50, height: 10}}/>
                             <TextInput
-                                style={{height: 50, borderRadius : 5, borderWidth: 0.3, borderColor: 'grey', paddingLeft: 20, backgroundColor: '#f9f9f9'}}
+                                style={{
+                                    height: 50,
+                                    borderRadius: 5,
+                                    borderWidth: 0.3,
+                                    borderColor: 'grey',
+                                    paddingLeft: 20,
+                                    backgroundColor: '#f9f9f9'
+                                }}
                                 secureTextEntry={true}
                                 placeholder="Password"
                                 clearButtonMode="always"
                                 onChangeText={(password) => this.setState({password})}
                                 value={this.state.password}
                             />
-                            <View style={{width: 50, height: 20}} />
-                            <View style={{opacity: 1.0 }}>
-                                {/*<TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>*/}
+                            <View style={{width: 50, height: 20}}/>
+                            <View style={{opacity: 1.0}}>
                                 <TouchableOpacity onPress={() => this._simplePressLogin()} style={styles.buttonContainer}>
-                                    <Text style={{color: 'white', fontWeight: 'bold', margin: 5, fontSize: 16}}>Login</Text>
+                                {/*<TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>*/}
+                                    <Text style={{
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                        margin: 5,
+                                        fontSize: 16
+                                    }}>Login</Text>
                                 </TouchableOpacity>
                             </View>
-                            <View style={{width: 50, height: 70}} />
+                            <View style={{width: 50, height: 70}}/>
                             {/* look in hr.dist.js for changes */}
                             <View style={{width: 300, height: 40, flexDirection: 'row'}}>
                                 <View style={{width: 140, flex: 2}}>
                                     <Hr style={{width: 140}}/>
                                 </View>
                                 <View style={{width: 20, flex: 1, marginTop: -8}}>
-                                    <Text style={{fontWeight: 'bold', color: '#474e55', opacity: 0.8, paddingLeft: 16}}> OR </Text>
+                                    <Text style={{fontWeight: 'bold', color: '#474e55', opacity: 0.8, paddingLeft: 16}}>
+                                        OR </Text>
                                 </View>
                                 <View style={{width: 140, flex: 2}}>
                                     <Hr style={{width: 140, flex: 1}}/>
@@ -189,8 +268,14 @@ var signInScreen = React.createClass({
                             <View style={{opacity: 1.0, paddingTop: 20}}>
                                 <TouchableOpacity onPress={this._fbAuth} style={styles.fbButton}>
                                     <View style={{width: 50}}/>
-                                    <Icon name="facebook-official" size={20} color="#0A81D1" />
-                                    <Text style={{color: '#0A81D1', paddingLeft: 5, fontWeight: 'bold', margin: 5, fontSize: 16}}>Log In with Facebook</Text>
+                                    <Icon name="facebook-official" size={20} color="#0A81D1"/>
+                                    <Text style={{
+                                        color: '#0A81D1',
+                                        paddingLeft: 5,
+                                        fontWeight: 'bold',
+                                        margin: 5,
+                                        fontSize: 16
+                                    }}>Log In with Facebook</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -198,14 +283,28 @@ var signInScreen = React.createClass({
                     <View style={{height: 120, width: 380, backgroundColor: 'white'}}>
                         {/* spacer */}
                         <View style={{height: 60}}/>
-                        <View style={{backgroundColor: '#ecf0f1', height: 60, borderTopWidth: 0.5, borderColor: 'grey', flexDirection: 'row'}}>
-                            <Text style={{fontWeight: 'bold', color: '#474e55', opacity: 0.8, fontSize: 12, paddingLeft: 85, paddingTop: 20}}> Don't have an account? </Text>
+                        <View style={{
+                            backgroundColor: '#ecf0f1',
+                            height: 60,
+                            borderTopWidth: 0.5,
+                            borderColor: 'grey',
+                            flexDirection: 'row'
+                        }}>
+                            <Text style={{
+                                fontWeight: 'bold',
+                                color: '#474e55',
+                                opacity: 0.8,
+                                fontSize: 12,
+                                paddingLeft: 85,
+                                paddingTop: 20
+                            }}> Don't have an account? </Text>
                             <View style={{height: 45}}>
-                                <View style={{height: 15}} />
+                                <View style={{height: 15}}/>
                                 <TouchableOpacity onPress={() => this.goSignUp()} style={{height: 20}}>
-                                    <Text style={{fontWeight: 'bold', color:'#0A81D1',margin: 5, fontSize: 12}}>Sign up.</Text>
+                                    <Text style={{fontWeight: 'bold', color: '#0A81D1', margin: 5, fontSize: 12}}>Sign
+                                        up.</Text>
                                 </TouchableOpacity>
-                                <View style={{height: 15}} />
+                                <View style={{height: 15}}/>
                             </View>
                         </View>
                     </View>
@@ -214,10 +313,6 @@ var signInScreen = React.createClass({
         );
     }
 });
-
-const onPressSignIn = () => {
-    Alert.alert('Login successful!');
-};
 
 const styles = StyleSheet.create({
     container: {

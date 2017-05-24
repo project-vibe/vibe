@@ -6,10 +6,9 @@ const {
     RefreshControl,
     Text,
     TouchableWithoutFeedback,
-    TouchableOpacity,
-    View,
+    View
 } = ReactNative;
-import Modal from 'react-native-simple-modal';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const styles = StyleSheet.create({
     row: {
@@ -20,6 +19,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderRadius: 0.6,
         padding: 25,
+        height: 85,
         backgroundColor: 'rgb(249,250,251)',
     },
     text: {
@@ -32,17 +32,37 @@ const styles = StyleSheet.create({
 });
 
 class Row extends React.Component {
+
+    renderStatusIcon = (status) => {
+        if(status === 'accepted')
+            return <Icon.Button name={'checkbox-blank-circle'} size={12} color="green" backgroundColor="transparent">
+                    </Icon.Button>
+        else
+            return <Icon.Button name={'checkbox-blank-circle'} size={12} color="orange" backgroundColor="transparent">
+            </Icon.Button>
+    };
+
     _onClick = () => {
         this.props.onClick(this.props.data);
     };
 
+
     render() {
+        const renderRemoveIcon = (
+            <Icon.Button onPress={() => this._checking(this.props.data)} name="close-box" size={25} color="grey" backgroundColor="transparent">
+            </Icon.Button>
+        );
+
         return (
             <TouchableWithoutFeedback onPress={this._onClick} >
                 <View style={styles.row}>
-                    <Text style={styles.text}>
-                        {this.props.data.text + ' (' + this.props.data.clicks + ' clicks)'}
-                    </Text>
+                    <View style={{flex: 1, flexDirection: 'row'}}>
+                        {this.renderStatusIcon(this.props.data.status)}
+                        <Text style={styles.text}>
+                            {this.props.data.text + ' (' + this.props.data.clicks + ' clicks)'}
+                        </Text>
+                        {renderRemoveIcon}
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
         );
@@ -53,26 +73,48 @@ class RefreshControlExample extends React.Component {
     static title = '<RefreshControl>';
     static description = 'Adds pull-to-refresh support to a scrollview.';
 
-    // pass number of elements here!
+    constructor(props) {
+        super();
+    }
+
+    //pass number of elements here!
     state = {
-        open: false,
         isRefreshing: false,
         loaded: 0,
+        isShown: true,
         rowData: Array.from(new Array(20)).map(
-            (val, i) => ({text: 'Initial row ' + i, clicks: 0})),
+            (val, i) => ({text: 'Initial row ' + i,
+                          clicks: 0,
+                          status: 'unsure' // status: accept, maybe
+                        })),
     };
 
+    // open modal here
     _onClick = (row) => {
         row.clicks++;
+        this.props.openFriendsModal(row.text);
         this.setState({
             rowData: this.state.rowData,
-            open: true
+        });
+    };
+
+    _checking = (row) => {
+        alert("hi!" + row);
+        this.setState({
+            isShown : false,
+            rowData: this.state.rowData,
         });
     };
 
     render() {
+        const renderRemoveIcon = (
+            <Icon.Button onPress={() => this._checking} name="close-box" size={25} color="grey" backgroundColor="transparent">
+            </Icon.Button>
+        );
+
         const rows = this.state.rowData.map((row, ii) => {
-            return <Row key={ii} data={row} onClick={this._onClick}/>;
+            if(this.state.isShown)
+                return <Row key={ii} data={row} onClick={this._onClick}/>;
         });
 
         return (
@@ -90,32 +132,6 @@ class RefreshControlExample extends React.Component {
                     }>
                     {rows}
                 </ScrollView>
-
-                <Modal
-                    offset={this.state.offset}
-                    open={this.state.open}
-                    modalDidOpen={() => console.log('modal did open')}
-                    modalDidClose={() => this.setState({open: false})}
-                    style={{alignItems: 'center'}}>
-                    <View>
-                        <Text style={{fontSize: 20, marginBottom: 10}}>Hello world!</Text>
-                        <TouchableOpacity
-                            style={{margin: 5}}
-                            onPress={() => this.setState({offset: -100})}>
-                            <Text>Move modal up</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={{margin: 5}}
-                            onPress={() => this.setState({offset: 0})}>
-                            <Text>Reset modal position</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={{margin: 5}}
-                            onPress={() => this.setState({open: false})}>
-                            <Text>Close modal</Text>
-                        </TouchableOpacity>
-                    </View>
-                </Modal>
             </View>
         );
     }

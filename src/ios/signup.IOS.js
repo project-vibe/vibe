@@ -6,7 +6,6 @@ import Hr from './hr2.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PhoneInput from 'react-native-phone-input';
 
-
 import {
     View,
     Text,
@@ -21,38 +20,42 @@ import {
 import WelcomeText from "react-native/local-cli/templates/HelloNavigation/views/welcome/WelcomeText.android";
 
 var SignInHomeScreen = require('./signinHome.IOS.js');
-var UserHomeScreen = require('./userHome.IOS.js');
+var UserHomeScreen = require('./MyHomeContents/userHome.IOS.js');
 var BackPage = require('./signinHome.IOS.js');
 
-var SignUp = React.createClass({
-    getInitialState () {
-        return {
+export default class SignUp extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             email: '',
             password: '',
             firstName: '',
             lastName: '',
             confirmPassword: '',
-            phoneNumber: ''
-        };
-    },
+            phoneNumber: '',
+            id: '',
+            photoUrl: ''
+        }
+    }
 
-    goLogin: function () {
+    goLogin() {
         this.props.navigator.push({
             title: 'signInHomeScreen',
             component: SignInHomeScreen,
             navigationBarHidden: true,
             passProps: {myElement: 'text'}
         });
-    },
+    }
 
-    goUserHome: function () {
+    goUserHome() {
         this.props.navigator.push({
             title: 'userHomeScreen',
             component: UserHomeScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', userId: this.state.id, photoUrl: this.state.photoUrl}
         });
-    },
+    }
+
     backButtonListener() {
         this.props.navigator.pop({
             title: 'BackPage',
@@ -60,7 +63,7 @@ var SignUp = React.createClass({
             navigationBarHidden: true,
             passProps: {myElement: 'text'}
         });
-    },
+    }
 
     async signup(email, password, firstName, lastName, phoneNumber) {
 
@@ -76,6 +79,9 @@ var SignUp = React.createClass({
                     userId += email.charAt(i).toLowerCase();
                 }
             }
+
+            this.state.id = userId;
+
             let userSettingsPath = "/user/" + userId;
 
             firebase.database().ref(userSettingsPath).set({
@@ -83,10 +89,12 @@ var SignUp = React.createClass({
                     FirstName: firstName,
                     LastName: lastName,
                     Email: email.toLowerCase(),
-                    PhoneNumber: phoneNumber
+                    PhoneNumber: phoneNumber,
+                    PhotoUrl: "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg",
                 }
             });
 
+            this.state.photoUrl = "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg";
             console.log("Account created");
 
             // Navigate to the Home page, the user is auto logged in
@@ -95,8 +103,7 @@ var SignUp = React.createClass({
             alert(error.toString());
         }
 
-    },
-
+    }
 
     _handlePressSignUp(event) {
         let email = this.state.email;
@@ -106,16 +113,15 @@ var SignUp = React.createClass({
         let phoneNumber = this.state.phoneNumber;
         let confirmPassword = this.state.confirmPassword;
 
-        if (confirmPassword.toLowerCase() === password.toLowerCase()) {
+        if (confirmPassword === password) {
             this.signup(email, password, firstName, lastName, phoneNumber);
         } else {
             alert("Passwords are not correct!")
         }
-    },
+    }
 
-
-    render: function () {
-        return (
+    render(){
+        return(
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <Image blurRadius={2} source={require('./img/blueImage.png')} style={styles.container}>
                     <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
@@ -224,7 +230,6 @@ var SignUp = React.createClass({
                                 dataDetectorTypes="phoneNumber"
                                 onChangeText={(phoneNumber) => this.setState({phoneNumber})}
                                 value={this.state.phoneNumber}
-
                             />
 
                         </View>
@@ -258,7 +263,7 @@ var SignUp = React.createClass({
             </TouchableWithoutFeedback>
         );
     }
-});
+}
 
 const styles = StyleSheet.create({
     container: {

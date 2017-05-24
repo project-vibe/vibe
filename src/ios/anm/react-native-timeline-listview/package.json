@@ -1,0 +1,99 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "react-native-timeline-listview",
+        "scope": null,
+        "escapedName": "react-native-timeline-listview",
+        "name": "react-native-timeline-listview",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/AbhayVarshney/Documents/iOS-Apps/React-Native-iOS/vibe"
+    ]
+  ],
+  "_from": "react-native-timeline-listview@latest",
+  "_id": "react-native-timeline-listview@0.2.0",
+  "_inCache": true,
+  "_location": "/react-native-timeline-listview",
+  "_nodeVersion": "6.6.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/react-native-timeline-listview-0.2.0.tgz_1491475176245_0.9384469699580222"
+  },
+  "_npmUser": {
+    "name": "thegamenicorus",
+    "email": "nicorus_1@hotmail.com"
+  },
+  "_npmVersion": "3.10.3",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "react-native-timeline-listview",
+    "scope": null,
+    "escapedName": "react-native-timeline-listview",
+    "name": "react-native-timeline-listview",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-timeline-listview/-/react-native-timeline-listview-0.2.0.tgz",
+  "_shasum": "8480b35af189fa0e036407f8701fb89945f6facf",
+  "_shrinkwrap": null,
+  "_spec": "react-native-timeline-listview",
+  "_where": "/Users/AbhayVarshney/Documents/iOS-Apps/React-Native-iOS/vibe",
+  "author": {
+    "name": "Watcharachai Kanjaikaew",
+    "url": "https://github.com/thegamenicorus"
+  },
+  "bugs": {
+    "url": "https://github.com/thegamenicorus/react-native-timeline-listview/issues"
+  },
+  "dependencies": {},
+  "description": "Timeline component for React Native",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "8480b35af189fa0e036407f8701fb89945f6facf",
+    "tarball": "https://registry.npmjs.org/react-native-timeline-listview/-/react-native-timeline-listview-0.2.0.tgz"
+  },
+  "gitHead": "1291799d7f6f61da86c93b7c2aed9db24c842c6f",
+  "homepage": "https://github.com/thegamenicorus/react-native-timeline-listview",
+  "keywords": [
+    "react-native",
+    "timeline",
+    "listview",
+    "schedule",
+    "react native component",
+    "ios",
+    "android",
+    "component"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "maintainers": [
+    {
+      "name": "thegamenicorus",
+      "email": "nicorus_1@hotmail.com"
+    }
+  ],
+  "name": "react-native-timeline-listview",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "react-native": ">= 0.4"
+  },
+  "readme": "# React Native Timeline Listview\nTimeline component for React Native App work for Android and iOS\n\n![untitled-1](https://cloud.githubusercontent.com/assets/21040043/24750025/8c8d044e-1aef-11e7-8fd7-7d64431af7e4.png)\n\n**Table of Contents**\n- [Installation](#installation)\n- Usage\n  - [Basic usage](#basic-usage)\n  - [Custom example](#custom)\n  - [Circle dot example](#circle-dot)\n  - [Icon example](#icon)\n  - [Override render example](#override-render)\n- Column Format (in v.0.2.0)\n  - [Single column right](#single-column-right)\n  - [Two column](#two-column)\n- Configuration\n  - [Data Object](#data-object)\n  - [Timeline](#timeline)\n- [Shift problem](#shift-problem)\n\n## Installation\n```\nnpm i react-native-timeline-listview --save\n```\n\n## Basic Usage\n![image2](https://cloud.githubusercontent.com/assets/21040043/24320617/6a7494ea-116b-11e7-9cf5-12244f5eec58.png)\n```jsx\nimport Timeline from 'react-native-timeline-listview'\n\nconstructor(){\n    super()\n    this.data = [\n      {time: '09:00', title: 'Event 1', description: 'Event 1 Description'},\n      {time: '10:45', title: 'Event 2', description: 'Event 2 Description'},\n      {time: '12:00', title: 'Event 3', description: 'Event 3 Description'},\n      {time: '14:00', title: 'Event 4', description: 'Event 4 Description'},\n      {time: '16:30', title: 'Event 5', description: 'Event 5 Description'}\n    ]\n  } \n\nrender(){\n    return(\n        <Timeline \n          data={this.data}\n        />\n    )\n}\n```\n[see full basic example](https://github.com/thegamenicorus/react-native-timeline-listview/blob/master/examples/Example/pages/basicExample.js)\n\n## Custom\n![image3](https://cloud.githubusercontent.com/assets/21040043/24320631/9df21a86-116b-11e7-8865-2631d35bc640.png)\n```jsx\nrender(){\n    return(\n        <Timeline \n          //..other props\n          circleSize={20}\n          circleColor='rgb(45,156,219)'\n          lineColor='rgb(45,156,219)'\n          timeContainerStyle={{minWidth:52, marginTop: -5}}\n          timeStyle={{textAlign: 'center', backgroundColor:'#ff9797', color:'white', padding:5, borderRadius:13}}\n          descriptionStyle={{color:'gray'}}\n          options={{\n            style:{paddingTop:5}\n          }}\n        />\n    )\n}\n```\n[see full custom example](https://github.com/thegamenicorus/react-native-timeline-listview/blob/master/examples/Example/pages/customExample.js)\n\n## Circle Dot\n![image4](https://cloud.githubusercontent.com/assets/21040043/24320644/f5bc5b0a-116b-11e7-9252-2c9fc2361dc9.png)\n```jsx\nrender(){\n    return(\n        <Timeline \n          //..other props\n          innerCircle={'dot'}\n        />\n    )\n}\n```\n[see full circle dot example](https://github.com/thegamenicorus/react-native-timeline-listview/blob/master/examples/Example/pages/dotExample.js)\n\n## Icon\n![image5](https://cloud.githubusercontent.com/assets/21040043/24320654/1c5de27e-116c-11e7-95cc-750d55e001b8.png)\n```jsx\nconstructor(){\n    super()\n    this.data = [\n      {time: '09:00', title: 'Archery Training', description: 'The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ',lineColor:'#009688', icon: require('../img/archery.png')},\n      {time: '10:45', title: 'Play Badminton', description: 'Badminton is a racquet sport played using racquets to hit a shuttlecock across a net.', icon: require('../img/badminton.png')},\n      {time: '12:00', title: 'Lunch', icon: require('../img/lunch.png')},\n      {time: '14:00', title: 'Watch Soccer', description: 'Team sport played between two teams of eleven players with a spherical ball. ',lineColor:'#009688', icon: require('../img/soccer.png')},\n      {time: '16:30', title: 'Go to Fitness center', description: 'Look out for the Best Gym & Fitness Centers around me :)', icon: require('../img/dumbbell.png')}\n    ]\n  } \nrender(){\n    return(\n        <Timeline \n          //..other props\n          innerCircle={'icon'}\n        />\n    )\n}\n```\n[see full icon example](https://github.com/thegamenicorus/react-native-timeline-listview/blob/master/examples/Example/pages/iconExample.js)\n\n## Override Render\n![image6](https://cloud.githubusercontent.com/assets/21040043/24320661/36fe76e8-116c-11e7-950f-2968aef312bb.png)\n```jsx\nconstructor(){\n    super()\n    this.renderEvent = this.renderEvent.bind(this)\n\n    this.data = [\n      {\n        time: '09:00', \n        title: 'Archery Training', \n        description: 'The Beginner Archery and Beginner Crossbow course does not require you to bring any equipment, since everything you need will be provided for the course. ',\n        lineColor:'#009688', \n        icon: require('../img/archery.png'),\n        imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240340/c0f96b3a-0fe3-11e7-8964-fe66e4d9be7a.jpg'\n      },\n      {\n        time: '10:45', \n        title: 'Play Badminton', \n        description: 'Badminton is a racquet sport played using racquets to hit a shuttlecock across a net.', \n        icon: require('../img/badminton.png'),\n        imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240405/0ba41234-0fe4-11e7-919b-c3f88ced349c.jpg'\n      },\n      {\n        time: '12:00', \n        title: 'Lunch', \n        icon: require('../img/lunch.png'),\n      },\n      {\n        time: '14:00', \n        title: 'Watch Soccer', \n        description: 'Team sport played between two teams of eleven players with a spherical ball. ',\n        lineColor:'#009688', \n        icon: require('../img/soccer.png'),\n        imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240419/1f553dee-0fe4-11e7-8638-6025682232b1.jpg'\n      },\n      {\n        time: '16:30', \n        title: 'Go to Fitness center', \n        description: 'Look out for the Best Gym & Fitness Centers around me :)', \n        icon: require('../img/dumbbell.png'),\n        imageUrl: 'https://cloud.githubusercontent.com/assets/21040043/24240422/20d84f6c-0fe4-11e7-8f1d-9dbc594d0cfa.jpg'\n      }\n    ]\n  } \n  \nrenderEvent(rowData, sectionID, rowID) {\n    let title = <Text style={[styles.title]}>{rowData.title}</Text>\n    var desc = null\n    if(rowData.description && rowData.imageUrl)\n      desc = (\n        <View style={styles.descriptionContainer}>   \n          <Image source={{uri: rowData.imageUrl}} style={styles.image}/>\n          <Text style={[styles.textDescription]}>{rowData.description}</Text>\n        </View>\n      )\n    \n    return (\n      <View style={{flex:1}}>\n        {title}\n        {desc}\n      </View>\n    )\n  }\n\nrender(){\n    return(\n        <Timeline \n          //..other props\n          renderEvent={this.renderEvent}\n        />\n    )\n}\n```\n[see full override render example](https://github.com/thegamenicorus/react-native-timeline-listview/blob/master/examples/Example/pages/overrideRenderExample.js)\n\n## Column Format\n### Single Column Right\n![simulator screen shot apr 6 2560 be 5 19 51 pm](https://cloud.githubusercontent.com/assets/21040043/24749469/60a7869e-1aed-11e7-9c41-f87f866b2d8d.png)\n```jsx\nrender(){\n    return(\n        <Timeline \n          //..other props\n          columnFormat='single-column-right'\n        />\n    )\n}\n```\n[see full single column right example](https://github.com/thegamenicorus/react-native-timeline-listview/blob/master/examples/Example/pages/singleRightExample.js)\n\n### Two Column\n![simulator screen shot apr 6 2560 be 5 05 32 pm](https://cloud.githubusercontent.com/assets/21040043/24749638/0515f210-1aee-11e7-82af-082d93efb618.png)\n```jsx\nrender(){\n    return(\n        <Timeline \n          //..other props\n          columnFormat='two-column'\n        />\n    )\n}\n```\n[see full to column example](https://github.com/thegamenicorus/react-native-timeline-listview/blob/master/examples/Example/pages/twoColumnExample.js)\n\n## Configuration\n#### Data Object:\n| Property | Type | Default | Description |\n|---------------|----------|-------------|----------------------------------------------------------------|\n| time | string | null | event time |\n| title | string | null | event title |\n| description | string | null | event description |\n| lineWidth | int | same as lineWidth of 'Timeline' | event line width  |\n| lineColor | string | same as lineColor of 'Timeline' | event line color |\n| circleSize | int | same as circleSize of 'Timeline' | event circle size |\n| circleColor | string | same as circleColor of 'Timeline' | event circle color |\n| dotColor | string | same as dotColor of 'Timeline' | event dot color (innerCircle = 'dot') |\n| icon | obj(image source) | same as icon of 'Timeline' | event icon (innerCircle = 'color') |\n\n#### Timeline:\n| Property | Type | Default | Description |\n|---------------|----------|-------------|----------------------------------------------------------------|\n| data | data object | null | timeline data |\n| innerCircle | string | null | timeline mode : 'none', 'dot', 'icon' |\n| separator | bool | true | render separator line of events |\n| columnFormat | string | 'single-left' | can be 'single-column-left', 'single-column-right', 'two-column' |\n| lineWidth | int | 2 | timeline line width  |\n| lineColor | string | '#007AFF' | timeline line color |\n| circleSize | int | 16 | timeline circle size |\n| circleColor | string | '#007AFF' | timeline circle color |\n| dotColor | string | 'white' | timeline dot color (innerCircle = 'dot') |\n| icon | obj(image source) | null | timeline icon (innerCircle = 'color') |\n| style | object | null | custom styles of Timeline |\n| timeStyle | object | null | custom styles of event time |\n| titleStyle | object | null | custom styles of event title |\n| descriptionStyle | object | null | custom styles of event description |\n| iconStyle | object | null | custom styles of event icon |\n| separatorStyle | object | null | custom styles of separator |\n| rowContainerStyle | object | null | custom styles of event container |\n| timeContainerStyle | object | null | custom styles of container of event time  |\n| detailContainerStyle| object | null | custom styles of container of event title and event description |\n| onEventPress | function(event) | null | function to be invoked when event was pressed |\n| renderTime | function(rowData, sectionID, rowID) | null | custom render event time |\n| renderDetail | function(rowData, sectionID, rowID) | null | custom render event title and event description |\n| renderCircle | function(rowData, sectionID, rowID) | null | custom render circle |\n| options | object | null | ListView properties|\n\n\n## Shift problem\n\nText width of event time may not be the same. \n\n![untitled-1](https://cloud.githubusercontent.com/assets/21040043/24321589/78d0c77c-1182-11e7-9c0f-69ebe591cb14.png)\n\nfix by add 'minWidth' in 'timeContainerStyle' to appropriate value\n\n```jsx\nrender(){\n    return(\n        <Timeline \n          //..other props\n          timeContainerStyle={{minWidth:72}}\n        />\n    )\n}\n```\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/thegamenicorus/react-native-timeline-listview.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.2.0"
+}
