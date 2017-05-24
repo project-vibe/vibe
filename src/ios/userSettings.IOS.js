@@ -2,7 +2,8 @@
 import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
 import Hr from './hr.dist';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/EvilIcons';
+import Switch from 'react-native-switch-pro'
 import {
     StyleSheet,
     Text,
@@ -16,7 +17,13 @@ import {
 } from 'react-native';
 
 var BackPage = require('./userHome.IOS.js');
-var userSettingsScreen = React.createClass({
+var passwordChange = require('./settingsStuff/changePassword.IOS.js')
+var editProfile = require('./settingsStuff/editProfile.IOS.js')
+var eventSettings = require('./settingsStuff/eventSettings.IOS')
+
+class userSettingsScreen extends Component {
+
+
     backButtonListener() {
         this.props.navigator.pop({
             title: 'BackPage',
@@ -24,27 +31,57 @@ var userSettingsScreen = React.createClass({
             navigationBarHidden: true,
             passProps: {myElement: 'text'}
         });
-    },
+    }
     backToHome() {
         this.props.navigator.popToTop({
             title: 'BackToHome',
             passProps: {myElement: 'text'}
         });
-    },
-    buttonSelect() {
-        alert("Needs implementation")
-    },
+    }
+    termsPolicy() {
+        alert("Terms and Policy Redirect")
+    }
+    helpCenter() {
+        alert("Help Center Redirect")
+    }
+    reportProblem() {
+        alert("Report a Problem Redirect")
+    }
+    passwordPage() {
+        this.props.navigator.push({
+            title: 'password',
+            component: passwordChange,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
+    }
+    eventSettings() {
+        this.props.navigator.push({
+            title: 'eventSettings',
+            component: eventSettings,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
+    }
+    profilePage() {
+        this.props.navigator.push({
+            title: 'editProfile',
+            component: editProfile,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
+    }
 
 
 
-    render: function(){
+    render(){
         const titleConfig = {
             title: 'Settings',
-            style: {fontWeight: 'bold', fontSize: 20, fontFamily: 'Noteworthy', color: 'white'}
+            style: {fontWeight: 'bold', fontSize: 20, fontFamily: 'Noteworthy', color: 'black'}
         };
 
         const backButtonConfig = (
-            <Icon.Button name="ios-arrow-back" size={30} color="white" onPress={() => this.backButtonListener()} backgroundColor="transparent">
+            <Icon.Button name="chevron-left" size={45} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
             </Icon.Button>
         );
 
@@ -52,53 +89,68 @@ var userSettingsScreen = React.createClass({
         return (
             <View style={styles.container}>
                 <StatusBar
-                    color="white"
+                    color="black"
                 />
                 <NavigationBar
                     title={titleConfig}
                     leftButton={backButtonConfig}
-                    tintColor={'#0A81D1'}
+                    tintColor={'#eeeeee'}
                 />
                 <Hr style={{width: 140, flex: 1}}/>
-                <View style = {{backgroundColor:'white', paddingLeft: 20}}>
-                    <TouchableOpacity onPress={() => this.buttonSelect()} style={styles.buttonContainer}>
-                        <Text style={{color: 'black',  margin: 0, fontSize: 16}}>Edit Profile</Text>
-                        <View style={{width: 254}}/>
-                        <Icon name="ios-arrow-forward" size={20} color="#C0C0C0" />
+                <View style={{height: 35}}/>
+                <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
+                    <TouchableOpacity onPress={() => this.profilePage()} style={styles.buttonContainer}>
+                        <Text style={{color: 'black',  margin: 0, fontSize: 17}}>Edit Profile</Text>
+                        <View style={{width: 236}}/>
+                        <Icon name="chevron-right" size={35} color="#C0C0C0" />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.buttonSelect()} style={styles.buttonContainer}>
-                        <Text style={{color: 'black',  margin: 0, fontSize: 16}}>Change Password</Text>
-                        <View style={{width: 202}}/>
-                        <Icon name="ios-arrow-forward" size={20} color="#C0C0C0" />
+                    <TouchableOpacity onPress={() => this.passwordPage()} style={styles.buttonContainer}>
+                        <Text style={{color: 'black',  margin: 0, fontSize: 17}}>Change Password</Text>
+                        <View style={{width: 180}}/>
+                        <Icon name="chevron-right" size={35} color="#C0C0C0" />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.buttonSelect()} style={styles.buttonContainer}>
-                        <Text style={{color: 'black',  margin: 0, fontSize: 16}}>Terms Policy</Text>
-                        <View style={{width: 240}}/>
-                        <Icon name="ios-arrow-forward" size={20} color="#C0C0C0" />
+                    <TouchableOpacity onPress={() => this.termsPolicy()} style={styles.buttonContainer}>
+                        <Text style={{color: 'black',  margin: 0, fontSize: 17}}>Terms Policy</Text>
+                        <View style={{width: 220}}/>
+                        <Icon name="chevron-right" size={35} color="#C0C0C0" />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.buttonSelect()} style={styles.buttonContainer}>
-                        <Text style={{color: 'black',  margin: 0, fontSize: 16}}>Help Center</Text>
-                        <View style={{width: 245}}/>
-                        <Icon name="ios-arrow-forward" size={20} color="#C0C0C0" />
+                    <TouchableOpacity onPress={() => this.helpCenter()} style={styles.buttonContainer}>
+                        <Text style={{color: 'black',  margin: 0, fontSize: 17}}>Help Center</Text>
+                        <View style={{width: 228}}/>
+                        <Icon name="chevron-right" size={35} color="#C0C0C0" />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.buttonSelect()} style={styles.buttonContainer}>
-                        <Text style={{color: 'black',  margin: 0, fontSize: 16}}>Report a Problem</Text>
-                        <View style={{width: 206}}/>
-                        <Icon name="ios-arrow-forward" size={20} color="#C0C0C0" />
+                    <TouchableOpacity onPress={() => this.reportProblem()} style={styles.bottomButtonContainer}>
+                        <Text style={{color: 'black',  margin: 0, fontSize: 17}}>Report a Problem</Text>
+                        <View style={{width: 186}}/>
+                        <Icon name="chevron-right" size={35} color="#C0C0C0" />
                     </TouchableOpacity>
                 </View>
-                <View style={{height: 60}}/>
-                <View style = {{backgroundColor:'white', paddingLeft: 20}}>
-                    <TouchableOpacity onPress={() => this.buttonSelect()} style={styles.buttonContainer}>
-                        <Text style={{color: 'black',  margin: 0, fontSize: 16}}>Add Account</Text>
+                <View style={{height: 40}}/>
+                <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
+                    <TouchableOpacity onPress={() => this.eventSettings()} style={styles.buttonContainer}>
+                        <Text style={{color: 'black',  margin: 0, fontSize: 17}}>Event Settings</Text>
                         <View style={{width: 250}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.buttonSelect()} style={styles.buttonContainer}>
-                        <Text style={{color: 'black',  margin: 0, fontSize: 16}}>Clear Search History</Text>
-                        <View style={{width: 250}}/>
+                    <TouchableOpacity onPress={() => Keyboard.dismiss} style={styles.bottomButtonContainer}>
+                        <Text style={{color: 'black',  margin: 0, fontSize: 17}}>Location Services</Text>
+                        <View style={{width: 160}}/>
+                        <Switch
+                            style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
+                            value={false}
+                            disabled={false}
+                            activeText={'On'}
+                            inActiveText={'Off'}
+                            backgroundActive={'#0A81D1'}
+                            backgroundInactive={'#C0C0C0'}
+                            circleActiveColor={'#30a566'}
+                            circleInActiveColor={'#000000'}
+                        />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.backToHome()} style={styles.buttonContainer}>
-                        <Text style={{color: 'black',  margin: 0, fontSize: 16}}>Logout</Text>
+                </View>
+                <View style={{height: 40}}/>
+                <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
+                    <TouchableOpacity onPress={() => this.backToHome()} style={styles.logoutButtonContainer}>
+                        <Text style={{color: 'red',  margin: 0, fontSize: 18}}>Logout</Text>
                         <View style={{width: 250}}/>
                     </TouchableOpacity>
                 </View>
@@ -106,7 +158,8 @@ var userSettingsScreen = React.createClass({
         )
     }
 
-});
+};
+
 
 const styles = StyleSheet.create({
     container: {
@@ -127,7 +180,37 @@ const styles = StyleSheet.create({
             height: 9
         },
         shadowRadius: 10,
-        height: 40,
+        height: 43,
+        opacity: 0.9
+    },
+    bottomButtonContainer: {
+        backgroundColor: 'white',
+        borderRadius: 1,
+        padding: 10,
+        paddingLeft:0,
+        flexDirection: 'row',
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 9
+        },
+        shadowRadius: 10,
+        height: 43,
+        opacity: 0.9
+    },
+    logoutButtonContainer: {
+        backgroundColor: 'white',
+        borderRadius: 1,
+        padding: 10,
+        paddingLeft:0,
+        flexDirection: 'row',
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 9
+        },
+        shadowRadius: 10,
+        height: 43,
         opacity: 0.9
     }
 
