@@ -19,6 +19,8 @@ import {
     StatusBar
 } from 'react-native';
 
+import AlgoliaDropdown from './AlgoliaDropdown';
+import UserPreview from './UserPreview';
 import NavigationBar from 'react-native-navbar';
 import Hr from '../hr.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -85,63 +87,78 @@ class addFriendsScreen extends Component {
             </Icon.Button>
         );
 
-            return (
-              //  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
-                    <StatusBar
-                        backgroundColor="blue"
-                        barStyle="light-content"
+        return (
+            //  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <StatusBar
+                    backgroundColor="blue"
+                    barStyle="light-content"
+                />
+                <NavigationBar
+                    title={titleConfig}
+                    leftButton={backButtonConfig}
+                    tintColor={'white'}
+                />
+
+                <View style={{flex: 1}}>
+
+                    {/*<Search*/}
+                        {/*ref="search_bar"*/}
+                        {/*titleSearch="Tìm kiếm"*/}
+                        {/*titleCancel="Huỷ"*/}
+                        {/*onSearch={this.onSearch}*/}
+                        {/*onChangeText={this.onChangeText}*/}
+                        {/*onDelete={() => console.log('onDelete')}*/}
+                        {/*afterDelete={this.afterDelete}*/}
+                        {/*beforeFocus={this.beforeFocus}*/}
+                        {/*afterFocus={this.afterFocus}*/}
+                        {/*onCancel={this.onCancel}*/}
+                        {/*backgroundColor="white"*/}
+                        {/*placeholderTextColor="black"*/}
+                        {/*tintColorSearch="black"*/}
+                        {/*tintColorDelete="blue"*/}
+                        {/*titleCancelColor='black'*/}
+                        {/*onFocus={this.onFocus}*/}
+                        {/*//onFocus = {() => changeStatus(true)}*/}
+                    {/*/>*/}
+
+                    <AlgoliaDropdown
+                        appID="G3REXGMTZM"
+                        style={{backgroundColor: 'white', borderBottomWidth: 1, borderColor: 'black', paddingTop: 20}}
+                        footerHeight={64}
+                        apiKey="6b62c4d4aef895d0b0242d2e5a2b273c">
+                        <UserPreview
+                            index='users'
+                            title='People'
+                            params={{hitsPerPage: 3}}
+                            small={true} />
+                        {/*<PostSearchContainer*/}
+                            {/*navigator={this.props.navigator}*/}
+                            {/*index='posts'*/}
+                            {/*title='Public Posts'*/}
+                            {/*params={{hitsPerPage: 3}} />*/}
+                    </AlgoliaDropdown>
+
+
+                    <ListView
+                        style={styles.listViewStyle}
+                        dataSource={this.state.dataSource}
+                        automaticallyAdjustContentInsets={false}
+                        renderRow={(data) => <Row {...data} />}
+                        renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}/>}
                     />
-                    <NavigationBar
-                        title={titleConfig}
-                        leftButton={backButtonConfig}
-                        tintColor={'white'}
-                    />
 
-                    <View style={{flex: 1}}>
-
-                        <Search
-                            ref="search_bar"
-                            titleSearch="Tìm kiếm"
-                            titleCancel="Huỷ"
-                            onSearch={this.onSearch}
-                            onChangeText={this.onChangeText}
-                            onDelete={() => console.log('onDelete')}
-                            afterDelete={this.afterDelete}
-                            beforeFocus={this.beforeFocus}
-                            afterFocus={this.afterFocus}
-                            onCancel={this.onCancel}
-                            backgroundColor="white"
-                            placeholderTextColor="black"
-                            tintColorSearch="black"
-                            tintColorDelete="blue"
-                            titleCancelColor='black'
-                            onFocus={this.onFocus}
-                            //onFocus = {() => changeStatus(true)}
-                        />
-
-
-                            <ListView
-                                style={styles.listViewStyle}
-                                dataSource={this.state.dataSource}
-                                automaticallyAdjustContentInsets={false}
-                                renderRow={(data) => <Row {...data} />}
-                                renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}/>}
-                            />
-
-
-
-                        <ActionButton Icon={myIcon} offsetX={10} offsetY={10} buttonColor="#279AF1">
-                            <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {
-                            }}>
-                                <Icon name="md-notifications-off" style={styles.actionButtonIcon}/>
-                            </ActionButton.Item>
-                        </ActionButton>
-                    </View>
+                    <ActionButton Icon={myIcon} offsetX={10} offsetY={10} buttonColor="#279AF1">
+                        <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {
+                        }}>
+                            <Icon name="md-notifications-off" style={styles.actionButtonIcon}/>
+                        </ActionButton.Item>
+                    </ActionButton>
                 </View>
-               //  </TouchableWithoutFeedback>
-            )
-        }
+            </View>
+            //  </TouchableWithoutFeedback>
+        )
+    }
 };
 
 const styles = StyleSheet.create({
