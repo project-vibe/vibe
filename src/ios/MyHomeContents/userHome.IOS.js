@@ -14,6 +14,17 @@ import HomeEvents from '../scrollScreens/homeEventList.IOS.js';
 import CreateEvents from '../scrollScreens/createEvents.IOS.js';
 import UserMessages from '../scrollScreens/userMessages.IOS.js';
 
+/** ICONS FOR CREATING EVENT **/
+import icon1 from '../img/icons/beach.png';
+import icon2 from '../img/icons/coffee.png';
+import icon3 from '../img/icons/fav.png';
+import icon4 from '../img/icons/library.png';
+import icon5 from '../img/icons/math.png';
+import icon6 from '../img/icons/movie.png';
+import icon7 from '../img/icons/other.png';
+import icon8 from '../img/icons/restaurant.png';
+import icon9 from '../img/icons/sports.png';
+
 /** NAVIGATION **/
 var UserSettingsScreen = require('./userSettings.IOS.js');
 var AddFriendsScreen = require('./addFriends.IOS.js');
@@ -291,6 +302,55 @@ export default class UserHome extends Component {
                         <View style={{marginLeft: screen.width/-18.75, height: screen.height, width: screen.width, backgroundColor: '#0A81D1'}}>
                             <View style={{paddingTop: 80, alignItems: 'center'}}>
                                 <Text style={{color: 'white', fontWeight: 'bold', fontSize: 25, marginBottom: 10, fontFamily: 'Noteworthy'}}>Select your Event!</Text>
+                                <View>
+                                    <TouchableOpacity
+                                        onPress={() => alert("hello")}
+                                    >
+                                        <Image style={ styles.image } source={icon1} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => alert("hello")}
+                                    >
+                                        <Image style={ styles.image } source={icon2} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => alert("hello")}
+                                    >
+                                        <Image style={ styles.image } source={icon3} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => alert("hello")}
+                                    >
+                                        <Image style={ styles.image } source={icon4} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => alert("hello")}
+                                    >
+                                        <Image style={ styles.image } source={icon5} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => alert("hello")}
+                                    >
+                                        <Image style={ styles.image } source={icon6} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => alert("hello")}
+                                    >
+                                        <Image style={ styles.image } source={icon7} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => alert("hello")}
+                                    >
+                                        <Image style={ styles.image } source={icon8} />
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        onPress={() => alert("hello")}
+                                    >
+                                        <Image style={ styles.image } source={icon9} />
+                                    </TouchableOpacity>
+
+
+                                </View>
                                 <TouchableOpacity
                                     style={{margin: 5}}
                                     onPress={() => this.setState({openUserModal: false})}>
