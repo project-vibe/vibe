@@ -76,8 +76,8 @@ class editProfile extends Component{
                     leftButton={backButtonConfig}
                     rightButton={rightConfig}
                     tintColor={'#eeeeee'}
+                    style={{borderBottomWidth: 0.5, borderColor: '#A9A9A9'}}
                 />
-                <Hr style={{width: 140, flex: 1}}/>
                 <View style={{height: 5}}/>
                 <View style={styles.userInfo}>
                     <TouchableHighlight style={{paddingBottom: 5}}>

@@ -232,7 +232,7 @@ signInScreen = React.createClass({
                                 }}
                                 autoCorrect={false}
                                 autoCapitalize="none"
-                                clearButtonMode="always"
+                                clearButtonMode="while-editing"
                                 placeholder="Username"
                                 onChangeText={(username) => this.setState({username})}
                                 value={this.state.username}
@@ -249,7 +249,7 @@ signInScreen = React.createClass({
                                 }}
                                 secureTextEntry={true}
                                 placeholder="Password"
-                                clearButtonMode="always"
+                                clearButtonMode="while-editing"
                                 onChangeText={(password) => this.setState({password})}
                                 value={this.state.password}
                             />

@@ -73,8 +73,8 @@ class eventSettings extends Component{
                     leftButton={backButtonConfig}
                     rightButton={rightConfig}
                     tintColor={'#eeeeee'}
+                    style={{borderBottomWidth: 0.5, borderColor: '#A9A9A9'}}
                 />
-                <Hr style={{width: 140, flex: 1}}/>
                 <View style={{height: 20}}/>
                 <View style={styles.inputStyle}>
                         <Text style={{color: '#808080',  paddingLeft: 20,paddingBottom:7, fontSize: 17}}>Save Your Events For:</Text>
