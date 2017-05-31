@@ -1,8 +1,9 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native'
 import NavigationBar from 'react-native-navbar';
 import * as firebase from "firebase";
+import * as Animatable from 'react-native-animatable';
 
 /** Extra COMPONENTS **/
 import Modal from '../anm/react-native-simple-modal/index';
@@ -10,9 +11,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 
 /** SCROLL SCREENS **/
-import HomeEvents from '../scrollScreens/homeEventList.IOS.js';
-import CreateEvents from '../scrollScreens/createEvents.IOS.js';
-import UserMessages from '../scrollScreens/userMessages.IOS.js';
+import HomeEvents from '../ScrollScreens/homeEventList.IOS.js';
+import CreateEvents from '../ScrollScreens/createEvents.IOS.js';
+import UserMessages from '../ScrollScreens/userMessages.IOS.js';
 
 /** ICONS FOR CREATING EVENT **/
 import icon1 from '../img/icons/beach.png';
@@ -21,9 +22,9 @@ import icon3 from '../img/icons/fav.png';
 import icon4 from '../img/icons/library.png';
 import icon5 from '../img/icons/math.png';
 import icon6 from '../img/icons/movie.png';
-import icon7 from '../img/icons/other.png';
+import icon7 from '../img/icons/sports.png';
 import icon8 from '../img/icons/restaurant.png';
-import icon9 from '../img/icons/sports.png';
+import icon9 from '../img/icons/other.png';
 
 /** NAVIGATION **/
 var UserSettingsScreen = require('./userSettings.IOS.js');
@@ -173,11 +174,6 @@ export default class UserHome extends Component {
         return (
             <Animated.View style={{flex: 1, backgroundColor: 'white'}} >
                 {/* <Animated.View style={{flex: 1, backgroundColor: bgColor}} > */}
-                <StatusBar
-                    color="white"
-                    barStyle="light-content"
-                />
-
                 <NavigationBar
                     title={titleConfig}
                     rightButton={settingsConfig}
@@ -291,70 +287,94 @@ export default class UserHome extends Component {
                     </View>
                 </Modal>
 
-                <View style={{opacity: 0.95, position: 'absolute'}}>
+                <View style={{position: 'absolute'}}>
                     <Modal
                         animationType={"fade"}
                         open={this.state.openUserModal}
                         modalDidOpen={() => console.log('modal did open')}
                         modalDidClose={() => this.setState({openUserModal: false})}
-                        transparent={true}
+                        transparent={false}
                         style={{alignItems: 'center'}}>
-                        <View style={{marginLeft: screen.width/-18.75, height: screen.height, width: screen.width, backgroundColor: '#0A81D1'}}>
-                            <View style={{paddingTop: 80, alignItems: 'center'}}>
-                                <Text style={{color: 'white', fontWeight: 'bold', fontSize: 25, marginBottom: 10, fontFamily: 'Noteworthy'}}>Select your Event!</Text>
-                                <View>
-                                    <TouchableOpacity
-                                        onPress={() => alert("hello")}
-                                    >
-                                        <Image style={ styles.image } source={icon1} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => alert("hello")}
-                                    >
-                                        <Image style={ styles.image } source={icon2} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => alert("hello")}
-                                    >
-                                        <Image style={ styles.image } source={icon3} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => alert("hello")}
-                                    >
-                                        <Image style={ styles.image } source={icon4} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => alert("hello")}
-                                    >
-                                        <Image style={ styles.image } source={icon5} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => alert("hello")}
-                                    >
-                                        <Image style={ styles.image } source={icon6} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => alert("hello")}
-                                    >
-                                        <Image style={ styles.image } source={icon7} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => alert("hello")}
-                                    >
-                                        <Image style={ styles.image } source={icon8} />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => alert("hello")}
-                                    >
-                                        <Image style={ styles.image } source={icon9} />
-                                    </TouchableOpacity>
+                        <View style={{marginLeft: screen.width/-18.75, opacity: 1, height: screen.height, width: screen.width, backgroundColor: 'rgba(10,129,209, 0.93)'}}>
+                            <View style={{paddingTop: 100, alignItems: 'center'}}>
+                                <Animatable.Text animation="fadeInUpBig" style={{color: 'white', fontWeight: 'bold', fontSize: 25, marginBottom: 10, fontFamily: 'Noteworthy'}}>Select your Event!</Animatable.Text>
+                                <View style={{paddingTop: 30, paddingBottom: 100, width: '100%'}}>
+                                    <Animatable.View animation="fadeInUpBig" ref="view" style={{flexDirection: 'row'}}>
+                                        <TouchableOpacity
+                                            style={{paddingLeft: screen.width/9, alignItems: 'center'}}
+                                            onPress={() => alert("hello")}
+                                        >
+                                            <Image style={ styles.icon } source={icon1} />
+                                            <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Beach </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{paddingLeft: screen.width/10, alignItems: 'center'}}
+                                            onPress={() => alert("hello")}
+                                        >
+                                            <Image style={ styles.icon } source={icon2} />
+                                            <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Coffee </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{paddingLeft: screen.width/10, alignItems: 'center'}}
+                                            onPress={() => alert("hello")}
+                                        >
+                                            <Image style={ styles.icon } source={icon3} />
+                                            <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Beach </Text>
+                                        </TouchableOpacity>
+                                    </Animatable.View>
 
+                                    <Animatable.View animation="fadeInUpBig" ref="view" style={{flexDirection: 'row', paddingTop: 20}}>
+                                        <TouchableOpacity
+                                            style={{paddingLeft: screen.width/9, alignItems: 'center'}}
+                                            onPress={() => alert("hello")}
+                                        >
+                                            <Image style={ styles.icon } source={icon4} />
+                                            <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Library </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{paddingLeft: screen.width/12, alignItems: 'center'}}
+                                            onPress={() => alert("hello")}
+                                        >
+                                            <Image style={ styles.icon } source={icon5} />
+                                            <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Group Study </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{paddingLeft: screen.width/12, alignItems: 'center'}}
+                                            onPress={() => alert("hello")}
+                                        >
+                                            <Image style={ styles.icon } source={icon6} />
+                                            <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Theaters </Text>
+                                        </TouchableOpacity>
+                                    </Animatable.View>
 
+                                    <Animatable.View animation="fadeInUpBig" ref="view" style={{flexDirection: 'row', paddingTop: 20}}>
+                                        <TouchableOpacity
+                                            style={{paddingLeft: screen.width/9, alignItems: 'center'}}
+                                            onPress={() => alert("hello")}
+                                        >
+                                            <Image style={ styles.icon } source={icon7} />
+                                            <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Sports </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{paddingLeft: screen.width/9, alignItems: 'center'}}
+                                            onPress={() => alert("hello")}
+                                        >
+                                            <Image style={ styles.icon } source={icon8} />
+                                            <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Food </Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={{paddingLeft: screen.width/10, alignItems: 'center'}}
+                                            onPress={() => alert("hello")}
+                                        >
+                                            <Image style={ styles.icon } source={icon9} />
+                                            <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Create </Text>
+                                        </TouchableOpacity>
+                                    </Animatable.View>
                                 </View>
                                 <TouchableOpacity
                                     style={{margin: 5}}
                                     onPress={() => this.setState({openUserModal: false})}>
-                                    <Text style={{color: 'white', fontWeight: 'bold', fontSize: 18, marginBottom: 10, fontFamily: 'Noteworthy'}}>I'm good.</Text>
+                                    <Animatable.Text animation="fadeInUpBig" style={{color: 'white', fontWeight: 'bold', fontSize: 18, marginBottom: 10, fontFamily: 'Noteworthy'}}>Dismiss.</Animatable.Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -494,6 +514,19 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 10,
         borderWidth: 2,
+        borderColor: 'white'
+    },
+    icon: {
+        height:70,
+        width: 70,
+        borderRadius: 35,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowRadius: 10,
+        borderWidth: 1,
         borderColor: 'white'
     },
     miniImage: {

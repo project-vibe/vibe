@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import Switch from 'react-native-switch-pro'
-import Hr from '../settingsStuff/hr.dist';
+import Hr from '../SettingsStuff/hr.dist';
 import {
     StyleSheet,
     Text,
@@ -17,9 +17,9 @@ import {
 } from 'react-native';
 
 var BackPage = require('./userHome.IOS.js');
-var passwordChange = require('../settingsStuff/changePassword.IOS.js')
-var editProfile = require('../settingsStuff/editProfile.IOS.js')
-var eventSettings = require('../settingsStuff/eventSettings.IOS')
+var passwordChange = require('../SettingsStuff/changePassword.IOS.js')
+var editProfile = require('../SettingsStuff/editProfile.IOS.js')
+var eventSettings = require('../SettingsStuff/eventSettings.IOS')
 
 class userSettingsScreen extends Component {
 
