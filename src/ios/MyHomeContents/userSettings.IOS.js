@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import Switch from 'react-native-switch-pro'
-import Hr from '../SettingsStuff/hr.dist';
 import {
     StyleSheet,
     Text,
@@ -17,9 +16,9 @@ import {
 } from 'react-native';
 
 var BackPage = require('./userHome.IOS.js');
-var passwordChange = require('../SettingsStuff/changePassword.IOS.js')
-var editProfile = require('../SettingsStuff/editProfile.IOS.js')
-var eventSettings = require('../SettingsStuff/eventSettings.IOS')
+var passwordChange = require('../settingsStuff/changePassword.IOS.js')
+var editProfile = require('../settingsStuff/editProfile.IOS.js')
+var eventSettings = require('../settingsStuff/eventSettings.IOS')
 
 class userSettingsScreen extends Component {
 
@@ -95,8 +94,8 @@ class userSettingsScreen extends Component {
                     title={titleConfig}
                     leftButton={backButtonConfig}
                     tintColor={'#eeeeee'}
+                    style={{borderBottomWidth: 0.5, borderColor: '#A9A9A9'}}
                 />
-                <Hr style={{width: 140, flex: 1}}/>
                 <View style={{height: 35}}/>
                 <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
                     <TouchableOpacity onPress={() => this.profilePage()} style={styles.buttonContainer}>

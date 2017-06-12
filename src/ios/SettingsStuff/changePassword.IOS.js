@@ -70,8 +70,8 @@ class changePassword extends Component{
                     leftButton={backButtonConfig}
                     rightButton={rightConfig}
                     tintColor={'#eeeeee'}
+                    style={{borderBottomWidth: 0.5, borderColor: '#A9A9A9'}}
                 />
-                <Hr style={{width: 140, flex: 1}}/>
                 <View style={{height: 20}}/>
                 <View style={styles.inputStyle}>
                     <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
