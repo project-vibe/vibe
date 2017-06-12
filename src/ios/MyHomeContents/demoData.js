@@ -1,6 +1,3 @@
-/**
- * Created by chamath on 5/20/17.
- */
 export default data = [
     {
         "gender": "male",

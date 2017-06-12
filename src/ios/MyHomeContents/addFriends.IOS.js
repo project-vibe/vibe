@@ -5,37 +5,34 @@ import React, {
 
 import {
     StyleSheet,
-    Text,
-    TextInput,
-    Alert,
-    TouchableOpacity,
-    Touchable,
-    Keyboard,
-    TouchableWithoutFeedback,
-    TouchableHighlight,
     View,
     ListView,
-    Image,
-    StatusBar
+    TouchableHighlight,
+    Text,
+    Modal,
+    StatusBar,
+    Platform
 } from 'react-native';
 
-import AlgoliaDropdown from './AlgoliaDropdown';
+// Algolia Instantsearch
+import { InstantSearch } from 'react-instantsearch/native';
+import AlgoliaDropdown from '../anm/AlgoliaDropdown';
 import UserPreview from './UserPreview';
+
 import NavigationBar from 'react-native-navbar';
-import Hr from '../hr.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import Search from 'react-native-search-box';
 import Row from './Row.js';
 import ActionButton from 'react-native-action-button';
 
 const myIcon = (<ion-icon name="alert" size={30} color="red" />)
 var data = require('./demoData.js');
 var BackPage = require('./userHome.IOS.js');
-var inSearch = false;
 
 class addFriendsScreen extends Component {
-
+    state = {
+        filterWidth: 100
+    };
 
     backButtonListener() {
         this.props.navigator.pop({
@@ -45,13 +42,6 @@ class addFriendsScreen extends Component {
             passProps: {myElement: 'text'}
         });
     }
-    backToHome() {
-        this.props.navigator.popToTop({
-            title: 'BackToHome',
-            passProps: {myElement: 'text'}
-        });
-    }
-
 
     constructor(props) {
         super(props);
@@ -62,24 +52,11 @@ class addFriendsScreen extends Component {
         };
     }
 
-
-
     render() {
         const titleConfig = {
-            title: 'Add Friends',
+            title: 'Contacts',
             style: {fontWeight: 'bold', fontSize: 20, fontFamily: 'Noteworthy', color: 'black'}
         };
-
-        function renderIf(condition, content) {
-            if (condition) {
-                return content;
-            } else {
-                return null;
-            }
-        }
-        function changeStatus(trueOrFalse){
-            inSearch = trueOrFalse;
-        }
 
         const backButtonConfig = (
             <Icon.Button name="ios-arrow-back" size={30} color="black" onPress={() => this.backButtonListener()}
@@ -88,7 +65,6 @@ class addFriendsScreen extends Component {
         );
 
         return (
-            //  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
                 <StatusBar
                     backgroundColor="blue"
@@ -97,48 +73,23 @@ class addFriendsScreen extends Component {
                 <NavigationBar
                     title={titleConfig}
                     leftButton={backButtonConfig}
-                    tintColor={'white'}
+                    tintColor={'#F3F3F3'}
                 />
 
                 <View style={{flex: 1}}>
-
-                    {/*<Search*/}
-                        {/*ref="search_bar"*/}
-                        {/*titleSearch="Tìm kiếm"*/}
-                        {/*titleCancel="Huỷ"*/}
-                        {/*onSearch={this.onSearch}*/}
-                        {/*onChangeText={this.onChangeText}*/}
-                        {/*onDelete={() => console.log('onDelete')}*/}
-                        {/*afterDelete={this.afterDelete}*/}
-                        {/*beforeFocus={this.beforeFocus}*/}
-                        {/*afterFocus={this.afterFocus}*/}
-                        {/*onCancel={this.onCancel}*/}
-                        {/*backgroundColor="white"*/}
-                        {/*placeholderTextColor="black"*/}
-                        {/*tintColorSearch="black"*/}
-                        {/*tintColorDelete="blue"*/}
-                        {/*titleCancelColor='black'*/}
-                        {/*onFocus={this.onFocus}*/}
-                        {/*//onFocus = {() => changeStatus(true)}*/}
-                    {/*/>*/}
-
                     <AlgoliaDropdown
                         appID="G3REXGMTZM"
-                        style={{backgroundColor: 'white', borderBottomWidth: 1, borderColor: 'black', paddingTop: 20}}
+                        style={{backgroundColor: 'white', paddingTop: Platform.OS === 'ios' ? 25 : 0}}
                         footerHeight={64}
+                        // sideComponent={<Filter onPress={this.handleFilterPress} width={this.state.filterWidth} />}
                         apiKey="6b62c4d4aef895d0b0242d2e5a2b273c">
                         <UserPreview
-                            index='users'
-                            title='People'
+                            index='contacts'
+                            title='Friends'
                             params={{hitsPerPage: 3}}
+                            onToProfile={(userId) => alert("user: " + userId)}
                             small={true} />
-                        {/*<PostSearchContainer*/}
-                            {/*navigator={this.props.navigator}*/}
-                            {/*index='posts'*/}
-                            {/*title='Public Posts'*/}
-                            {/*params={{hitsPerPage: 3}} />*/}
                     </AlgoliaDropdown>
-
 
                     <ListView
                         style={styles.listViewStyle}
@@ -156,7 +107,6 @@ class addFriendsScreen extends Component {
                     </ActionButton>
                 </View>
             </View>
-            //  </TouchableWithoutFeedback>
         )
     }
 };

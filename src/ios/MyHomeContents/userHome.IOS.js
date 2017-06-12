@@ -1,6 +1,6 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, SegmentedControlIOS, Image, Animated, TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native'
 import NavigationBar from 'react-native-navbar';
 import * as firebase from "firebase";
 import * as Animatable from 'react-native-animatable';
@@ -34,6 +34,8 @@ var VibeMapsScreen = require('./maps.IOS.js');
 /** SCROLLER **/
 var screen = require('Dimensions').get('window');
 var PageControl = require('react-native-page-control');
+
+/** MESSENGER **/
 
 export default class UserHome extends Component {
 
@@ -234,7 +236,7 @@ export default class UserHome extends Component {
                     style={{alignItems: 'center'}}>
 
                     <Image source={require('../img/flower-petals.jpg')}
-                           style={{height: '18%', width: '100%', flexDirection: 'row'}}
+                           style={{height: '15%', width: '100%', flexDirection: 'row'}}
                     >
                         <View style={{alignItems: 'flex-end'}}>
                             <Icon.Button
@@ -255,7 +257,7 @@ export default class UserHome extends Component {
                             backgroundColor="transparent">
                         </Icon.Button>
                     </Image>
-                    <View style={{height: 460, alignItems: 'center'}}>
+                    <View style={{height: '85%', alignItems: 'center'}}>
                         <Text style={{fontSize: 20, fontWeight: '700', paddingTop: 10, marginBottom: 5}}>{this.state.userModalTitle}</Text>
                         <View style={{flexDirection: 'row', width: '100%', height: 20}}>
                             <TouchableOpacity onPress={() => this.goToMaps()} style={{width: '49%'}}>
@@ -283,6 +285,13 @@ export default class UserHome extends Component {
                                     <Image style={ styles.miniImage } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
                                 </View>
                             </View>
+                            <SegmentedControlIOS
+                                values={['One', 'Two']}
+                                selectedIndex={this.state.selectedIndex}
+                                onChange={(event) => {
+                                    this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+                                }}
+                            />
                         </View>
                     </View>
                 </Modal>
