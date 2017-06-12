@@ -6,10 +6,10 @@ import {
     StyleSheet,
     Text,
     TextInput,
-    Alert,
     TouchableOpacity,
     Keyboard,
     TouchableWithoutFeedback,
+    StatusBar,
     View
 } from 'react-native';
 import Hr from './hr.dist';
@@ -25,6 +25,16 @@ const auth = firebase.auth();
 const provider = firebase.auth.FacebookAuthProvider;
 
 var signInScreen;
+
+const fadeIn = {
+    from: {
+        opacity: 0,
+    },
+    to: {
+        opacity: 1,
+    },
+};
+
 signInScreen = React.createClass({
     getInitialState () {
         return {
@@ -127,6 +137,7 @@ signInScreen = React.createClass({
 
         this.state.firstName = firstName;
         this.state.lastName = lastName;
+        this.state.photo = photo;
 
         this.props.navigator.push({
             title: 'userHomeScreen',
@@ -248,6 +259,10 @@ signInScreen = React.createClass({
         return (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <View style={styles.container}>
+                    <StatusBar
+                        color="white"
+                        barStyle="light-content"
+                    />
                     {/*spacer */}
                     <View style={{width: 50, height: 25, backgroundColor: '#0A81D1'}}/>
                     <Text style={styles.header}>Vibe</Text>
@@ -266,7 +281,7 @@ signInScreen = React.createClass({
                                 }}
                                 autoCorrect={false}
                                 autoCapitalize="none"
-                                clearButtonMode="always"
+                                clearButtonMode="while-editing"
                                 placeholder="Username"
                                 onChangeText={(username) => this.setState({username})}
                                 value={this.state.username}
@@ -283,7 +298,7 @@ signInScreen = React.createClass({
                                 }}
                                 secureTextEntry={true}
                                 placeholder="Password"
-                                clearButtonMode="always"
+                                clearButtonMode="while-editing"
                                 onChangeText={(password) => this.setState({password})}
                                 value={this.state.password}
                             />
