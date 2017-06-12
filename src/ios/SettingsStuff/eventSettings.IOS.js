@@ -4,6 +4,7 @@ import NavigationBar from 'react-native-navbar';
 import ModalDropdown from 'react-native-modal-dropdown';
 import Hr from './hr.dist';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import BackButton from 'react-native-vector-icons/EvilIcons';
 import * as firebase from "firebase";
 import {
     StyleSheet,
@@ -58,8 +59,8 @@ class eventSettings extends Component{
         };
 
         const backButtonConfig = (
-            <Icon.Button name="arrow-left" size={30} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
-            </Icon.Button>
+            <BackButton.Button name="chevron-left" size={46} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
+            </BackButton.Button>
         );
 
 

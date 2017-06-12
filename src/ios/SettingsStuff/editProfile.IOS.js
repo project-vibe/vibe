@@ -1,8 +1,8 @@
 'use strict'
 import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
-import Hr from './hr.dist';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import BackButton from 'react-native-vector-icons/EvilIcons';
 import {
     StyleSheet,
     Text,
@@ -53,8 +53,8 @@ class editProfile extends Component{
         };
 
         const backButtonConfig = (
-            <Icon.Button name="arrow-left" size={30} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
-            </Icon.Button>
+            <BackButton.Button name="chevron-left" size={42} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
+            </BackButton.Button>
         );
         const data = [
             { section: true, label: 'Change Profile Photo' },

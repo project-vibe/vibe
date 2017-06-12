@@ -21,6 +21,7 @@ import UserPreview from './UserPreview';
 
 import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/Ionicons';
+import BackButton from 'react-native-vector-icons/EvilIcons';
 
 import Row from './Row.js';
 import ActionButton from 'react-native-action-button';
@@ -59,9 +60,9 @@ class addFriendsScreen extends Component {
         };
 
         const backButtonConfig = (
-            <Icon.Button name="ios-arrow-back" size={30} color="black" onPress={() => this.backButtonListener()}
+            <BackButton.Button name="chevron-left" size={42} color="black" onPress={() => this.backButtonListener()}
                          backgroundColor="transparent">
-            </Icon.Button>
+            </BackButton.Button>
         );
 
         return (
