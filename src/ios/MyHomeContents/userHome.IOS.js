@@ -1,6 +1,6 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, SegmentedControlIOS, Image, Animated, TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native'
 import NavigationBar from 'react-native-navbar';
 import * as firebase from "firebase";
 import * as Animatable from 'react-native-animatable';
@@ -285,13 +285,6 @@ export default class UserHome extends Component {
                                     <Image style={ styles.miniImage } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
                                 </View>
                             </View>
-                            <SegmentedControlIOS
-                                values={['One', 'Two']}
-                                selectedIndex={this.state.selectedIndex}
-                                onChange={(event) => {
-                                    this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
-                                }}
-                            />
                         </View>
                     </View>
                 </Modal>
