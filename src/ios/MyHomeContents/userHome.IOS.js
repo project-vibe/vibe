@@ -35,6 +35,8 @@ var VibeMapsScreen = require('./maps.IOS.js');
 var screen = require('Dimensions').get('window');
 var PageControl = require('react-native-page-control');
 
+/** MESSENGER **/
+
 export default class UserHome extends Component {
 
     constructor(props) {
@@ -240,7 +242,7 @@ export default class UserHome extends Component {
                     style={{alignItems: 'center'}}>
 
                     <Image source={require('../img/flower-petals.jpg')}
-                           style={{height: '18%', width: '100%', flexDirection: 'row'}}
+                           style={{height: '15%', width: '100%', flexDirection: 'row'}}
                     >
                         <View style={{alignItems: 'flex-end'}}>
                             <Icon.Button
@@ -261,7 +263,7 @@ export default class UserHome extends Component {
                             backgroundColor="transparent">
                         </Icon.Button>
                     </Image>
-                    <View style={{height: 460, alignItems: 'center'}}>
+                    <View style={{height: '85%', alignItems: 'center'}}>
                         <Text style={{fontSize: 20, fontWeight: '700', paddingTop: 10, marginBottom: 5}}>{this.state.userModalTitle}</Text>
                         <View style={{flexDirection: 'row', width: '100%', height: 20}}>
                             <TouchableOpacity onPress={() => this.goToMaps()} style={{width: '49%'}}>

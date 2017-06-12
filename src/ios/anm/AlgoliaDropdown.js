@@ -159,17 +159,16 @@ export default class AlgoliaDropdown extends Component {
                         ? React.cloneElement(this.props.sideComponent)
                         : null}
                     <TouchableOpacity
-                        style={{width: this.state.cancelWidth}}
                         onPress={this.handleRemoveFocus}>
                         <Animated.Text
-                            style={{opacity: this.state.cancelOpacity, color: this.props.cancelButtonColor, fontSize: 17, padding: 2}}>
+                            style={{width: this.state.cancelWidth, opacity: this.state.cancelOpacity, color: this.props.cancelButtonColor, fontSize: 17, padding: 2}}>
                             {this.props.cancelText}
                         </Animated.Text>
                     </TouchableOpacity>
                 </View>
                 <Animated.View style={{height: this.state.resultsHeight, backgroundColor: this.props.resultsContainerBackgroundColor}}>
                     {this.state.showOverlay === true
-                        ? <ScrollView automaticallyAdjustContentInsets={false} keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps={true}>
+                        ? <ScrollView automaticallyAdjustContentInsets={false} keyboardDismissMode={'on-drag'} keyboardShouldPersistTaps="always">
                             {this.state.results}
                             {this.props.footerHeight ? <View style={{height: this.props.footerHeight}} /> : null}
                         </ScrollView>
@@ -203,7 +202,7 @@ AlgoliaDropdown.defaultProps = {
     cancelButtonColor: '#4E595D',
     resultsContainerBackgroundColor: '#fff',
     backgroundColor: '#fff',
-}
+};
 
 const styles = StyleSheet.create({
     container: {

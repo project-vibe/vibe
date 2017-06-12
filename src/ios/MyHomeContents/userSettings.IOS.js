@@ -16,12 +16,11 @@ import {
 } from 'react-native';
 
 var BackPage = require('./userHome.IOS.js');
-var passwordChange = require('../settingsStuff/changePassword.IOS.js')
-var editProfile = require('../settingsStuff/editProfile.IOS.js')
-var eventSettings = require('../settingsStuff/eventSettings.IOS')
+var passwordChange = require('../SettingsStuff/changePassword.IOS.js');
+var editProfile = require('../SettingsStuff/editProfile.IOS.js');
+var eventSettings = require('../SettingsStuff/eventSettings.IOS');
 
 class userSettingsScreen extends Component {
-
 
     backButtonListener() {
         this.props.navigator.pop({
