@@ -5,35 +5,35 @@ import React, {
 
 import {
     StyleSheet,
-    Text,
-    TextInput,
-    Alert,
-    TouchableOpacity,
-    Touchable,
-    Keyboard,
-    TouchableWithoutFeedback,
-    TouchableHighlight,
     View,
     ListView,
-    Image,
-    StatusBar
+    TouchableHighlight,
+    Text,
+    Modal,
+    StatusBar,
+    Platform
 } from 'react-native';
 
-import NavigationBar from 'react-native-navbar';
-import Hr from '../hr.dist';
-import Icon from 'react-native-vector-icons/Ionicons';
+// Algolia Instantsearch
+import { InstantSearch } from 'react-instantsearch/native';
+import AlgoliaDropdown from '../anm/AlgoliaDropdown';
+import UserPreview from './UserPreview';
 
-import Search from 'react-native-search-box';
+import NavigationBar from 'react-native-navbar';
+import Icon from 'react-native-vector-icons/Ionicons';
+import BackButton from 'react-native-vector-icons/EvilIcons';
+
 import Row from './Row.js';
 import ActionButton from 'react-native-action-button';
 
 const myIcon = (<ion-icon name="alert" size={30} color="red" />)
 var data = require('./demoData.js');
 var BackPage = require('./userHome.IOS.js');
-var inSearch = false;
 
 class addFriendsScreen extends Component {
-
+    state = {
+        filterWidth: 100
+    };
 
     backButtonListener() {
         this.props.navigator.pop({
@@ -43,13 +43,6 @@ class addFriendsScreen extends Component {
             passProps: {myElement: 'text'}
         });
     }
-    backToHome() {
-        this.props.navigator.popToTop({
-            title: 'BackToHome',
-            passProps: {myElement: 'text'}
-        });
-    }
-
 
     constructor(props) {
         super(props);
@@ -60,88 +53,63 @@ class addFriendsScreen extends Component {
         };
     }
 
-
-
     render() {
         const titleConfig = {
-            title: 'Add Friends',
+            title: 'Contacts',
             style: {fontWeight: 'bold', fontSize: 20, fontFamily: 'Noteworthy', color: 'black'}
         };
 
-        function renderIf(condition, content) {
-            if (condition) {
-                return content;
-            } else {
-                return null;
-            }
-        }
-        function changeStatus(trueOrFalse){
-            inSearch = trueOrFalse;
-        }
-
         const backButtonConfig = (
-            <Icon.Button name="ios-arrow-back" size={30} color="black" onPress={() => this.backButtonListener()}
+            <BackButton.Button name="chevron-left" size={42} color="black" onPress={() => this.backButtonListener()}
                          backgroundColor="transparent">
-            </Icon.Button>
+            </BackButton.Button>
         );
 
-            return (
-              //  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={styles.container}>
-                    <StatusBar
-                        backgroundColor="blue"
-                        barStyle="light-content"
+        return (
+            <View style={styles.container}>
+                <StatusBar
+                    backgroundColor="blue"
+                    barStyle="light-content"
+                />
+                <NavigationBar
+                    title={titleConfig}
+                    leftButton={backButtonConfig}
+                    tintColor={'#F3F3F3'}
+                />
+
+                <View style={{flex: 1}}>
+                    <AlgoliaDropdown
+                        appID="G3REXGMTZM"
+                        style={{backgroundColor: 'white', paddingTop: Platform.OS === 'ios' ? 25 : 0}}
+                        footerHeight={64}
+                        // sideComponent={<Filter onPress={this.handleFilterPress} width={this.state.filterWidth} />}
+                        apiKey="6b62c4d4aef895d0b0242d2e5a2b273c">
+                        <UserPreview
+                            index='contacts'
+                            title='Friends'
+                            params={{hitsPerPage: 3}}
+                            onToProfile={(userId) => alert("user: " + userId)}
+                            small={true} />
+                    </AlgoliaDropdown>
+
+                    <ListView
+                        style={styles.listViewStyle}
+                        dataSource={this.state.dataSource}
+                        automaticallyAdjustContentInsets={false}
+                        renderRow={(data) => <Row {...data} />}
+                        renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}/>}
                     />
-                    <NavigationBar
-                        title={titleConfig}
-                        leftButton={backButtonConfig}
-                        tintColor={'white'}
-                    />
 
-                    <View style={{flex: 1}}>
-
-                        <Search
-                            ref="search_bar"
-                            titleSearch="Tìm kiếm"
-                            titleCancel="Huỷ"
-                            onSearch={this.onSearch}
-                            onChangeText={this.onChangeText}
-                            onDelete={() => console.log('onDelete')}
-                            afterDelete={this.afterDelete}
-                            beforeFocus={this.beforeFocus}
-                            afterFocus={this.afterFocus}
-                            onCancel={this.onCancel}
-                            backgroundColor="white"
-                            placeholderTextColor="black"
-                            tintColorSearch="black"
-                            tintColorDelete="blue"
-                            titleCancelColor='black'
-                            onFocus={this.onFocus}
-                            //onFocus = {() => changeStatus(true)}
-                        />
-
-
-                            <ListView
-                                style={styles.listViewStyle}
-                                dataSource={this.state.dataSource}
-                                automaticallyAdjustContentInsets={false}
-                                renderRow={(data) => <Row {...data} />}
-                                renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}/>}
-                            />
-
-
-
-                        <ActionButton Icon={myIcon} offsetX={10} offsetY={10} buttonColor="#279AF1">
-                            <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {
-                            }}>
-                                <Icon name="md-notifications-off" style={styles.actionButtonIcon}/>
-                            </ActionButton.Item>
-                        </ActionButton>
-                    </View>
+                    <ActionButton Icon={myIcon} offsetX={10} offsetY={10} buttonColor="#279AF1">
+                        <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {
+                        }}>
+                            <Icon name="md-notifications-off" style={styles.actionButtonIcon}/>
+                        </ActionButton.Item>
+                    </ActionButton>
                 </View>
-               //  </TouchableWithoutFeedback>
-            )
-        }
+            </View>
+        )
+    }
 };
 
 const styles = StyleSheet.create({

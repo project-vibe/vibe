@@ -16,6 +16,7 @@ import Swiper from 'react-native-swiper';
 
 
 var SignUpScreen = require('./signup.IOS.js');
+// var SignInScreen = require('./MyHomeContents/userHome.IOS')
 var SignInScreen = require('./signinHome.IOS');
 //var UserHomeScreen = require('./userHome.IOS.js');
 var image1 = require('./img/roundabout.gif');

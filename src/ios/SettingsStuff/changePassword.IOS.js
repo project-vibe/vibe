@@ -1,9 +1,9 @@
 'use strict'
 import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
-import ModalDropdown from 'react-native-modal-dropdown';
 import Hr from './hr.dist';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import BackButton from 'react-native-vector-icons/EvilIcons';
 import * as firebase from "firebase";
 import {
     StyleSheet,
@@ -19,9 +19,7 @@ import {
 import ActionButton from "react-native-action-button";
 
 
-class eventSettings extends Component{
-
-
+class changePassword extends Component{
 
     backButtonListener() {
         this.props.navigator.pop({
@@ -41,13 +39,9 @@ class eventSettings extends Component{
         alert("Needs implementation")
     }
 
-
-
-
-
     render(){
         const titleConfig = {
-            title: 'Event Settings',
+            title: 'Change Password',
             style: {fontWeight: 'bold', fontSize: 16, fontFamily: 'Noteworthy', color: 'black'}
         };
 
@@ -58,8 +52,8 @@ class eventSettings extends Component{
         };
 
         const backButtonConfig = (
-            <Icon.Button name="arrow-left" size={30} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
-            </Icon.Button>
+            <BackButton.Button name="chevron-left" size={46} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
+            </BackButton.Button>
         );
 
 
@@ -73,25 +67,55 @@ class eventSettings extends Component{
                     leftButton={backButtonConfig}
                     rightButton={rightConfig}
                     tintColor={'#eeeeee'}
+                    style={{borderBottomWidth: 0.5, borderColor: '#A9A9A9'}}
                 />
-                <Hr style={{width: 140, flex: 1}}/>
                 <View style={{height: 20}}/>
                 <View style={styles.inputStyle}>
-                        <Text style={{color: '#808080',  paddingLeft: 20,paddingBottom:7, fontSize: 17}}>Save Your Events For:</Text>
-                        <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
-                            <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
-                                <Icon name="calendar-clock" size={30} color="#A9A9A9" />
-                            </View>
-                            <ModalDropdown
-                                options={['1 Week', '1 Month', '1 Year']}
-                                defaultValue={'1 Year'}
-                                dropdownStyle={{flexDirection: 'row', backgroundColor: 'white', height: 120, width: 320}}
-                                textStyle={{color: 'black',  margin: 0, fontSize: 17, alignItems:'center', paddingTop: 4}}
-                                style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
-                            </ModalDropdown>
+                    <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
+                        <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
+                            <Icon name="lock" size={25} color="#A9A9A9" />
                         </View>
+                        <TextInput
+                            style={styles.firstPTextInputStyle}
+                            placeholder="Current Password"
+                            placeholderTextColor="#C0C0C0"
+                            clearButtonMode="while-editing"
+                            multiline={false}
+                            autoCorrect={false}
+                            secureTextEntry={true}
+                        />
+                    </View>
+                    <View style={{height: 40}}/>
+                    <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
+                        <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
+                            <Icon name="lock" size={25} color="#A9A9A9" />
+                        </View>
+                            <TextInput
+                                style={styles.lastPTextInputStyle}
+                                placeholder="New Password"
+                                placeholderTextColor="#C0C0C0"
+                                clearButtonMode="while-editing"
+                                multiline={false}
+                                autoCorrect={false}
+                                secureTextEntry={true}
+                            />
+                    </View>
+                    <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white',borderRadius: 1, borderBottomWidth: 0.5, borderColor: '#C0C0C0'}}>
+                        <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
+                            <Icon name="lock" size={25} color="#A9A9A9" />
+                        </View>
+                        <TextInput
+                            style={styles.lastPTextInputStyle}
+                            placeholder="Confirm Password"
+                            placeholderTextColor="#C0C0C0"
+                            clearButtonMode="while-editing"
+                            multiline={false}
+                            autoCorrect={false}
+                            secureTextEntry={true}
+                        />
+                    </View>
                 </View>
-                <View style={{height: 125}}/>
+                <View style={{height: 60}}/>
                 <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
                     <TouchableOpacity onPress={() => this.confirmChangesButton()} style={styles.logoutButtonContainer}>
                         <Text style={{color: 'red',  margin: 0, fontSize: 17}}>Confirm Changes</Text>
@@ -181,4 +205,4 @@ const styles = StyleSheet.create({
 
 });
 
-module.exports = eventSettings;
+module.exports = changePassword;

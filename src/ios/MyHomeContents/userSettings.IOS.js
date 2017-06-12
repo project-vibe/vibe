@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/EvilIcons';
 import Switch from 'react-native-switch-pro'
-import Hr from '../settingsStuff/hr.dist';
 import {
     StyleSheet,
     Text,
@@ -17,12 +16,11 @@ import {
 } from 'react-native';
 
 var BackPage = require('./userHome.IOS.js');
-var passwordChange = require('../settingsStuff/changePassword.IOS.js')
-var editProfile = require('../settingsStuff/editProfile.IOS.js')
-var eventSettings = require('../settingsStuff/eventSettings.IOS')
+var passwordChange = require('../SettingsStuff/changePassword.IOS');
+var editProfile = require('../SettingsStuff/editProfile.IOS.js');
+var eventSettings = require('../SettingsStuff/eventSettings.IOS');
 
 class userSettingsScreen extends Component {
-
 
     backButtonListener() {
         this.props.navigator.pop({
@@ -68,7 +66,8 @@ class userSettingsScreen extends Component {
             title: 'editProfile',
             component: editProfile,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', photoId: this.props.photoUrl, userId: this.props.userId,
+                firstName: this.props.firstName, lastName: this.props.lastName, photo: this.props.photo}
         });
     }
 
@@ -95,8 +94,8 @@ class userSettingsScreen extends Component {
                     title={titleConfig}
                     leftButton={backButtonConfig}
                     tintColor={'#eeeeee'}
+                    style={{borderBottomWidth: 0.5, borderColor: '#A9A9A9'}}
                 />
-                <Hr style={{width: 140, flex: 1}}/>
                 <View style={{height: 35}}/>
                 <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
                     <TouchableOpacity onPress={() => this.profilePage()} style={styles.buttonContainer}>
@@ -150,7 +149,7 @@ class userSettingsScreen extends Component {
                 <View style={{height: 40}}/>
                 <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
                     <TouchableOpacity onPress={() => this.backToHome()} style={styles.logoutButtonContainer}>
-                        <Text style={{color: 'red',  margin: 0, fontSize: 18}}>Logout</Text>
+                        <Text style={{color: 'red',  margin: 0, fontSize: 18, paddingLeft:'40%'}}>Logout</Text>
                         <View style={{width: 250}}/>
                     </TouchableOpacity>
                 </View>
