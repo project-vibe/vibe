@@ -123,7 +123,7 @@ export default class SignUp extends Component {
     render(){
         return(
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <Image blurRadius={2} source={require('./img/blueImage.png')} style={styles.container}>
+                <Image blurRadius={0} source={require('./img/blueImage.png')} style={styles.container}>
                     <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                         <View style={{paddingRight: 70}}>
                             <Icon.Button name="ios-arrow-back" size={40} color="white"
@@ -161,7 +161,7 @@ export default class SignUp extends Component {
 
                         </View>
                     </View>
-                    <Hr marginLeft={24} marginRight={18} text="     "/>
+                    <Hr marginLeft={43} marginRight={40} text="       "/>
 
                     <View style={{marginTop: 15}}>
                         <TextInput
@@ -176,7 +176,7 @@ export default class SignUp extends Component {
                         />
 
                     </View>
-                    <Hr marginLeft={45} marginRight={45}/>
+                    <Hr marginLeft={100} marginRight={100}/>
 
                     <View style={{paddingTop: 15}}>
                         <TextInput
@@ -192,7 +192,7 @@ export default class SignUp extends Component {
                         />
 
                     </View>
-                    <Hr marginLeft={45} marginRight={45}/>
+                    <Hr marginLeft={100} marginRight={100}/>
 
                     <View style={{paddingTop: 15}}>
                         <TextInput
@@ -208,7 +208,7 @@ export default class SignUp extends Component {
                         />
 
                     </View>
-                    <Hr marginLeft={45} marginRight={45}/>
+                    <Hr marginLeft={100} marginRight={100}/>
                     <View style={{flexDirection: 'row', width: 200}}>
 
 
@@ -236,7 +236,7 @@ export default class SignUp extends Component {
 
                     </View>
 
-                    <Hr marginLeft={45} marginRight={45}/>
+                    <Hr marginLeft={100} marginRight={100}/>
 
 
                     <View>
@@ -264,7 +264,6 @@ export default class SignUp extends Component {
         );
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -275,7 +274,7 @@ const styles = StyleSheet.create({
     },
     phoneTextInputStyle: {
         height: 35,
-        width: 145,
+        width: 122,
         color: 'white',
         backgroundColor: 'transparent',
         fontSize: 15,
@@ -349,7 +348,7 @@ const styles = StyleSheet.create({
     },
     firstNameTextInputStyle: {
         height: 20,
-        width: 155,
+        width: 165,
         color: 'white',
         backgroundColor: 'transparent',
         fontSize: 15,
@@ -357,12 +356,13 @@ const styles = StyleSheet.create({
         borderBottomColor: 'white',
         borderColor: 'transparent',
         textAlign: 'center',
-        marginRight: 13,
+        marginRight: 0,
+        marginLeft: 5
     },
 
     lastNameTextInputStyle: {
         height: 20,
-        width: 155,
+        width: 165,
         color: 'white',
         backgroundColor: 'transparent',
         fontSize: 15,
@@ -370,13 +370,13 @@ const styles = StyleSheet.create({
         borderBottomColor: 'white',
         borderColor: 'transparent',
         textAlign: 'center',
-        marginLeft: 10
+        marginRight: 5
     },
 
 
     textInputStyle: {
         height: 35,
-        width: 285,
+        width: 200,
         color: 'white',
         backgroundColor: 'transparent',
         fontSize: 15,
