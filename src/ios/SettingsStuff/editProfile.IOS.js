@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
 import Hr from './hr.dist';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ModalPicker from 'react-native-modal-picker'
 import {
     StyleSheet,
     Text,
@@ -81,32 +80,36 @@ class editProfile extends Component{
                 <View style={{height: 5}}/>
                 <View style={styles.userInfo}>
                     <TouchableHighlight style={{paddingBottom: 5}}>
-                        <Image style={ styles.image } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
+                        <Image style={ styles.image } source={{ uri: this.props.photo }} />
                     </TouchableHighlight>
                 </View>
                 <View>
-                    <ModalPicker
-
-                        data={data}
-                        initValue="Select Me"
-                        overlayStyle={{paddingTop:60, width: 400 }}
-
-                    >
-
-                        <Text style={{color: '#0A81D1', paddingTop:5, textAlign: 'center', fontSize: 14}}>Change Profile Photo</Text>
-
-                    </ModalPicker>
+                    <Text style={{color: '#0A81D1', paddingTop:5, textAlign: 'center', fontSize: 14}}>Change Profile Photo</Text>
                 </View>
                 <View style={styles.inputStyle}>
                     <Text style={{color: '#808080',  paddingLeft: 20,paddingBottom:7, fontSize: 17}}>Name</Text>
+                    <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
+                        <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
+                            <Icon name="account" size={30} color="#A9A9A9" />
+                        </View>
+                        <TextInput
+                            style={styles.firstPTextInputStyle}
+                            defaultValue={this.props.firstName}
+                            placeholder="FirstName"
+                            placeholderTextColor="#C0C0C0"
+                            clearButtonMode="while-editing"
+                            multiline={false}
+                            autoCorrect={false}
+                        />
+                    </View>
                     <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
                         <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
                             <Icon name="account" size={30} color="#A9A9A9" />
                         </View>
                         <TextInput
                             style={styles.firstPTextInputStyle}
-                            defaultValue={'Rushi Shah'}
-                            placeholder="name"
+                            defaultValue={this.props.lastName}
+                            placeholder="LastName"
                             placeholderTextColor="#C0C0C0"
                             clearButtonMode="while-editing"
                             multiline={false}

@@ -129,13 +129,14 @@ signInScreen = React.createClass({
 
         this.state.firstName = firstName;
         this.state.lastName = lastName;
+        this.state.photo = photo;
 
         this.props.navigator.push({
             title: 'userHomeScreen',
             component: UserHomeScreen,
             navigationBarHidden: true,
             passProps: {myElement: 'text', userId: this.state.loginId,
-                first: this.state.firstName, last: this.state.lastName, photoUrl: photo }
+                first: this.state.firstName, last: this.state.lastName, photoUrl: this.state.photo }
         });
     },
 

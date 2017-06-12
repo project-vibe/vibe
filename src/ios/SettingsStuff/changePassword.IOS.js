@@ -38,10 +38,6 @@ class changePassword extends Component{
         alert("Needs implementation")
     }
 
-
-
-
-
     render(){
         const titleConfig = {
             title: 'Change Password',

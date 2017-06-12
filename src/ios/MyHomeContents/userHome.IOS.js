@@ -76,6 +76,7 @@ export default class UserHome extends Component {
         let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
         var counter = 0;
         var childData = "";
+        var photo = "";
         var firstName = "FirstNameDefault";
         var lastName = "LastNameDefault";
         var leadsRef = firebase.database().ref(userSettingsPath);
@@ -86,11 +87,16 @@ export default class UserHome extends Component {
                 counter++;
                 if(counter==2)
                     firstName = childData;
-                if(counter==3) {
+                if(counter==3)
                     lastName = childData;
-                }
+                if(counter==5)
+                    photo = childData;
+
             });
         });
+        this.state.firstName = firstName;
+        this.state.lastName = lastName;
+        this.state.photo = photo;
         return <Text> {firstName + " " +lastName} </Text>
     };
 
@@ -400,7 +406,8 @@ export default class UserHome extends Component {
             title: 'userSettingsScreen',
             component: UserSettingsScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', photoId: this.props.photoUrl, userId: this.props.userId,
+            firstName: this.state.firstName, lastName: this.state.lastName, photo: this.state.photo}
         });
     }
 
