@@ -5,6 +5,7 @@ import * as firebase from "firebase";
 import Hr from './hr2.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PhoneInput from 'react-native-phone-input';
+import Geocoder from 'react-native-geocoder';
 
 import {
     View,
@@ -38,6 +39,7 @@ export default class SignUp extends Component {
         }
     }
 
+
     goLogin() {
         this.props.navigator.push({
             title: 'signInHomeScreen',
@@ -52,7 +54,8 @@ export default class SignUp extends Component {
             title: 'userHomeScreen',
             component: UserHomeScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text', userId: this.state.id, photoUrl: this.state.photoUrl}
+            passProps: {myElement: 'text', userId: this.state.id, photoUrl: this.state.photoUrl,
+                MyAddress: this.state.MyAddress, State: this.state.State}
         });
     }
 
@@ -65,8 +68,46 @@ export default class SignUp extends Component {
         });
     }
 
-    async signup(email, password, firstName, lastName, phoneNumber) {
+    async getLocation() {
+        var latitude = '42';
+        var longitude = '-17';
+        var locality = 'Northridge';
+        var state = 'CALI';
+        await navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    error: null
+                });
+                Geocoder.fallbackToGoogle("AIzaSyCEBP1ZAYZgvr-rzK0VNKToyfmQg1_3mns");
 
+                var myAddress = ''
+
+                var NY = {
+                    lat: this.state.latitude,
+                    lng: this.state.longitude
+                };
+
+                let ret = Geocoder.geocodePosition(NY).then((res)=>
+                {
+                    //console.log(res)
+                    locality = res["0"].locality;
+                    state = res["0"].adminArea;
+                    //console.log(myAddress);
+                    this.setState({
+                        MyAddress: locality,
+                        State: state
+                    });
+                }).catch(err => console.log(err));
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        );
+    }
+
+    async signup(email, password, firstName, lastName, phoneNumber) {
+        await this.getLocation();
         try {
             await firebase.auth().createUserWithEmailAndPassword(email, password);
 
@@ -91,6 +132,8 @@ export default class SignUp extends Component {
                     Email: email.toLowerCase(),
                     PhoneNumber: phoneNumber,
                     PhotoUrl: "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg",
+                    Latitude: this.state.latitude,
+                    Longitude: this.state.longitude
                 }
             });
 

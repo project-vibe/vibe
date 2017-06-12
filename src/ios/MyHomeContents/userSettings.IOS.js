@@ -68,7 +68,8 @@ class userSettingsScreen extends Component {
             title: 'editProfile',
             component: editProfile,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', photoId: this.props.photoUrl, userId: this.props.userId,
+                firstName: this.props.firstName, lastName: this.props.lastName}
         });
     }
 

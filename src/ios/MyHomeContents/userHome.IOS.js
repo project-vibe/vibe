@@ -8,6 +8,7 @@ import * as firebase from "firebase";
 import Modal from '../anm/react-native-simple-modal/index';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
+import Geocoder from 'react-native-geocoder';
 
 /** SCROLL SCREENS **/
 import HomeEvents from '../scrollScreens/homeEventList.IOS.js';
@@ -33,7 +34,6 @@ var VibeMapsScreen = require('./maps.IOS.js');
 /** SCROLLER **/
 var screen = require('Dimensions').get('window');
 var PageControl = require('react-native-page-control');
-
 export default class UserHome extends Component {
 
     constructor(props) {
@@ -56,6 +56,8 @@ export default class UserHome extends Component {
             openUserModal: true
         })
     }
+
+
 
     state = {
         index: 1,
@@ -90,6 +92,8 @@ export default class UserHome extends Component {
                 }
             });
         });
+        this.state.firstName = firstName;
+        this.state.lastName = lastName;
         return <Text> {firstName + " " +lastName} </Text>
     };
 
@@ -108,8 +112,129 @@ export default class UserHome extends Component {
         });
     }*/
 
+    /*componentWillMount() {
+        navigator.geolocation.watchPosition((position) => {
+            // Create the object to update this.state.mapRegion through the onRegionChange function
+            //this.state.MyAddress = position.coords.latitude;
+            //this.state.State = position.coords.longitude;
+
+            this.setState({
+                MyAddress: position.coords.latitude,
+                State: position.coords.longitude
+            });
+
+            try {
+                var NY = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                let ret = Geocoder.geocodePosition(NY).then((res) => {
+                    res.locality = res["0"].locality;
+                    res.state = res["0"].adminArea;
+                    this.state.MyAddress = res.locality;
+                    this.state.State = res.state;
+
+                     //alert(this.state.MyAddress + ", " + this.state.State);
+
+                }).catch(err => console.log(err));
+
+            } catch(error) {
+                console.log(error);
+            }
+        });
+    }*/
+
+     /*getLocation() {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    error: null
+                });
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        );
+
+        Geocoder.fallbackToGoogle("AIzaSyCEBP1ZAYZgvr-rzK0VNKToyfmQg1_3mns");
+        // use the lib as usual
+
+        // var lat = this.state.latitude;
+        // var lng = this.state.longitude;
+         var myAddress = ''
+
+         var NY = {
+             lat: this.state.latitude,
+             lng: this.state.longitude
+         };
+
+         // Geocoder.fallbackToGoogle(MY_KEY);//MY_KEY -- enabled the key googleMapAPI portal.
+
+         let ret = Geocoder.geocodePosition(NY).then((res)=>
+         {
+             //console.log(res)
+            locality = res["0"].locality;
+            state = res["0"].adminArea;
+             //console.log(myAddress);
+             this.setState({
+                 MyAddress: locality,
+                 State: state
+             }).catch(err => console.log(err));
+         });
+
+        //let ret = Geocoder.geocodePosition({lat, lng});
+
+        //alert(ret.formattedAddress);
+        //return <Text> {this.state.latitude + " @ " +this.state.longitude} </Text>
+        //return <Text>{this.state.MyAddress}</Text>
+    }*/
+
+     /*getLocation() {
+         var latitude = '42';
+         var longitude = '-17';
+         var locality = 'Northridge';
+         var state = 'CALI';
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+                //alert(this.state.latitude + " , " + this.state.longitude);
+                Geocoder.fallbackToGoogle("AIzaSyCEBP1ZAYZgvr-rzK0VNKToyfmQg1_3mns");
+                // use the lib as usual
+
+
+                var NY = {
+                    lat: latitude,
+                    lng: longitude
+                };
+
+                try {
+                    let ret = Geocoder.geocodePosition(NY).then((res) => {
+                        locality = res["0"].locality;
+                        state = res["0"].adminArea;
+
+                       // alert(this.state.MyAddress + ", " + this.state.State);
+
+                    }).catch(err => console.log(err));
+
+                } catch(error) {
+                    console.log(error);
+                }
+            },
+            (error) => {this.state.error = error.message;}
+        );
+
+         return <Text>{locality + ", " + state}</Text>
+         //alert(this.state.MyAddress + ", " + this.state.State);
+    }*/
+
     _handleChangeTab = index => {
+        //alert("before" + index);
+        console.log("before", index);
         this.setState({ index });
+        console.log("after", index);
     };
 
     _renderIcon = ({ route }) => {
@@ -203,7 +328,7 @@ export default class UserHome extends Component {
                                     <Image style={ styles.image } source={{ uri: this.props.photoUrl }} />
                                 </TouchableHighlight>
                                 <Text style={styles.username}>{this._getDataNew()}</Text>
-                                <Text style={styles.location}>Pomona, CA</Text>
+                                <Text style={styles.location}>{this.props.MyAddress + " , " + this.props.State}</Text>
                                 <View style={{height: 20}} />
                             </View>
                             <View style={{width:screen.width,  height:210,backgroundColor:'#0A81D1'}}>
@@ -380,7 +505,8 @@ export default class UserHome extends Component {
             title: 'userSettingsScreen',
             component: UserSettingsScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', photoId: this.state.photoUrl, userId: this.props.userId,
+            firstName: this.state.firstName, lastName: this.state.lastName}
         });
     }
 

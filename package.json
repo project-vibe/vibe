@@ -13,7 +13,7 @@
     "firebase": "^3.8.0",
     "native-base": "^2.1.3",
     "react": "16.0.0-alpha.6",
-    "react-native": "0.43.0",
+    "react-native": "0.44.2",
     "react-native-action-button": "^2.6.9",
     "react-native-atoz-listview": "0.0.7",
     "react-native-carousel": "^0.10.0",
@@ -45,9 +45,9 @@
     "simple-carousel-react-native": "^1.0.1"
   },
   "devDependencies": {
-    "babel-jest": "19.0.0",
-    "babel-preset-react-native": "1.9.1",
-    "jest": "19.0.2",
+    "babel-jest": "20.0.3",
+    "babel-preset-react-native": "1.9.2",
+    "jest": "20.0.4",
     "react-test-renderer": "16.0.0-alpha.6"
   },
   "jest": {

@@ -15,6 +15,7 @@ import {
 import Hr from './hr.dist';
 import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Geocoder from 'react-native-geocoder';
 
 var SignUpScreen = require('./signup.IOS.js');
 var UserHomeScreen = require('./MyHomeContents/userHome.IOS.js');
@@ -37,7 +38,8 @@ signInScreen = React.createClass({
 
     // Attempt a login using the Facebook login dialog,
     // asking for default permissions.
-    _fbAuth () {
+    async _fbAuth () {
+        await this.getLocation();
         var that = this;
         LoginManager.logInWithReadPermissions(['email', 'user_friends', 'public_profile']).then(
             function(result) {
@@ -75,6 +77,9 @@ signInScreen = React.createClass({
 
                         let userSettingsPath = "/user/" + userId;
 
+                        let latitide = that.state.latitude;
+                        let longitude = that.state.longitude;
+
                         firebase.database().ref(userSettingsPath).set({
                             UserInfo: {
                                 FirstName: firstName,
@@ -82,6 +87,8 @@ signInScreen = React.createClass({
                                 Email: credData.email,
                                 PhoneNumber: tempPhoneNum,
                                 PhotoUrl: credData.photoURL,
+                                Latitude: latitide,
+                                Longitude: longitude
                             }
                         });
 
@@ -91,7 +98,8 @@ signInScreen = React.createClass({
                             title: 'userHomeScreen',
                             component: UserHomeScreen,
                             navigationBarHidden: true,
-                            passProps: {myElement: 'text', userId: userId, photoUrl: photoLink}
+                            passProps: {myElement: 'text', userId: userId, photoUrl: photoLink,
+                                MyAddress: that.state.MyAddress, State: that.state.State}
                         })
                     })
                     .catch(err => {
@@ -115,7 +123,7 @@ signInScreen = React.createClass({
         });
     },
 
-    goUserHome: function(firstName, lastName, photo) {
+    goUserHome: function(firstName, lastName, photo, MyAddress, State) {
 
         this.state.firstName = firstName;
         this.state.lastName = lastName;
@@ -125,15 +133,55 @@ signInScreen = React.createClass({
             component: UserHomeScreen,
             navigationBarHidden: true,
             passProps: {myElement: 'text', userId: this.state.loginId,
-                first: this.state.firstName, last: this.state.lastName, photoUrl: photo }
+                first: this.state.firstName, last: this.state.lastName, photoUrl: photo,
+            MyAddress: MyAddress, State: State}
         });
     },
 
+    async getLocation() {
+        var latitude = '42';
+        var longitude = '-17';
+        var locality = 'Northridge';
+        var state = 'CALI';
+        await navigator.geolocation.getCurrentPosition(
+            (position) => {
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    error: null
+                });
+                Geocoder.fallbackToGoogle("AIzaSyCEBP1ZAYZgvr-rzK0VNKToyfmQg1_3mns");
+
+                var myAddress = ''
+
+                var NY = {
+                    lat: this.state.latitude,
+                    lng: this.state.longitude
+                };
+
+                let ret = Geocoder.geocodePosition(NY).then((res)=>
+                {
+                    //console.log(res)
+                    locality = res["0"].locality;
+                    state = res["0"].adminArea;
+                    //console.log(myAddress);
+                    this.setState({
+                        MyAddress: locality,
+                        State: state
+                    });
+                }).catch(err => console.log(err));
+            },
+            (error) => this.setState({ error: error.message }),
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+        );
+    },
 
     async login(email, pass) {
         try {
             await firebase.auth()
                 .signInWithEmailAndPassword(email, pass);
+
+            await this.getLocation();
 
             let userId = "";
 
@@ -175,7 +223,7 @@ signInScreen = React.createClass({
                     }
                     gotData = true;
                 });
-                that.goUserHome(firstName, lastName, photo);
+                that.goUserHome(firstName, lastName, photo, that.state.MyAddress, that.state.State);
             });
 
             console.log("Logged In!");

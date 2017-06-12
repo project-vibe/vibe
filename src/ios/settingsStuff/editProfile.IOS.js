@@ -81,7 +81,7 @@ class editProfile extends Component{
                 <View style={{height: 5}}/>
                 <View style={styles.userInfo}>
                     <TouchableHighlight style={{paddingBottom: 5}}>
-                        <Image style={ styles.image } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
+                        <Image style={ styles.image } source={{ uri: this.props.photoUrl }} />
                     </TouchableHighlight>
                 </View>
                 <View>
@@ -105,7 +105,7 @@ class editProfile extends Component{
                         </View>
                         <TextInput
                             style={styles.firstPTextInputStyle}
-                            defaultValue={'Rushi Shah'}
+                            defaultValue={this.props.firstName + " " + this.props.lastName}
                             placeholder="name"
                             placeholderTextColor="#C0C0C0"
                             clearButtonMode="while-editing"
@@ -121,7 +121,7 @@ class editProfile extends Component{
                         </View>
                         <TextInput
                             style={styles.firstPTextInputStyle}
-                            defaultValue={'rushishah@gg.com'}
+                            defaultValue={'test@hardcoded.com'}
                             placeholder="email"
                             placeholderTextColor="#C0C0C0"
                             clearButtonMode="while-editing"
@@ -135,7 +135,7 @@ class editProfile extends Component{
                         </View>
                         <TextInput
                             style={styles.lastPTextInputStyle}
-                            defaultValue={'1234567891'}
+                            defaultValue={this.props.phoneNumber}
                             placeholder="Phone number"
                             placeholderTextColor="#C0C0C0"
                             clearButtonMode="while-editing"

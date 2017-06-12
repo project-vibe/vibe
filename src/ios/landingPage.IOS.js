@@ -15,7 +15,6 @@ import {
 
 import Swiper from 'react-native-swiper';
 
-
 var SignUpScreen = require('./signup.IOS.js');
 var SignInScreen = require('./signinHome.IOS');
 //var UserHomeScreen = require('./userHome.IOS.js');
@@ -25,6 +24,11 @@ var image3 = require('./img/sea.gif');
 
 var landingPage = React.createClass({
 
+    getInitialState () {
+        return {
+            myElement: ''
+        };
+    },
 
     goSignIn: function () {
         this.props.navigator.push({
@@ -35,9 +39,8 @@ var landingPage = React.createClass({
         });
     },
 
-
-
     goSignUp: function () {
+
         this.props.navigator.push({
             title: 'signUp',
             component: SignUpScreen,
@@ -46,93 +49,87 @@ var landingPage = React.createClass({
         });
     },
 
-
-
     render: function () {
         return (
-                <Swiper style = {styles.wrapper} autoplay = {true} showButtons = {true}
-                        dot={<View style={{backgroundColor: 'grey', width: 9, height: 9, borderRadius: 7, marginLeft: 7, marginRight: 7, marginBottom: 225}} />}
-                        activeDot={<View style={{backgroundColor: 'white', width: 9, height: 9, borderRadius: 7, marginLeft: 7, marginRight: 7, marginBottom: 225}} />}                >
-                    <View style = {styles.slide1}>
-                <Image source={image1} style={styles.container}>
-                   <View style = {{paddingTop: 30, alignItems: 'center', width: 100, height: 150, paddingBottom: 50}}>
-                       <Text style = {{fontSize: 105, color: 'white', fontFamily: 'Chalkduster', fontWeight: 'bold'}}>V </Text>
-                       </View>
+            <Swiper style = {styles.wrapper} autoplay = {true} showButtons = {true}
+                    dot={<View style={{backgroundColor: 'grey', width: 9, height: 9, borderRadius: 7, marginLeft: 7, marginRight: 7, marginBottom: 225}} />}
+                    activeDot={<View style={{backgroundColor: 'white', width: 9, height: 9, borderRadius: 7, marginLeft: 7, marginRight: 7, marginBottom: 225}} />}                >
+                <View style = {styles.slide1}>
+                    <Image source={image1} style={styles.container}>
+                        <View style = {{paddingTop: 30, alignItems: 'center', width: 100, height: 150, paddingBottom: 50}}>
+                            <Text style = {{fontSize: 105, color: 'white', fontFamily: 'Chalkduster', fontWeight: 'bold'}}>V </Text>
+                        </View>
 
-                    <View style = {{width: 300, height: 100, paddingTop: 69, alignItems: 'center'}}>
-                   <Text style = {{fontSize: 39, color: 'white', fontFamily: 'Futura-medium' }}>
-                    Ignite your social flame.
-                   </Text>
-                    </View>
-                    <View style = {{paddingTop: 200}}>
-                        <TouchableOpacity onPress={() => this.goSignUp()} style={styles.signUpButton}>
-                            <Text style={styles.signUpButtonText}> Sign up</Text>
-                        </TouchableOpacity>
-                    </View>
+                        <View style = {{width: 300, height: 100, paddingTop: 69, alignItems: 'center'}}>
+                            <Text style = {{fontSize: 39, color: 'white', fontFamily: 'Futura-medium' }}>
+                                Ignite your social flame.
+                            </Text>
+                        </View>
+                        <View style = {{paddingTop: 200}}>
+                            <TouchableOpacity onPress={() => this.goSignUp()} style={styles.signUpButton}>
+                                <Text style={styles.signUpButtonText}> Sign up</Text>
+                            </TouchableOpacity>
+                        </View>
 
-                    <View style = {{paddingTop: 25}}>
-                        <TouchableOpacity onPress={() => this.goSignIn()} style={styles.signInButton}>
-                            <Text style={styles.signInButtonText}> Sign in</Text>
-                        </TouchableOpacity>
-                    </View>
-                </Image>
-                    </View>
+                        <View style = {{paddingTop: 25}}>
+                            <TouchableOpacity onPress={() => this.goSignIn()} style={styles.signInButton}>
+                                <Text style={styles.signInButtonText}> Sign in</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Image>
+                </View>
 
-                    <View style = {styles.slide2}>
-                        <Image source={image1} style={styles.container}>
-                            <View style = {{paddingTop: 30, alignItems: 'center', width: 100, height: 150, paddingBottom: 50}}>
-                                <Text style = {{fontSize: 105, color: 'white', fontFamily: 'Chalkduster', fontWeight: 'bold'}}>V </Text>
-                            </View>
+                <View style = {styles.slide2}>
+                    <Image source={image1} style={styles.container}>
+                        <View style = {{paddingTop: 30, alignItems: 'center', width: 100, height: 150, paddingBottom: 50}}>
+                            <Text style = {{fontSize: 105, color: 'white', fontFamily: 'Chalkduster', fontWeight: 'bold'}}>V </Text>
+                        </View>
 
-                            <View style = {{width: 300, height: 100, paddingTop: 69, alignItems: 'center'}}>
-                                <Text style = {{fontSize: 39, color: 'white', fontFamily: 'Futura-medium' }}>
-                                    Arrange meetups with your friends.
-                                </Text>
-                            </View>
-                            <View style = {{paddingTop: 200}}>
-                                <TouchableOpacity onPress={() => this.goSignUp()} style={styles.signUpButton}>
-                                    <Text style={styles.signUpButtonText}> Sign up</Text>
-                                </TouchableOpacity>
-                            </View>
+                        <View style = {{width: 300, height: 100, paddingTop: 69, alignItems: 'center'}}>
+                            <Text style = {{fontSize: 39, color: 'white', fontFamily: 'Futura-medium' }}>
+                                Arrange meetups with your friends.
+                            </Text>
+                        </View>
+                        <View style = {{paddingTop: 200}}>
+                            <TouchableOpacity onPress={() => this.goSignUp()} style={styles.signUpButton}>
+                                <Text style={styles.signUpButtonText}> Sign up</Text>
+                            </TouchableOpacity>
+                        </View>
 
-                            <View style = {{paddingTop: 25}}>
-                                <TouchableOpacity onPress={() => this.goSignIn()} style={styles.signInButton}>
-                                    <Text style={styles.signInButtonText}> Sign in</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </Image>
-                    </View>
+                        <View style = {{paddingTop: 25}}>
+                            <TouchableOpacity onPress={() => this.goSignIn()} style={styles.signInButton}>
+                                <Text style={styles.signInButtonText}> Sign in</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Image>
+                </View>
 
-                    <View style = {styles.slide3}>
-                        <Image source={image1} style={styles.container}>
-                            <View style = {{paddingTop: 30, alignItems: 'center', width: 100, height: 150, paddingBottom: 50}}>
-                                <Text style = {{fontSize: 105, color: 'white', fontFamily: 'Chalkduster', fontWeight: 'bold'}}>V </Text>
-                            </View>
+                <View style = {styles.slide3}>
+                    <Image source={image1} style={styles.container}>
+                        <View style = {{paddingTop: 30, alignItems: 'center', width: 100, height: 150, paddingBottom: 50}}>
+                            <Text style = {{fontSize: 105, color: 'white', fontFamily: 'Chalkduster', fontWeight: 'bold'}}>V </Text>
+                        </View>
 
-                            <View style = {{width: 300, height: 100, paddingTop: 69, alignItems: 'center'}}>
-                                <Text style = {{fontSize: 39, color: 'white', fontFamily: 'Futura-medium' }}>
-                                    Smash that button and sign up.
-                                </Text>
-                            </View>
-                            <View style = {{paddingTop: 200}}>
-                                <TouchableOpacity onPress={() => this.goSignUp()} style={styles.signUpButton}>
-                                    <Text style={styles.signUpButtonText}> Sign up</Text>
-                                </TouchableOpacity>
-                            </View>
+                        <View style = {{width: 300, height: 100, paddingTop: 69, alignItems: 'center'}}>
+                            <Text style = {{fontSize: 39, color: 'white', fontFamily: 'Futura-medium' }}>
+                                Smash that button and sign up.
+                            </Text>
+                        </View>
+                        <View style = {{paddingTop: 200}}>
+                            <TouchableOpacity onPress={() => this.goSignUp()} style={styles.signUpButton}>
+                                <Text style={styles.signUpButtonText}> Sign up</Text>
+                            </TouchableOpacity>
+                        </View>
 
-                            <View style = {{paddingTop: 25}}>
-                                <TouchableOpacity onPress={() => this.goSignIn()} style={styles.signInButton}>
-                                    <Text style={styles.signInButtonText}> Sign in</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </Image>
-                    </View>
+                        <View style = {{paddingTop: 25}}>
+                            <TouchableOpacity onPress={() => this.goSignIn()} style={styles.signInButton}>
+                                <Text style={styles.signInButtonText}> Sign in</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Image>
+                </View>
 
-
-
-
-
-                </Swiper>
+            </Swiper>
         );
     }
 });
