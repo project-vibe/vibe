@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   container: {
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: '#b2b2b2',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'transparent',
   },
   primary: {
     flexDirection: 'row',

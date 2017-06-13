@@ -235,7 +235,7 @@ export default class UserHome extends Component {
                     style={{alignItems: 'center'}}>
 
                     <Image source={require('../img/flower-petals.jpg')}
-                           style={{height: '15%', width: '100%', flexDirection: 'row'}}
+                           style={{height: '10%', width: '100%', flexDirection: 'row'}}
                     >
                         <View style={{alignItems: 'flex-end'}}>
                             <Icon.Button
@@ -256,7 +256,7 @@ export default class UserHome extends Component {
                             backgroundColor="transparent">
                         </Icon.Button>
                     </Image>
-                    <View style={{height: '85%', alignItems: 'center'}}>
+                    <View style={{height: '90%', alignItems: 'center'}}>
                         <Text style={{fontSize: 20, fontWeight: '700', paddingTop: 10, marginBottom: 5}}>{this.state.userModalTitle}</Text>
                         <View style={{flexDirection: 'row', width: '100%', height: 20}}>
                             <TouchableOpacity onPress={() => this.goToMaps()} style={{width: '49%'}}>
@@ -295,7 +295,7 @@ export default class UserHome extends Component {
                                     }}
                                 />
                             </View>
-                            <View style={{backgroundColor: 'transparent', height: '75%', width: 300}}>
+                            <View style={{backgroundColor: 'transparent', height: '78%', width: 300}}>
                                 <MessengerContainer/>
                             </View>
                         </View>
