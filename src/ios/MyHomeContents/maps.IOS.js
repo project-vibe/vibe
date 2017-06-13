@@ -50,7 +50,7 @@ export default class VibeMaps extends Component {
         };
 
         const backButtonConfig = (
-            <Icon.Button name="chevron-left" size={40} color="black" onPress={() => this.backButtonListener()} backgroundColor="transparent">
+            <Icon.Button name="chevron-left" size={40} color="black" style={{backgroundColor: 'transparent'}} onPress={() => this.backButtonListener()} backgroundColor="transparent">
             </Icon.Button>
         );
 

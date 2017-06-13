@@ -1,6 +1,6 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, SegmentedControlIOS, TouchableOpacity, ScrollView } from 'react-native'
 import NavigationBar from 'react-native-navbar';
 import * as firebase from "firebase";
 import * as Animatable from 'react-native-animatable';
@@ -36,6 +36,7 @@ var screen = require('Dimensions').get('window');
 var PageControl = require('react-native-page-control');
 
 /** MESSENGER **/
+import MessengerContainer from './MessengerContainer';
 
 export default class UserHome extends Component {
 
@@ -71,7 +72,8 @@ export default class UserHome extends Component {
         openFriendModal: false,
         openUserModal: false,
         userModalTitle: '',
-        currentPage: 0
+        currentPage: 0,
+        selectedIndex: 1
     };
 
     _getDataNew = () => {
@@ -290,6 +292,20 @@ export default class UserHome extends Component {
                                     <Image style={ styles.miniImage } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
                                     <Image style={ styles.miniImage } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
                                 </View>
+                            </View>
+
+                            <View style={{paddingTop: 15, marginBottom: 10, width: 300}}>
+                                <SegmentedControlIOS
+                                    values={['Sure', 'Maybe', 'Pass']}
+                                    tintColor={'#0A81D1'}
+                                    selectedIndex={this.state.selectedIndex}
+                                    onChange={(event) => {
+                                        this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
+                                    }}
+                                />
+                            </View>
+                            <View style={{backgroundColor: 'transparent', height: '75%', width: 300}}>
+                                <MessengerContainer/>
                             </View>
                         </View>
                     </View>

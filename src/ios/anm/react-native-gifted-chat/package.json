@@ -1,0 +1,117 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "react-native-gifted-chat",
+        "scope": null,
+        "escapedName": "react-native-gifted-chat",
+        "name": "react-native-gifted-chat",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/AbhayVarshney/Documents/iOS-Apps/React-Native-iOS/vibe"
+    ]
+  ],
+  "_from": "react-native-gifted-chat@latest",
+  "_id": "react-native-gifted-chat@0.1.4",
+  "_inCache": true,
+  "_location": "/react-native-gifted-chat",
+  "_nodeVersion": "4.5.0",
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/react-native-gifted-chat-0.1.4.tgz_1490615902715_0.34590451209805906"
+  },
+  "_npmUser": {
+    "name": "kfiroo",
+    "email": "kfirgolan@gmail.com"
+  },
+  "_npmVersion": "3.10.9",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "react-native-gifted-chat",
+    "scope": null,
+    "escapedName": "react-native-gifted-chat",
+    "name": "react-native-gifted-chat",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-native-gifted-chat/-/react-native-gifted-chat-0.1.4.tgz",
+  "_shasum": "aa65528b05800454daeb5868d5ca50f3b6b50c68",
+  "_shrinkwrap": null,
+  "_spec": "react-native-gifted-chat",
+  "_where": "/Users/AbhayVarshney/Documents/iOS-Apps/React-Native-iOS/vibe",
+  "author": {
+    "name": "Farid Safi"
+  },
+  "bugs": {
+    "url": "https://github.com/FaridSafi/react-native-gifted-chat/issues"
+  },
+  "dependencies": {
+    "@expo/react-native-action-sheet": "0.3.0",
+    "md5": "2.2.1",
+    "moment": "2.17.1",
+    "react-native-communications": "2.1.1",
+    "react-native-invertible-scroll-view": "1.0.0",
+    "react-native-lightbox": "github:oblador/react-native-lightbox#c84a8543d4511fe6a44c3d7820747c9c1bddd875",
+    "react-native-parsed-text": "0.0.16",
+    "shallowequal": "0.2.2",
+    "uuid": "3.0.1"
+  },
+  "description": "The most complete chat UI for React Native",
+  "devDependencies": {
+    "eslint": "~3.12.2",
+    "eslint-config-airbnb": "~13.0.0",
+    "eslint-config-cooperka": "~0.2.3",
+    "eslint-plugin-import": "~2.2.0",
+    "eslint-plugin-jsx-a11y": "~2.2.3",
+    "eslint-plugin-react": "~6.8.0",
+    "eslint-plugin-react-native": "~2.2.1"
+  },
+  "directories": {},
+  "dist": {
+    "shasum": "aa65528b05800454daeb5868d5ca50f3b6b50c68",
+    "tarball": "https://registry.npmjs.org/react-native-gifted-chat/-/react-native-gifted-chat-0.1.4.tgz"
+  },
+  "gitHead": "3c891df82c7a00979401a008692fdf73c414807f",
+  "homepage": "https://github.com/FaridSafi/react-native-gifted-chat#readme",
+  "keywords": [
+    "android",
+    "ios",
+    "react-native",
+    "react",
+    "react-component",
+    "messenger",
+    "message",
+    "chat"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "faridsafi",
+      "email": "farid+npm@senseful.fr"
+    },
+    {
+      "name": "kfiroo",
+      "email": "kfirgolan@gmail.com"
+    }
+  ],
+  "name": "react-native-gifted-chat",
+  "optionalDependencies": {},
+  "readme": "# Gifted Chat\nThe most complete chat UI for React Native (formerly known as Gifted Messenger)\n\n![](https://raw.githubusercontent.com/FaridSafi/react-native-gifted-chat/master/screenshots/gifted-chat-1.png)\n![](https://raw.githubusercontent.com/FaridSafi/react-native-gifted-chat/master/screenshots/gifted-chat-2.png)\n\n## Dependency\nUse `0.0.10` for RN < `0.40.0`  \nUse `0.1.0` for RN >= `0.40.0`\n\n## Installation\n`npm install react-native-gifted-chat --save`\n\n## Android installation\n- Add `android:windowSoftInputMode=\"adjustResize\"` to your Android Manifest `android/app/src/main/AndroidManifest.xml`\n```xml\n<!-- ... -->\n<activity\n  android:name=\".MainActivity\"\n  android:label=\"@string/app_name\"\n  android:windowSoftInputMode=\"adjustResize\"\n  android:configChanges=\"keyboard|keyboardHidden|orientation|screenSize\">\n<!-- ... -->\n```\n\n- If you plan to use `GiftedChat` inside a `Modal`, see [#200](https://github.com/FaridSafi/react-native-gifted-chat/issues/200)\n\n\n## Example\n```jsx\nimport { GiftedChat } from 'react-native-gifted-chat';\n\nclass Example extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = {messages: []};\n    this.onSend = this.onSend.bind(this);\n  }\n  componentWillMount() {\n    this.setState({\n      messages: [\n        {\n          _id: 1,\n          text: 'Hello developer',\n          createdAt: new Date(Date.UTC(2016, 7, 30, 17, 20, 0)),\n          user: {\n            _id: 2,\n            name: 'React Native',\n            avatar: 'https://facebook.github.io/react/img/logo_og.png',\n          },\n        },\n      ],\n    });\n  }\n  onSend(messages = []) {\n    this.setState((previousState) => {\n      return {\n        messages: GiftedChat.append(previousState.messages, messages),\n      };\n    });\n  }\n  render() {\n    return (\n      <GiftedChat\n        messages={this.state.messages}\n        onSend={this.onSend}\n        user={{\n          _id: 1,\n        }}\n      />\n    );\n  }\n}\n```\n\n## Advanced example\nSee [example/App.js](example/App.js)\n\n## Message object\n```javascript\n{\n  _id: 1,\n  text: 'My message',\n  createdAt: new Date(Date.UTC(2016, 5, 11, 17, 20, 0)),\n  user: {\n    _id: 2,\n    name: 'React Native',\n    avatar: 'https://facebook.github.io/react/img/logo_og.png',\n  },\n  image: 'https://facebook.github.io/react/img/logo_og.png',\n  // additional custom parameters\n}\n```\n\n## Props\n\n- **`messages`** _(Array)_ - messages to display\n- **`messageIdGenerator`** _(Function)_ - generate id for new message. By default is a UUID v4 generated by [uuid](https://github.com/kelektiv/node-uuid).\n- **`user`** _(Object)_ - user sending the messages `{_id, name, avatar}`\n- **`onSend`** _(Function)_ - function to call when sending a message\n- **`locale`** _(String)_ - localize the dates\n- **`isAnimated`** _(Bool)_ - animates the view when the keyboard appears\n- **`loadEarlier`** _(Bool)_ - enables the load earlier message button\n- **`onLoadEarlier`** _(Function)_ - function to call when loading earlier messages\n- **`isLoadingEarlier`** _(Bool)_ - display an ActivityIndicator when loading earlier messages\n- **`renderLoading`** _(Function)_ - render a loading view when initializing\n- **`renderLoadEarlier`** _(Function)_ - render the load earlier button\n- **`renderAvatar`** _(Function)_ - renders the message avatar\n- **`renderAvatarOnTop`** _(Bool)_ - render the message avatar, on top of consecutive messages. The default value is `false`.\n- **`renderBubble`** _(Function)_ - render the message bubble\n- **`renderMessage`** _(Function)_ - render the message container\n- **`renderMessageText`** _(Function)_ - render the message text\n- **`renderMessageImage`** _(Function)_ - render the message image\n- **`imageProps`** _(Object)_ - extra props to be passed to the [`<Image>`](https://facebook.github.io/react-native/docs/image.html) component created by the default `renderMessageImage`\n- **`lightboxProps`** _(Object)_ - extra props to be passed to the MessageImage's [Lightbox](https://github.com/oblador/react-native-lightbox)\n- **`renderCustomView`** _(Function)_ - render a custom view inside the bubble\n- **`renderDay`** _(Function)_ - render the day above a message\n- **`renderTime`** _(Function)_ - render the message time\n- **`renderFooter`** _(Function)_ - renders a fixed bottom view. Can be used for 'is typing message', see [example/App.js](example/App.js)\n- **`renderInputToolbar`** _(Function)_ - render the composer container\n- **`renderActions`** _(Function)_ - renders an action button on the left of the message composer\n- **`renderComposer`** _(Function)_ - render the text input message composer\n- **`renderSend`** _(Function)_ - render the send button\n- **`renderAccessory`** _(Function)_ - renders a second line of actions below the message composer\n- **`onPressActionButton`** _(Function)_ - callback to perform custom logic when the Action button is pressed (the default `actionSheet` will not be used)\n- **`bottomOffset`** _(Integer)_ - distance of the chat from the bottom of the screen, useful if you display a tab bar\n- **`minInputToolbarHeight`** _(Integer)_ - minimum height of the input toolbar. The default value is `44`.\n- **`listViewProps`** _(Object)_ - extra props to be passed to the [`<ListView>`](https://facebook.github.io/react-native/docs/listview.html), some props can not be override, see the code in `render` method of `MessageContainer` for detail\n- **`keyboardShouldPersistTaps`** _(Enum)_ - determines when the keyboard should stay visible after a tap [`<ScrollView>`](https://facebook.github.io/react-native/docs/scrollview.html)\n- **`onInputTextChanged`** _(Function)_ - function that will be called when input text changes\n\n## Features\n- Custom components\n- InputToolbar avoiding keyboard\n- Multiline TextInput\n- Load earlier messages\n- Avatar as initials\n- Touchable links using [react-native-parsed-text](https://github.com/taskrabbit/react-native-parsed-text)\n- Localized dates\n- Copy text messages to clipboard\n\n\n## License\n- [MIT](LICENSE)\n\n\nFeel free to ask me questions on Twitter [@FaridSafi](https://www.twitter.com/FaridSafi) !\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FaridSafi/react-native-gifted-chat.git"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .js,.jsx"
+  },
+  "version": "0.1.4"
+}
