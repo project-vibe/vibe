@@ -9,6 +9,7 @@ import * as Animatable from 'react-native-animatable';
 import Modal from '../anm/react-native-simple-modal/index';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
+import Geocoder from 'react-native-geocoder';
 
 /** SCROLL SCREENS **/
 import HomeEvents from '../ScrollScreens/homeEventList.IOS.js';
@@ -61,6 +62,8 @@ export default class UserHome extends Component {
         })
     }
 
+
+
     state = {
         index: 1,
         routes: [
@@ -104,23 +107,11 @@ export default class UserHome extends Component {
         return <Text> {firstName + " " +lastName} </Text>
     };
 
-    /*setData() {
-        let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
-        var counter = 0;
-        var childData = "";
-        var leadsRef = firebase.database().ref(userSettingsPath);
-        leadsRef.on('value', function(snapshot) {
-            snapshot.forEach(function(childSnapshot) {
-                childData = childSnapshot.val();
-                counter++;
-                if(counter==2)
-                    this.state.firstName = childData;
-            });
-        });
-    }*/
-
     _handleChangeTab = index => {
+        //alert("before" + index);
+        console.log("before", index);
         this.setState({ index });
+        console.log("after", index);
     };
 
     _renderIcon = ({ route }) => {
@@ -209,7 +200,7 @@ export default class UserHome extends Component {
                                     <Image style={ styles.image } source={{ uri: this.props.photoUrl }} />
                                 </TouchableHighlight>
                                 <Text style={styles.username}>{this._getDataNew()}</Text>
-                                <Text style={styles.location}>Pomona, CA</Text>
+                                <Text style={styles.location}>{this.props.MyAddress + " , " + this.props.State}</Text>
                                 <View style={{height: 20}} />
                             </View>
                             <View style={{width:screen.width,  height:210,backgroundColor:'#0A81D1'}}>

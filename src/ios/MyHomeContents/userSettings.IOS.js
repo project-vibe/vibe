@@ -71,8 +71,6 @@ class userSettingsScreen extends Component {
         });
     }
 
-
-
     render(){
         const titleConfig = {
             title: 'Settings',

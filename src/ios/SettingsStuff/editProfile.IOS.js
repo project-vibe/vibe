@@ -124,7 +124,7 @@ class editProfile extends Component{
                         </View>
                         <TextInput
                             style={styles.firstPTextInputStyle}
-                            defaultValue={'rushishah@gg.com'}
+                            defaultValue={'test@hardcoded.com'}
                             placeholder="email"
                             placeholderTextColor="#C0C0C0"
                             clearButtonMode="while-editing"
@@ -138,7 +138,7 @@ class editProfile extends Component{
                         </View>
                         <TextInput
                             style={styles.lastPTextInputStyle}
-                            defaultValue={'1234567891'}
+                            defaultValue={this.props.phoneNumber}
                             placeholder="Phone number"
                             placeholderTextColor="#C0C0C0"
                             clearButtonMode="while-editing"

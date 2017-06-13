@@ -37,6 +37,7 @@
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* vibeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* vibeTests.m */; };
 		2E9559AC1FD742DEBEF7E52F /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C6D03F405A64C8796DE1A21 /* EvilIcons.ttf */; };
+		300F21901EDF861800EC96DC /* libRNGeocoder.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 300F218E1EDF85C400EC96DC /* libRNGeocoder.a */; };
 		317DA521168C4E7BA608EECD /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B34BB32AEE4F778AB84F9B /* FBSDKCoreKit.framework */; };
 		33179A8E1C6F41A89AE8E282 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E14C1C4E730F44688A8235C5 /* SimpleLineIcons.ttf */; };
 		5628EF3F4A8B4C56B369C262 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBB29D1E8F684543AFA407EA /* MaterialCommunityIcons.ttf */; };
@@ -161,6 +162,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "vibe-tvOS";
+		};
+		300F218D1EDF85C400EC96DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 300F216D1EDF85C400EC96DC /* RNGeocoder.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BF8FCF941BFFB184000FCD37;
+			remoteInfo = RNGeocoder;
 		};
 		3DAD3E831DF850E9000B6D8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -344,6 +352,7 @@
 		25B34BB32AEE4F778AB84F9B /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ./ios/Frameworks/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* vibe-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "vibe-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* vibe-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "vibe-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		300F216D1EDF85C400EC96DC /* RNGeocoder.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNGeocoder.xcodeproj; path = "../node_modules/react-native-geocoder/ios/RNGeocoder.xcodeproj"; sourceTree = "<group>"; };
 		31A33FE47E7342F5A5E8CFE0 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		3C6D03F405A64C8796DE1A21 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		5A46AB0F1E94CB8C0042F487 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -412,6 +421,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				300F21901EDF861800EC96DC /* libRNGeocoder.a in Frameworks */,
 				5A64B0101EB08C7300C5E1C6 /* libReactNativeIcons.a in Frameworks */,
 				5A5C2C4D1E9DFA48001A2D1F /* libjschelpers.a in Frameworks */,
 				5A5C2C4E1E9DFA48001A2D1F /* libjschelpers.a in Frameworks */,
@@ -569,6 +579,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		300F216E1EDF85C400EC96DC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				300F218E1EDF85C400EC96DC /* libRNGeocoder.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		49325A9657F441B98DF9F77C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -671,6 +689,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				300F216D1EDF85C400EC96DC /* RNGeocoder.xcodeproj */,
 				5A64AFF01EB08BDE00C5E1C6 /* ReactNativeIcons.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -922,6 +941,10 @@
 					ProjectRef = 5A64AFF01EB08BDE00C5E1C6 /* ReactNativeIcons.xcodeproj */;
 				},
 				{
+					ProductGroup = 300F216E1EDF85C400EC96DC /* Products */;
+					ProjectRef = 300F216D1EDF85C400EC96DC /* RNGeocoder.xcodeproj */;
+				},
+				{
 					ProductGroup = 5A64B0721EB0974700C5E1C6 /* Products */;
 					ProjectRef = EFF0A280E4A4408F912003A0 /* RNVectorIcons.xcodeproj */;
 				},
@@ -991,6 +1014,13 @@
 			fileType = archive.ar;
 			path = libReact.a;
 			remoteRef = 146834031AC3E56700842450 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		300F218E1EDF85C400EC96DC /* libRNGeocoder.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNGeocoder.a;
+			remoteRef = 300F218D1EDF85C400EC96DC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3DAD3E841DF850E9000B6D8A /* libRCTImage-tvOS.a */ = {

@@ -26,7 +26,7 @@ var vibe = React.createClass({
               title: "Root",
               navigationBarHidden: true,
               component:landingPage
-        }}/>  
+        }}/>
     );
   }
 });
