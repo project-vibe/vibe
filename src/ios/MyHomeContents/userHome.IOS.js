@@ -31,6 +31,7 @@ import icon9 from '../img/icons/other.png';
 var UserSettingsScreen = require('./userSettings.IOS.js');
 var AddFriendsScreen = require('./addFriends.IOS.js');
 var VibeMapsScreen = require('./maps.IOS.js');
+var UserEventInfo = require('./CreateEventsContents/userEventInfo.IOS')
 
 /** SCROLLER **/
 var screen = require('Dimensions').get('window');
@@ -47,6 +48,9 @@ export default class UserHome extends Component {
         this.openUsersModal = this.openUsersModal.bind(this);
         this.onScroll = this.onScroll.bind(this);
         this.onItemTap = this.onItemTap.bind(this);
+
+
+        this.userEventsInfo = this.userEventsInfo.bind(this);
     };
 
     openFriendsModal(text) {
@@ -62,7 +66,14 @@ export default class UserHome extends Component {
         })
     }
 
-
+    userEventsInfo(rowDataTitle) {
+        this.props.navigator.push({
+            title: 'UserEventInfo',
+            component: UserEventInfo,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text', eventTitle: rowDataTitle}
+        });
+    }
 
     state = {
         index: 1,
@@ -136,7 +147,7 @@ export default class UserHome extends Component {
             case '2':
                 return <HomeEvents openFriendsModal = {this.openFriendsModal}/>;
             case '3':
-                return <CreateEvents openUsersModal = {this.openUsersModal}/>;
+                return <CreateEvents userEventsInfo = {this.userEventsInfo} openUsersModal = {this.openUsersModal}/>;
             default:
                 return null;
         }
@@ -295,7 +306,7 @@ export default class UserHome extends Component {
                                     }}
                                 />
                             </View>
-                            <View style={{backgroundColor: 'transparent', height: '78%', width: 300}}>
+                            <View style={{backgroundColor: 'transparent', height: '77%', width: 300}}>
                                 <MessengerContainer/>
                             </View>
                         </View>
