@@ -8,6 +8,7 @@ import ActionButton from 'react-native-action-button';
 export default class CreateEvents extends Component {
     constructor(){
         super();
+        this.goToEventsInfo = this.goToEventsInfo.bind(this);
         this.data = [
             {time: '5/5', title: 'Event 1', description: 'Event 1 Description'},
             {time: '5/20', title: 'Event 2', description: 'Event 2 Description'},
@@ -17,9 +18,14 @@ export default class CreateEvents extends Component {
         ]
     }
 
+    // opens modal for creating event!
     changeState() {
         this.props.openUsersModal();
     }
+
+    goToEventsInfo = (rowData) => {
+        this.props.userEventsInfo(rowData.title);
+    };
 
     render(){
         return(
@@ -40,6 +46,7 @@ export default class CreateEvents extends Component {
                     options={{
                         style:{paddingTop:10}
                     }}
+                    goToEventsInfo = {this.goToEventsInfo}
                 />
                 <ActionButton offsetX={25} offsetY={25} buttonColor="#279AF1" onPress={() => this.changeState()}>
                 </ActionButton>

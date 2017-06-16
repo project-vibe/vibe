@@ -11,7 +11,11 @@ import {
     View,
     Text,
     TouchableOpacity,
+    TouchableWithoutFeedback
 } from 'react-native'
+
+/** NAVIGATION **/
+var UserEventInfo = require('../../../MyHomeContents/CreateEventsContents/userEventInfo.IOS.js');
 
 import _ from 'lodash'
 
@@ -82,6 +86,7 @@ export default class Timeline extends Component {
                         {this.renderEvent(rowData, sectionID, rowID)}
                         {this.renderCircle(rowData, sectionID, rowID)}
                     </View>
+
                 )
                 break
             case 'single-column-right':
@@ -194,13 +199,21 @@ export default class Timeline extends Component {
 
                                   onPress={() => this.props.onEventPress?this.props.onEventPress(rowData):null}
                 >
-                    <View style={{paddingTop:10, paddingBottom:10}}>
-                        {this.renderDetail(rowData, sectionID, rowID)}
-                    </View>
+                    <TouchableWithoutFeedback onPress={() => this.goEventsExtraStep(rowData)} >
+                        <View style={{paddingTop:10, paddingBottom:10}}>
+                            {this.renderDetail(rowData, sectionID, rowID)}
+                        </View>
+                    </TouchableWithoutFeedback>
+
                     {this._renderSeparator()}
                 </TouchableOpacity>
             </View>
         )
+    }
+
+
+    goEventsExtraStep(rowData) {
+        this.props.goToEventsInfo(rowData);
     }
 
     _renderDetail(rowData, sectionID, rowID) {
