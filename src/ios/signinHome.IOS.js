@@ -42,7 +42,9 @@ signInScreen = React.createClass({
             password: '',
             loginId: '',
             firstName: '',
-            lastName: ''
+            lastName: '',
+            MyAddress: '',
+            State: ''
         };
     },
 
@@ -87,9 +89,10 @@ signInScreen = React.createClass({
 
                         let userSettingsPath = "/user/" + userId;
 
-                        let latitide = that.state.latitude;
+                        let latitude = that.state.latitude;
                         let longitude = that.state.longitude;
 
+                        if(latitude!=null || longitude!=null)
                         firebase.database().ref(userSettingsPath).set({
                             UserInfo: {
                                 FirstName: firstName,
@@ -97,10 +100,20 @@ signInScreen = React.createClass({
                                 Email: credData.email,
                                 PhoneNumber: tempPhoneNum,
                                 PhotoUrl: credData.photoURL,
-                                Latitude: latitide,
-                                Longitude: longitude
+                                Latitude: latitude.toString(),
+                                Longitude: longitude.toString()
                             }
                         });
+                        else
+                            firebase.database().ref(userSettingsPath).set({
+                                UserInfo: {
+                                    FirstName: firstName,
+                                    LastName: lastName,
+                                    Email: credData.email,
+                                    PhoneNumber: tempPhoneNum,
+                                    PhotoUrl: credData.photoURL
+                                }
+                            });
 
                         let photoLink = credData.photoURL;
 
@@ -109,7 +122,8 @@ signInScreen = React.createClass({
                             component: UserHomeScreen,
                             navigationBarHidden: true,
                             passProps: {myElement: 'text', userId: userId, photoUrl: photoLink,
-                                MyAddress: that.state.MyAddress, State: that.state.State}
+                                MyAddress: that.state.MyAddress, State: that.state.State,
+                                email: credData.email, phoneNumber: tempPhoneNum}
                         })
                     })
                     .catch(err => {
@@ -133,7 +147,7 @@ signInScreen = React.createClass({
         });
     },
 
-    goUserHome: function(firstName, lastName, photo, MyAddress, State) {
+    goUserHome: function(firstName, lastName, photo, MyAddress, State, email, phoneNumber) {
 
         this.state.firstName = firstName;
         this.state.lastName = lastName;
@@ -145,7 +159,7 @@ signInScreen = React.createClass({
             navigationBarHidden: true,
             passProps: {myElement: 'text', userId: this.state.loginId,
                 first: this.state.firstName, last: this.state.lastName, photoUrl: photo,
-            MyAddress: MyAddress, State: State}
+            MyAddress: MyAddress, State: State, email: email, phoneNumber: phoneNumber}
         });
     },
 
@@ -177,7 +191,7 @@ signInScreen = React.createClass({
                     state = res["0"].adminArea;
                     //console.log(myAddress);
                     this.setState({
-                        MyAddress: locality,
+                        MyAddress: locality + " , ",
                         State: state
                     });
                 }).catch(err => console.log(err));
@@ -215,6 +229,7 @@ signInScreen = React.createClass({
             var firstName = "";
             var lastName = "";
             var photo = "";
+            var phoneNumber = '';
             var gotData = false;
             var that = this;
             leadsRef.on('value', function(snapshot) {
@@ -223,18 +238,21 @@ signInScreen = React.createClass({
                     childData = childSnapshot.val();
                     //alert(childData);
                     counter++;
-                   if(counter==2) {
+                   if(counter===2) {
                        firstName = childData;
                    }
-                    if(counter==3) {
+                    if(counter===3) {
                         lastName = childData;
                     }
-                    if(counter==5){
+                    if(counter===6) {
+                        phoneNumber = childData;
+                    }
+                    if(counter===7){
                        photo = childData
                     }
                     gotData = true;
                 });
-                that.goUserHome(firstName, lastName, photo, that.state.MyAddress, that.state.State);
+                that.goUserHome(firstName, lastName, photo, that.state.MyAddress, that.state.State, email, phoneNumber);
             });
 
             console.log("Logged In!");

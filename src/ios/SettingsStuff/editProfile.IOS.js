@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BackButton from 'react-native-vector-icons/EvilIcons';
+import * as firebase from "firebase";
 import {
     StyleSheet,
     Text,
@@ -20,25 +21,38 @@ import ActionButton from "react-native-action-button";
 
 
 class editProfile extends Component{
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            firstName: props.firstName,
+            lastName: props.lastName,
+            phoneNumber: props.phoneNumber,
+            photoUrl: '',
+        }
+    }
+
     backButtonListener() {
         this.props.navigator.pop({
 
         });
     }
-    confirmChangesButton() {
-        alert("Changes confirmed")
+    changeDB() {
+        let userSettingsPath = "/user/" + this.props.userId;
+        firebase.database().ref(userSettingsPath).child('UserInfo').child('FirstName').set(this.state.firstName);
+        firebase.database().ref(userSettingsPath).child('UserInfo').child('LastName').set(this.state.lastName);
+        firebase.database().ref(userSettingsPath).child('UserInfo').child('PhoneNumber').set(this.state.phoneNumber);
+        //no code yet for photo change
     }
-    backToHome() {
+    /*backToHome() {
         this.props.navigator.popToTop({
             title: 'BackToHome',
             passProps: {myElement: 'text'}
         });
-    }
+    }*/
     buttonSelect() {
         alert("Needs implementation")
     }
-
-
 
     render(){
         const titleConfig = {
@@ -63,8 +77,6 @@ class editProfile extends Component{
             { label: 'Take Photo' },
         ];
 
-
-
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -80,7 +92,7 @@ class editProfile extends Component{
                 <View style={{height: 5}}/>
                 <View style={styles.userInfo}>
                     <TouchableHighlight style={{paddingBottom: 5}}>
-                        <Image style={ styles.image } source={{ uri: this.props.photo }} />
+                        <Image style={ styles.image } source={{ uri: this.props.photoId }} />
                     </TouchableHighlight>
                 </View>
                 <View>
@@ -100,6 +112,8 @@ class editProfile extends Component{
                             clearButtonMode="while-editing"
                             multiline={false}
                             autoCorrect={false}
+                            onChangeText={(firstName) => this.setState({firstName})}
+                            value={this.state.firstName}
                         />
                     </View>
                     <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
@@ -114,6 +128,8 @@ class editProfile extends Component{
                             clearButtonMode="while-editing"
                             multiline={false}
                             autoCorrect={false}
+                            onChangeText={(lastName) => this.setState({lastName})}
+                            value={this.state.lastName}
                         />
                     </View>
                     <View style={{height: 40}}/>
@@ -124,12 +140,13 @@ class editProfile extends Component{
                         </View>
                         <TextInput
                             style={styles.firstPTextInputStyle}
-                            defaultValue={'test@hardcoded.com'}
+                            defaultValue={this.props.email}
                             placeholder="email"
                             placeholderTextColor="#C0C0C0"
                             clearButtonMode="while-editing"
                             multiline={false}
                             autoCorrect={false}
+                            editable={false}
                         />
                     </View>
                     <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white',borderRadius: 1, borderBottomWidth: 0.5, borderColor: '#C0C0C0'}}>
@@ -144,12 +161,14 @@ class editProfile extends Component{
                             clearButtonMode="while-editing"
                             multiline={false}
                             autoCorrect={false}
+                            onChangeText={(phoneNumber) => this.setState({phoneNumber})}
+                            value={this.state.phoneNumber}
                         />
                     </View>
                 </View>
                 <View style={{height: 60}}/>
                 <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
-                    <TouchableOpacity onPress={() => this.confirmChangesButton()} style={styles.logoutButtonContainer}>
+                    <TouchableOpacity onPress={() => this.changeDB()} style={styles.logoutButtonContainer}>
                         <Text style={{color: 'red',  margin: 0, fontSize: 17}}>Confirm Changes</Text>
                         <View style={{width: 250}}/>
                     </TouchableOpacity>
@@ -157,7 +176,6 @@ class editProfile extends Component{
             </View>
         )
     }
-
 }
 
 const styles = StyleSheet.create({

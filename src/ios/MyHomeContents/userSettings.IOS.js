@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/EvilIcons';
+import * as firebase from "firebase";
 import Switch from 'react-native-switch-pro'
 import {
     StyleSheet,
@@ -20,7 +21,24 @@ var passwordChange = require('../SettingsStuff/changePassword.IOS');
 var editProfile = require('../SettingsStuff/editProfile.IOS.js');
 var eventSettings = require('../SettingsStuff/eventSettings.IOS');
 
+const auth = firebase.auth();
+const Permissions = require('react-native-permissions');
+
 class userSettingsScreen extends Component {
+
+    async checkLocation() {
+        await Permissions.getPermissionStatus('location', 'whenInUse')
+            .then(response => {
+                if(response==='authorized')
+                    return true;
+                else
+                    return false;
+            });
+    }
+
+    async openSettings() {
+        await Permissions.openSettings();
+    }
 
     backButtonListener() {
         this.props.navigator.pop({
@@ -30,7 +48,8 @@ class userSettingsScreen extends Component {
             passProps: {myElement: 'text'}
         });
     }
-    backToHome() {
+    async backToHome() {
+        await auth.signOut();
         this.props.navigator.popToTop({
             title: 'BackToHome',
             passProps: {myElement: 'text'}
@@ -66,8 +85,9 @@ class userSettingsScreen extends Component {
             title: 'editProfile',
             component: editProfile,
             navigationBarHidden: true,
-            passProps: {myElement: 'text', photoId: this.props.photoUrl, userId: this.props.userId,
-                firstName: this.props.firstName, lastName: this.props.lastName, photo: this.props.photo}
+            passProps: {myElement: 'text', photoId: this.props.photoId, userId: this.props.userId,
+                firstName: this.props.firstName, lastName: this.props.lastName, photo: this.props.photo,
+                email: this.props.email, phoneNumber: this.props.phoneNumber}
         });
     }
 
@@ -128,13 +148,13 @@ class userSettingsScreen extends Component {
                         <Text style={{color: 'black',  margin: 0, fontSize: 17}}>Event Settings</Text>
                         <View style={{width: 250}}/>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => Keyboard.dismiss} style={styles.bottomButtonContainer}>
+                    <TouchableOpacity onPress={() => this.openSettings()} style={styles.bottomButtonContainer}>
                         <Text style={{color: 'black',  margin: 0, fontSize: 17}}>Location Services</Text>
                         <View style={{width: 160}}/>
                         <Switch
                             style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
-                            value={false}
-                            disabled={false}
+                            value={this.props.locationValue}
+                            disabled={true}
                             activeText={'On'}
                             inActiveText={'Off'}
                             backgroundActive={'#0A81D1'}

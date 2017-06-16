@@ -1,6 +1,9 @@
 package com.vibe;
 
 import com.facebook.react.ReactActivity;
+import com.beefe.picker.PickerViewPackage;
+import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
+import com.devfd.RNGeocoder.RNGeocoderPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 
 public class MainActivity extends ReactActivity {

@@ -35,7 +35,9 @@ export default class SignUp extends Component {
             confirmPassword: '',
             phoneNumber: '',
             id: '',
-            photoUrl: ''
+            photoUrl: '',
+            MyAddress: '',
+            State: ''
         }
     }
 
@@ -49,13 +51,14 @@ export default class SignUp extends Component {
         });
     }
 
-    goUserHome() {
+    goUserHome(phoneNumber) {
         this.props.navigator.push({
             title: 'userHomeScreen',
             component: UserHomeScreen,
             navigationBarHidden: true,
             passProps: {myElement: 'text', userId: this.state.id, photoUrl: this.state.photoUrl,
-                MyAddress: this.state.MyAddress, State: this.state.State}
+                MyAddress: this.state.MyAddress, State: this.state.State,
+                email: this.state.email, phoneNumber: phoneNumber}
         });
     }
 
@@ -96,7 +99,7 @@ export default class SignUp extends Component {
                     state = res["0"].adminArea;
                     //console.log(myAddress);
                     this.setState({
-                        MyAddress: locality,
+                        MyAddress: locality + " , ",
                         State: state
                     });
                 }).catch(err => console.log(err));
@@ -132,8 +135,8 @@ export default class SignUp extends Component {
                     Email: email.toLowerCase(),
                     PhoneNumber: phoneNumber,
                     PhotoUrl: "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg",
-                    Latitude: this.state.latitude,
-                    Longitude: this.state.longitude
+                    Latitude: this.state.latitude.toString(),
+                    Longitude: this.state.longitude.toString()
                 }
             });
 
@@ -141,7 +144,7 @@ export default class SignUp extends Component {
             console.log("Account created");
 
             // Navigate to the Home page, the user is auto logged in
-            this.goUserHome();
+            this.goUserHome(phoneNumber);
         } catch (error) {
             alert(error.toString());
         }
