@@ -103,6 +103,37 @@ export default class UserHome extends Component {
         selectedIndex: 1,
         locationValue: false
     };
+    _getDataNewer = () => {
+        let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
+        var counter = 0;
+        var childData = "";
+        var photo = "";
+        var phoneNumber = "";
+        var firstName = "FirstNameDefault";
+        var lastName = "LastNameDefault";
+        var leadsRef = firebase.database().ref(userSettingsPath);
+
+        leadsRef.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                childData = childSnapshot.val();
+                counter++;
+                if(counter===2)
+                    firstName = childData;
+                if(counter===3)
+                    lastName = childData;
+                if(counter===6)
+                    phoneNumber = childData;
+                if(counter===7)
+                    photo = childData;
+
+            });
+        });
+        this.state.firstName = firstName;
+        this.state.lastName = lastName;
+        this.state.photo = photo;
+        this.state.phoneNumber = phoneNumber;
+        return photo
+    };
 
     _getDataNew = () => {
         let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
@@ -226,7 +257,7 @@ export default class UserHome extends Component {
                         >
                             <View style={styles.userInfo}>
                                 <TouchableHighlight style={{paddingBottom: 5}}>
-                                    <Image style={ styles.image } source={{ uri: this.props.photoUrl }} />
+                                    <Image style={ styles.image } source={{ uri: this._getDataNewer() }} />
                                 </TouchableHighlight>
                                 <Text style={styles.username}>{this._getDataNew()}</Text>
                                 <Text style={styles.location}>{this.props.MyAddress + this.props.State}</Text>
@@ -444,7 +475,7 @@ export default class UserHome extends Component {
             title: 'userSettingsScreen',
             component: UserSettingsScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text', photoId: this.props.photoUrl, userId: this.props.userId,
+            passProps: {myElement: 'text', photoId: this.props.photo, userId: this.props.userId,
             firstName: this.state.firstName, lastName: this.state.lastName,
                 photo: this.state.photo, locationValue: this.state.locationValue,
                 email: this.props.email, phoneNumber: this.state.phoneNumber}
