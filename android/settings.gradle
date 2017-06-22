@@ -1,4 +1,6 @@
 rootProject.name = 'vibe'
+include ':react-native-image-crop-picker'
+project(':react-native-image-crop-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-crop-picker/android')
 include ':react-native-vector-icons'
 project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
 include ':react-native-icons'
@@ -7,5 +9,11 @@ include ':react-native-fbsdk'
 project(':react-native-fbsdk').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-fbsdk/android')
 
 include ':app'
+include ':react-native-picker'
+project(':react-native-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-picker/android')
+include ':react-native-permissions'
+project(':react-native-permissions').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-permissions/android')
+include ':react-native-geocoder'
+project(':react-native-geocoder').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-geocoder/android')
 include ':react-native-maps'
 project(':react-native-maps').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-maps/lib/android')

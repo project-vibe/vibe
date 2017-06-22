@@ -37,6 +37,8 @@ var UserEventInfo = require('./CreateEventsContents/userEventInfo.IOS')
 var screen = require('Dimensions').get('window');
 var PageControl = require('react-native-page-control');
 
+const Permissions = require('react-native-permissions');
+
 /** MESSENGER **/
 import MessengerContainer from './MessengerContainer';
 
@@ -44,6 +46,7 @@ export default class UserHome extends Component {
 
     constructor(props) {
         super(props);
+        this.checkLocation();
         this.openFriendsModal = this.openFriendsModal.bind(this);
         this.openUsersModal = this.openUsersModal.bind(this);
         this.onScroll = this.onScroll.bind(this);
@@ -64,6 +67,16 @@ export default class UserHome extends Component {
         this.setState({
             openUserModal: true
         })
+    }
+
+    async checkLocation() {
+        await Permissions.getPermissionStatus('location', 'whenInUse')
+            .then(response => {
+                if (response === 'authorized')
+                    this.state.locationValue = true;
+                else
+                    this.state.locationValue = false;
+            });
     }
 
     userEventsInfo(rowDataTitle) {
@@ -87,14 +100,15 @@ export default class UserHome extends Component {
         openUserModal: false,
         userModalTitle: '',
         currentPage: 0,
-        selectedIndex: 1
+        selectedIndex: 1,
+        locationValue: false
     };
-
-    _getDataNew = () => {
+    _getDataNewer = () => {
         let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
         var counter = 0;
         var childData = "";
         var photo = "";
+        var phoneNumber = "";
         var firstName = "FirstNameDefault";
         var lastName = "LastNameDefault";
         var leadsRef = firebase.database().ref(userSettingsPath);
@@ -103,11 +117,13 @@ export default class UserHome extends Component {
             snapshot.forEach(function(childSnapshot) {
                 childData = childSnapshot.val();
                 counter++;
-                if(counter==2)
+                if(counter===2)
                     firstName = childData;
-                if(counter==3)
+                if(counter===3)
                     lastName = childData;
-                if(counter==5)
+                if(counter===6)
+                    phoneNumber = childData;
+                if(counter===7)
                     photo = childData;
 
             });
@@ -115,6 +131,39 @@ export default class UserHome extends Component {
         this.state.firstName = firstName;
         this.state.lastName = lastName;
         this.state.photo = photo;
+        this.state.phoneNumber = phoneNumber;
+        return photo
+    };
+
+    _getDataNew = () => {
+        let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
+        var counter = 0;
+        var childData = "";
+        var photo = "";
+        var phoneNumber = "";
+        var firstName = "FirstNameDefault";
+        var lastName = "LastNameDefault";
+        var leadsRef = firebase.database().ref(userSettingsPath);
+
+        leadsRef.on('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                childData = childSnapshot.val();
+                counter++;
+                if(counter===2)
+                    firstName = childData;
+                if(counter===3)
+                    lastName = childData;
+                if(counter===6)
+                    phoneNumber = childData;
+                if(counter===7)
+                    photo = childData;
+
+            });
+        });
+        this.state.firstName = firstName;
+        this.state.lastName = lastName;
+        this.state.photo = photo;
+        this.state.phoneNumber = phoneNumber;
         return <Text> {firstName + " " +lastName} </Text>
     };
 
@@ -208,10 +257,10 @@ export default class UserHome extends Component {
                         >
                             <View style={styles.userInfo}>
                                 <TouchableHighlight style={{paddingBottom: 5}}>
-                                    <Image style={ styles.image } source={{ uri: this.props.photoUrl }} />
+                                    <Image style={ styles.image } source={{ uri: this._getDataNewer() }} />
                                 </TouchableHighlight>
                                 <Text style={styles.username}>{this._getDataNew()}</Text>
-                                <Text style={styles.location}>{this.props.MyAddress + " , " + this.props.State}</Text>
+                                <Text style={styles.location}>{this.props.MyAddress + this.props.State}</Text>
                                 <View style={{height: 20}} />
                             </View>
                             <View style={{width:screen.width,  height:210,backgroundColor:'#0A81D1'}}>
@@ -427,8 +476,10 @@ export default class UserHome extends Component {
             title: 'userSettingsScreen',
             component: UserSettingsScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text', photoId: this.props.photoUrl, userId: this.props.userId,
-            firstName: this.state.firstName, lastName: this.state.lastName, photo: this.state.photo}
+            passProps: {myElement: 'text', photoId: this.props.photo, userId: this.props.userId,
+            firstName: this.state.firstName, lastName: this.state.lastName,
+                photo: this.state.photo, locationValue: this.state.locationValue,
+                email: this.props.email, phoneNumber: this.state.phoneNumber}
         });
     }
 

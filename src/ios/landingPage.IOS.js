@@ -14,7 +14,6 @@ import {
 
 import Swiper from 'react-native-swiper';
 
-
 var SignUpScreen = require('./signup.IOS.js');
 // var SignInScreen = require('./MyHomeContents/userHome.IOS')
 var SignInScreen = require('./signinHome.IOS');
@@ -23,10 +22,18 @@ var image1 = require('./img/roundabout.gif');
 var image2 = require('./img/forest.gif');
 var image3 = require('./img/sea.gif');
 
+const Permissions = require('react-native-permissions');
+
 var landingPage = React.createClass({
 
+    getInitialState() {
+        return {
+            locationPermission: ''
+        };
+    },
 
-    goSignIn: function () {
+    async signIn() {
+        await this.askForLocation();
         this.props.navigator.push({
             title: 'signInHomeScreen',
             component: SignInScreen,
@@ -35,8 +42,8 @@ var landingPage = React.createClass({
         });
     },
 
-
-    goSignUp: function () {
+    async signUp() {
+        await this.askForLocation();
         this.props.navigator.push({
             title: 'signUp',
             component: SignUpScreen,
@@ -45,6 +52,14 @@ var landingPage = React.createClass({
         });
     },
 
+    async askForLocation() {
+        await Permissions.requestPermission('location')
+            .then(response => {
+                //returns once the user has chosen to 'allow' or to 'not allow' access
+                //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+                this.setState({ locationPermission: response })
+            });
+    },
 
     render: function () {
         return (
@@ -112,10 +127,10 @@ var landingPage = React.createClass({
                     <Text
                         style={{fontSize: 105, color: 'white', fontFamily: 'Chalkduster', fontWeight: 'bold'}}>V </Text>
                 </View>
-                <TouchableOpacity onPress={() => this.goSignUp()} style={styles.signUpButton}>
+                <TouchableOpacity onPress={() => this.signUp()} style={styles.signUpButton}>
                     <Text style={styles.signUpButtonText}> Get Started</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.goSignIn()} style={styles.signInButton}>
+                <TouchableOpacity onPress={() => this.signIn()} style={styles.signInButton}>
                     <Text style={styles.signInButtonText}> Log in</Text>
                 </TouchableOpacity>
 
