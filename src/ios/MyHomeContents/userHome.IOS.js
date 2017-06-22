@@ -6,7 +6,7 @@ import * as firebase from "firebase";
 import * as Animatable from 'react-native-animatable';
 
 /** Extra COMPONENTS **/
-import Modal from '../anm/react-native-simple-modal/index';
+import Modal from '../anm/react-native-simple-modal-1/index';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import Geocoder from 'react-native-geocoder';
@@ -298,12 +298,13 @@ export default class UserHome extends Component {
 
                             <View style={{paddingTop: 15, marginBottom: 10, width: 300}}>
                                 <SegmentedControlIOS
-                                    values={['Sure', 'Maybe', 'Pass']}
+                                    values={['Confirm', 'Unsure']}
                                     tintColor={'#0A81D1'}
                                     selectedIndex={this.state.selectedIndex}
                                     onChange={(event) => {
                                         this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
                                     }}
+                                    style={{borderRadius: 20}}
                                 />
                             </View>
                             <View style={{backgroundColor: 'transparent', height: '77%', width: 300}}>

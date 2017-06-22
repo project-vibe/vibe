@@ -1,54 +1,268 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, StatusBar, Text, TouchableOpacity} from 'react-native'
+import { StyleSheet, View, StatusBar, Text, TouchableOpacity, ListView} from 'react-native'
+import NavigationBar from 'react-native-navbar';
+import Modal from '../../anm/react-native-simple-modal-1/NewModal/index';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import LocationIcon from 'react-native-vector-icons/MaterialIcons';
 
-import Modal from '../../anm/react-native-simple-modal/index';
+/** NAVIGATION **/
+var UserHome = require('../userSettings.IOS');
+var VibeMapsScreen = require('../maps.IOS.js');
 
 export default class UserEventInfo extends Component {
-
-    constructor(props) {
-        super();
-        // this.setState({statusModal: true})
-    };
+    // constructor() {
+    //     super();
+    //     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    //     this.state = {
+    //         dataSource: ds.cloneWithRows(['EDIT EVENT', 'ACCEPTED', 'GROUP CHAT']),
+    //     };
+    // }
 
     state = {
         statusModal: false,
     };
 
+    componentDidMount() {
+        this.setState({statusModal: true})
+    }
+
+    deleteEvent() {
+        alert('delete event. send request ot firebase')
+    }
+
+    getEventTitle() {
+        return <Text style={styles.eventHeaderText}> DINNER PARTY </Text>
+    }
+
+    getEventLocation() {
+        return  (
+            <TouchableOpacity onPress={() => this.goToMaps()} style={styles.eventLocationButton}>
+                <LocationIcon name="location-on" size={15} color="rgb(146,144,145)"></LocationIcon>
+                <Text style={styles.eventHeaderLocationText}> BADMINTON ROAD B </Text>
+            </TouchableOpacity>
+        );
+    }
+
+    getEventDescription() {
+        return (
+            <View style={styles.eventDescriptionContainer}>
+                <Text style={styles.eventDescription}> Put description of event here.</Text>
+            </View>
+        )
+    }
+
+    getEventDate() {
+        return <Text style={{paddingLeft: 25, color: 'rgb(59,59,59)', paddingTop: 20, fontWeight: 'bold', fontFamily: 'Bangla Sangam MN'}}> MAY 21 MON 09:00 PM </Text>
+    }
+
     render () {
+        const backConfig = (
+            <Icon.Button name="arrow-left-bold"
+                         size={30}
+                         color="grey"
+                         onPress={() => this.goBackHome()}
+                         backgroundColor="transparent"
+            >
+            </Icon.Button>
+        );
+
+        const deleteConfig = (
+            <Icon.Button name="delete"
+                         size={30}
+                         color="rgb(146,144,145)"
+                         onPress={() => this.deleteEvent()}
+                         backgroundColor="transparent"
+            >
+            </Icon.Button>
+        );
+
         return (
             <View style={styles.container}>
                 <StatusBar
-                    backgroundColor="white"
-                    barStyle="dark-content"
+                    backgroundColor="blue"
+                    barStyle="light-content"
                 />
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <TouchableOpacity onPress={() => this.setState({statusModal: true})} style={{width: 200, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{color: 'white', fontSize: 12}}> Pomona, CA</Text>
-                    </TouchableOpacity>
-                </View>
                 <Modal
                     offset={this.state.offset}
-                    open={true}
+                    open={this.state.statusModal}
                     modalDidOpen={() => console.log('modal did open')}
                     modalDidClose={() => this.setState({statusModal: false})}
-                    style={{alignItems: 'center', backgroundColor: 'white'}}>
+                    style={{alignItems: 'center'}}>
 
-                    <Text> HELLO </Text>
+                    <NavigationBar
+                        leftButton={backConfig}
+                        rightButton={deleteConfig}
+                        tintColor={'transparent'}
+                    />
+
+                    <View style={styles.eventHeaderContainer}>
+                        {this.getEventTitle()}
+                        {this.getEventLocation()}
+                        {this.getEventDescription()}
+                    </View>
+
+                    <View style={{width: '112.8%', height: '67%', marginLeft: -20}}>
+                        <View style={{height: '80%'}}>
+                            <View style={styles.listRow}>
+                                {this.getEventDate()}
+                                <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
+                                    <Text style={styles.rowDataStyle1}> EDIT EVENTS </Text>
+                                    <View style={{width: '10%', paddingTop: 15}}>
+                                        <Icon
+                                            name="arrow-right-drop-circle"
+                                            size={30}
+                                            color="rgb(200,200,200)"
+                                            backgroundColor="transparent">
+                                        </Icon>
+                                    </View>
+                                </View>
+                            </View>
+
+                            <View style={styles.listRow}>
+                                <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
+                                    <Text style={styles.rowDataStyle2}> ACCEPTED </Text>
+                                    <View style={{width: '10%', paddingTop: 15}}>
+                                        <Icon
+                                            name="arrow-right-drop-circle"
+                                            size={30}
+                                            color="rgb(200,200,200)"
+                                            backgroundColor="transparent">
+                                        </Icon>
+                                    </View>
+                                </View>
+                            </View>
+
+                            <View style={styles.listRow}>
+                                <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
+                                    <Text style={styles.rowDataStyle3}> GROUP CHAT </Text>
+                                    <View style={{width: '10%', paddingTop: 15}}>
+                                        <Icon
+                                            name="arrow-right-drop-circle"
+                                            size={30}
+                                            color="rgb(200,200,200)"
+                                            backgroundColor="transparent">
+                                        </Icon>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
                 </Modal>
 
             </View>
         )
     }
 
+    goToMaps() {
+        this.props.navigator.push({
+            title: 'VibeMaps',
+            component: VibeMapsScreen,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
+    }
+
+    goBackHome() {
+        this.props.navigator.pop({
+            title: 'BackPage',
+            component: UserHome,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text'}
+        });
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'blue',
+        backgroundColor: 'black',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    eventHeaderContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 10,
+    },
+    eventHeaderText: {
+        fontSize: 35,
+        fontWeight: 'bold',
+        fontFamily: 'Bangla Sangam MN',
+        letterSpacing: -2,
+        // TrebuchetMS-Bold,AvenirNextCondensed-Medium
+
+        color: '#0A81D1'
+    },
+    eventHeaderLocationText: {
+        fontSize: 15,
+        fontWeight: 'bold',
+        fontFamily: 'Bangla Sangam MN',
+        letterSpacing: -1,
+        // TrebuchetMS-Bold,AvenirNextCondensed-Medium
+
+        color: 'rgb(146,144,145)'
+    },
+    eventLocationButton: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    eventDescriptionContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 20,
+        paddingBottom: 20
+    },
+    eventDescription: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        fontFamily: 'Bangla Sangam MN',
+        color: 'rgb(200,200,200)',
+    },
+    rowDataStyle1: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        fontFamily: 'Bangla Sangam MN',
+        color: 'rgb(187, 104, 67)',
+        letterSpacing: -2,
+        paddingLeft: 20,
+        paddingTop: 5,
+        paddingBottom: 20,
+        width: '90%'
+    },
+    rowDataStyle2: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        fontFamily: 'Bangla Sangam MN',
+        color: 'rgb(94,154,168)',
+        letterSpacing: -2,
+        paddingLeft: 20,
+        paddingTop: 5,
+        paddingBottom: 20,
+        width: '90%'
+    },
+    rowDataStyle3: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        fontFamily: 'Bangla Sangam MN',
+        color: 'rgb(142,162,50)',
+        letterSpacing: -2,
+        paddingLeft: 20,
+        paddingTop: 5,
+        paddingBottom: 20,
+        width: '90%'
+    },
+    listRow: {
+        backgroundColor: 'rgb(230,230,230)',
+        borderTopColor: 'rgb(210,210,210)',
+        borderBottomColor: 'grey',
+        borderTopWidth: 0.4,
+        borderBottomWidth: 0.4,
+        height: '40%'
     }
 });
 module.exports = UserEventInfo;
