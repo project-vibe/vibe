@@ -11,14 +11,6 @@ var UserHome = require('../userSettings.IOS');
 var VibeMapsScreen = require('../maps.IOS.js');
 
 export default class UserEventInfo extends Component {
-    // constructor() {
-    //     super();
-    //     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    //     this.state = {
-    //         dataSource: ds.cloneWithRows(['EDIT EVENT', 'ACCEPTED', 'GROUP CHAT']),
-    //     };
-    // }
-
     state = {
         statusModal: false,
     };
@@ -53,7 +45,15 @@ export default class UserEventInfo extends Component {
     }
 
     getEventDate() {
-        return <Text style={{paddingLeft: 25, color: 'rgb(59,59,59)', paddingTop: 20, fontWeight: 'bold', fontFamily: 'Bangla Sangam MN'}}> MAY 21 MON 09:00 PM </Text>
+        return <Text style={styles.textTop}> MAY 21 MON 09:00 PM </Text>
+    }
+
+    getNumResponded() {
+        return <Text style={styles.textTop}> 4/8 RESPONDED </Text>
+    }
+
+    getChatNotification() {
+        return <Text style={styles.textTop}> NEW MESSAGES</Text>
     }
 
     render () {
@@ -106,44 +106,73 @@ export default class UserEventInfo extends Component {
                         <View style={{height: '80%'}}>
                             <View style={styles.listRow}>
                                 {this.getEventDate()}
-                                <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
+                                <View style={{flexDirection: 'row', height: '35%', width: '100%'}}>
                                     <Text style={styles.rowDataStyle1}> EDIT EVENTS </Text>
                                     <View style={{width: '10%', paddingTop: 15}}>
                                         <Icon
                                             name="arrow-right-drop-circle"
-                                            size={30}
+                                            size={25}
                                             color="rgb(200,200,200)"
                                             backgroundColor="transparent">
                                         </Icon>
                                     </View>
                                 </View>
+                                <View style={{flexDirection: 'row', height: '20%', width: '100%', paddingLeft: 22}}>
+                                    <Icon
+                                        name="account-multiple"
+                                        size={20}
+                                        color="rgb(146,144,145)"
+                                        backgroundColor="transparent">
+                                    </Icon>
+                                    <Text style={styles.invitedListText}> You invited John, Tim and 3 others.</Text>
+                                </View>
                             </View>
 
-                            <View style={styles.listRow}>
+                            <View style={styles.listMidRow}>
+                                {this.getNumResponded()}
                                 <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
                                     <Text style={styles.rowDataStyle2}> ACCEPTED </Text>
                                     <View style={{width: '10%', paddingTop: 15}}>
                                         <Icon
                                             name="arrow-right-drop-circle"
-                                            size={30}
+                                            size={25}
                                             color="rgb(200,200,200)"
                                             backgroundColor="transparent">
                                         </Icon>
                                     </View>
                                 </View>
+                                <View style={{flexDirection: 'row', height: '20%', width: '100%', paddingLeft: 22}}>
+                                    <Icon
+                                        name="clipboard-check"
+                                        size={20}
+                                        color="rgb(146,144,145)"
+                                        backgroundColor="transparent">
+                                    </Icon>
+                                    <Text style={styles.invitedListText}> Chris, Bob and 10 others have accepted.</Text>
+                                </View>
                             </View>
 
                             <View style={styles.listRow}>
+                                {this.getChatNotification()}
                                 <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
                                     <Text style={styles.rowDataStyle3}> GROUP CHAT </Text>
-                                    <View style={{width: '10%', paddingTop: 15}}>
+                                    <View style={{width: '10%', paddingTop: 12}}>
                                         <Icon
                                             name="arrow-right-drop-circle"
-                                            size={30}
+                                            size={25}
                                             color="rgb(200,200,200)"
                                             backgroundColor="transparent">
                                         </Icon>
                                     </View>
+                                </View>
+                                <View style={{flexDirection: 'row', height: '20%', width: '100%', paddingLeft: 22}}>
+                                    <Icon
+                                        name="message-text"
+                                        size={20}
+                                        color="rgb(146,144,145)"
+                                        backgroundColor="transparent">
+                                    </Icon>
+                                    <Text style={styles.invitedListText}> Ron, Jim and 2 others are in this chat.</Text>
                                 </View>
                             </View>
                         </View>
@@ -200,7 +229,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Bangla Sangam MN',
         letterSpacing: -1,
         // TrebuchetMS-Bold,AvenirNextCondensed-Medium
-
         color: 'rgb(146,144,145)'
     },
     eventLocationButton: {
@@ -215,7 +243,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 20,
-        paddingBottom: 20
+        paddingBottom: 25
     },
     eventDescription: {
         fontSize: 12,
@@ -259,10 +287,27 @@ const styles = StyleSheet.create({
     listRow: {
         backgroundColor: 'rgb(230,230,230)',
         borderTopColor: 'rgb(210,210,210)',
-        borderBottomColor: 'grey',
-        borderTopWidth: 0.4,
-        borderBottomWidth: 0.4,
-        height: '40%'
+        borderBottomColor: 'rgb(210,210,210)',
+        borderTopWidth: 0.5,
+        borderBottomWidth: 0.5,
+        height: '41%'
+    },
+    listMidRow: {
+        backgroundColor: 'rgb(230,230,230)',
+        height: '41%'
+    },
+    invitedListText: {
+        fontSize: 12,
+        fontWeight: 'bold',
+        fontFamily: 'Bangla Sangam MN',
+        color: 'rgb(146,144,145)'
+    },
+    textTop: {
+        paddingLeft: 25,
+        color: 'rgb(59,59,59)',
+        paddingTop: 25,
+        fontWeight: 'bold',
+        fontFamily: 'Bangla Sangam MN'
     }
 });
 module.exports = UserEventInfo;
