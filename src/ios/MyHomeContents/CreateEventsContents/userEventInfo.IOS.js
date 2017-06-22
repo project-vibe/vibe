@@ -1,6 +1,6 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, StatusBar, Text, TouchableOpacity, ListView} from 'react-native'
+import { StyleSheet, View, StatusBar, Text, TouchableOpacity, ListView, TouchableWithoutFeedback} from 'react-native'
 import NavigationBar from 'react-native-navbar';
 import Modal from '../../anm/react-native-simple-modal-1/NewModal/index';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -104,77 +104,83 @@ export default class UserEventInfo extends Component {
 
                     <View style={{width: '112.8%', height: '67%', marginLeft: -20}}>
                         <View style={{height: '80%'}}>
-                            <View style={styles.listRow}>
-                                {this.getEventDate()}
-                                <View style={{flexDirection: 'row', height: '35%', width: '100%'}}>
-                                    <Text style={styles.rowDataStyle1}> EDIT EVENTS </Text>
-                                    <View style={{width: '10%', paddingTop: 15}}>
+                            <TouchableWithoutFeedback onPress={() => this.goEditEvent()}>
+                                <View style={styles.listRow}>
+                                    {this.getEventDate()}
+                                    <View style={{flexDirection: 'row', height: '35%', width: '100%'}}>
+                                        <Text style={styles.rowDataStyle1}> EDIT EVENTS </Text>
+                                        <View style={{width: '10%', paddingTop: 15}}>
+                                            <Icon
+                                                name="arrow-right-drop-circle"
+                                                size={25}
+                                                color="rgb(200,200,200)"
+                                                backgroundColor="transparent">
+                                            </Icon>
+                                        </View>
+                                    </View>
+                                    <View style={{flexDirection: 'row', height: '20%', width: '100%', paddingLeft: 22}}>
                                         <Icon
-                                            name="arrow-right-drop-circle"
-                                            size={25}
-                                            color="rgb(200,200,200)"
+                                            name="account-multiple"
+                                            size={20}
+                                            color="rgb(146,144,145)"
                                             backgroundColor="transparent">
                                         </Icon>
+                                        <Text style={styles.invitedListText}> You invited John, Tim and 3 others.</Text>
                                     </View>
                                 </View>
-                                <View style={{flexDirection: 'row', height: '20%', width: '100%', paddingLeft: 22}}>
-                                    <Icon
-                                        name="account-multiple"
-                                        size={20}
-                                        color="rgb(146,144,145)"
-                                        backgroundColor="transparent">
-                                    </Icon>
-                                    <Text style={styles.invitedListText}> You invited John, Tim and 3 others.</Text>
-                                </View>
-                            </View>
+                            </TouchableWithoutFeedback>
 
-                            <View style={styles.listMidRow}>
-                                {this.getNumResponded()}
-                                <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
-                                    <Text style={styles.rowDataStyle2}> ACCEPTED </Text>
-                                    <View style={{width: '10%', paddingTop: 15}}>
+                            <TouchableWithoutFeedback onPress={() => this.goToAcceptedList()}>
+                                <View style={styles.listMidRow}>
+                                    {this.getNumResponded()}
+                                    <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
+                                        <Text style={styles.rowDataStyle2}> ACCEPTED </Text>
+                                        <View style={{width: '10%', paddingTop: 15}}>
+                                            <Icon
+                                                name="arrow-right-drop-circle"
+                                                size={25}
+                                                color="rgb(200,200,200)"
+                                                backgroundColor="transparent">
+                                            </Icon>
+                                        </View>
+                                    </View>
+                                    <View style={{flexDirection: 'row', height: '20%', width: '100%', paddingLeft: 22}}>
                                         <Icon
-                                            name="arrow-right-drop-circle"
-                                            size={25}
-                                            color="rgb(200,200,200)"
+                                            name="clipboard-check"
+                                            size={20}
+                                            color="rgb(146,144,145)"
                                             backgroundColor="transparent">
                                         </Icon>
+                                        <Text style={styles.invitedListText}> Chris, Bob and 10 others have accepted.</Text>
                                     </View>
                                 </View>
-                                <View style={{flexDirection: 'row', height: '20%', width: '100%', paddingLeft: 22}}>
-                                    <Icon
-                                        name="clipboard-check"
-                                        size={20}
-                                        color="rgb(146,144,145)"
-                                        backgroundColor="transparent">
-                                    </Icon>
-                                    <Text style={styles.invitedListText}> Chris, Bob and 10 others have accepted.</Text>
-                                </View>
-                            </View>
+                            </TouchableWithoutFeedback>
 
-                            <View style={styles.listRow}>
-                                {this.getChatNotification()}
-                                <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
-                                    <Text style={styles.rowDataStyle3}> GROUP CHAT </Text>
-                                    <View style={{width: '10%', paddingTop: 12}}>
+                            <TouchableWithoutFeedback onPress={() => this.goToGroupChat()}>
+                                <View style={styles.listRow}>
+                                    {this.getChatNotification()}
+                                    <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
+                                        <Text style={styles.rowDataStyle3}> GROUP CHAT </Text>
+                                        <View style={{width: '10%', paddingTop: 12}}>
+                                            <Icon
+                                                name="arrow-right-drop-circle"
+                                                size={25}
+                                                color="rgb(200,200,200)"
+                                                backgroundColor="transparent">
+                                            </Icon>
+                                        </View>
+                                    </View>
+                                    <View style={{flexDirection: 'row', height: '20%', width: '100%', paddingLeft: 22}}>
                                         <Icon
-                                            name="arrow-right-drop-circle"
-                                            size={25}
-                                            color="rgb(200,200,200)"
+                                            name="message-text"
+                                            size={20}
+                                            color="rgb(146,144,145)"
                                             backgroundColor="transparent">
                                         </Icon>
+                                        <Text style={styles.invitedListText}> Ron, Jim and 2 others are in this chat.</Text>
                                     </View>
                                 </View>
-                                <View style={{flexDirection: 'row', height: '20%', width: '100%', paddingLeft: 22}}>
-                                    <Icon
-                                        name="message-text"
-                                        size={20}
-                                        color="rgb(146,144,145)"
-                                        backgroundColor="transparent">
-                                    </Icon>
-                                    <Text style={styles.invitedListText}> Ron, Jim and 2 others are in this chat.</Text>
-                                </View>
-                            </View>
+                            </TouchableWithoutFeedback>
                         </View>
                     </View>
                 </Modal>
@@ -199,6 +205,18 @@ export default class UserEventInfo extends Component {
             navigationBarHidden: true,
             passProps: {myElement: 'text'}
         });
+    }
+
+    goEditEvent() {
+        alert('go to edit event screen')
+    }
+
+    goToAcceptedList() {
+        alert('go to accepted list screen')
+    }
+
+    goToGroupChat() {
+        alert('go to group chat screen')
     }
 }
 
