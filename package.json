@@ -30,6 +30,7 @@
     "react-native-maps": "^0.15.2",
     "react-native-material-switch": "0.0.4",
     "react-native-md5": "^1.0.0",
+    "react-native-swipeable": "^0.4.0",
     "react-native-modal-dropdown": "^0.4.2",
     "react-native-modal-picker": "0.0.16",
     "react-native-mswiper": "^2.0.0",
