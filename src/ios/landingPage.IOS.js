@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     Keyboard,
     TouchableWithoutFeedback,
-    View
+    View,
+    StatusBar
 } from 'react-native';
 
 import Swiper from 'react-native-swiper';
@@ -64,6 +65,10 @@ var landingPage = React.createClass({
     render: function () {
         return (
             <View style={{flex: 1}}>
+                <StatusBar
+                    color="white"
+                    barStyle="light-content"
+                />
                 <Swiper autoplay={true} showButtons={true}
                         dot={<View style={{
                             backgroundColor: 'grey',

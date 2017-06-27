@@ -1,6 +1,6 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, SegmentedControlIOS, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, SegmentedControlIOS, TouchableOpacity, ScrollView, StatusBar } from 'react-native'
 import NavigationBar from 'react-native-navbar';
 import * as firebase from "firebase";
 import * as Animatable from 'react-native-animatable';
@@ -52,9 +52,12 @@ export default class UserHome extends Component {
         this.onScroll = this.onScroll.bind(this);
         this.onItemTap = this.onItemTap.bind(this);
 
-
         this.userEventsInfo = this.userEventsInfo.bind(this);
     };
+
+    componentDidMount() {
+        StatusBar.setBarStyle('light-content', true);
+    }
 
     openFriendsModal(text) {
         this.setState({
@@ -241,6 +244,11 @@ export default class UserHome extends Component {
                     leftButton={addFriendsConfig}
                     tintColor={'#0A81D1'}
                 />
+
+                {/*<StatusBar*/}
+                    {/*color="white"*/}
+                    {/*barStyle="light-content"*/}
+                {/*/>*/}
 
                 <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
                     <View style={{backgroundColor:'red', width:'100%', height: 210}}>

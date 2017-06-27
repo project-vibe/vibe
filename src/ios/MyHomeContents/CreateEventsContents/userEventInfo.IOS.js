@@ -108,7 +108,7 @@ export default class UserEventInfo extends Component {
                                 <View style={styles.listRow}>
                                     {this.getEventDate()}
                                     <View style={{flexDirection: 'row', height: '35%', width: '100%'}}>
-                                        <Text style={styles.rowDataStyle1}> EDIT EVENTS </Text>
+                                        <Text style={styles.rowDataStyle1}> EDIT ACTIVITY</Text>
                                         <View style={{width: '10%', paddingTop: 15}}>
                                             <Icon
                                                 name="arrow-right-drop-circle"
@@ -134,7 +134,7 @@ export default class UserEventInfo extends Component {
                                 <View style={styles.listMidRow}>
                                     {this.getNumResponded()}
                                     <View style={{flexDirection: 'row', height: '40%', width: '100%'}}>
-                                        <Text style={styles.rowDataStyle2}> ACCEPTED </Text>
+                                        <Text style={styles.rowDataStyle2}> WHO'S DOWN </Text>
                                         <View style={{width: '10%', paddingTop: 15}}>
                                             <Icon
                                                 name="arrow-right-drop-circle"
@@ -151,7 +151,7 @@ export default class UserEventInfo extends Component {
                                             color="rgb(146,144,145)"
                                             backgroundColor="transparent">
                                         </Icon>
-                                        <Text style={styles.invitedListText}> Chris, Bob and 10 others have accepted.</Text>
+                                        <Text style={styles.invitedListText}> Chris, Bob and 10 others are joining.</Text>
                                     </View>
                                 </View>
                             </TouchableWithoutFeedback>
