@@ -45,7 +45,7 @@ export default class UserPreview extends Component {
             <View style={styles.container}>
                 <View style={{flexDirection: 'row', paddingBottom: 20}}>
                     <View style={{paddingLeft: 10, width: '20%'}}>
-                        <Image style={ styles.image } source={{ uri: this.props.data.UserInfo.photoUrl }} />
+                        <Image style={ styles.image } source={{ uri: this.props.data.UserInfo.PhotoUrl }} />
                     </View>
                     <View style={{width: '60%'}}>
                         <Text style={styles.username}>{this.props.data.UserInfo.FirstName} </Text>
