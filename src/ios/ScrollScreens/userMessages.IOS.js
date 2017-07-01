@@ -4,12 +4,12 @@ import {
     View,
     StyleSheet,
     StatusBar,
+    Image,
     TouchableOpacity,
     TouchableHighlight,
     ListView,
     Text,
     Alert,
-    Image,
     ScrollView
 } from 'react-native';
 import Button from 'react-native-button';
@@ -61,7 +61,7 @@ export default class UserMessages extends Component {
             return (
                 <Swipeable
                     leftContent={leftContent}>
-                    <Card styles={styles.card}>
+                    <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
                             flexDirection: 'row',
@@ -70,7 +70,7 @@ export default class UserMessages extends Component {
                             marginRight: 30
                         }}>
 
-                            <Image style={ styles.image } source={{uri: props.picture.large}}/>
+                            <Image style={ styles.friendRequestImage} source={{uri: props.picture.large}}/>
                             <View style={{flexDirection: 'column'}}>
                                 <Text style={styles.cardContent}>{`${props.name.first} ${props.name.last} `}
                                     has requested to add you!</Text>
@@ -96,7 +96,7 @@ export default class UserMessages extends Component {
         if (props.cardType == "eventJoin")
             return (
                 <Swipeable leftContent={leftContent}>
-                    <Card styles={styles.card}>
+                    <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
                             flexDirection: 'row',
@@ -105,7 +105,7 @@ export default class UserMessages extends Component {
                             marginRight: 30
                         }}>
 
-                            <Image style={ styles.image } source={{uri: props.picture.large}}/>
+                            <Image style={ styles.profileImage } source={{uri: props.picture.large}}/>
                             <View style={{flexDirection: 'column'}}>
                                 <Text style={styles.cardContent}>{`${props.name.first} ${props.name.last} `}
                                     has joined {props.eventName}!</Text>
@@ -117,7 +117,7 @@ export default class UserMessages extends Component {
         if (props.cardType == "friendRequestAccepted")
             return (
                 <Swipeable leftContent={leftContent}>
-                    <Card styles={styles.card}>
+                    <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
                             flexDirection: 'row',
@@ -126,7 +126,7 @@ export default class UserMessages extends Component {
                             marginRight: 30
                         }}>
 
-                            <Image style={ styles.image } source={{uri: props.picture.large}}/>
+                            <Image style={ styles.profileImage } source={{uri: props.picture.large}}/>
                             <View style={{flexDirection: 'column'}}>
                                 <Text style={styles.cardContent}>{`${props.name.first} ${props.name.last} `}
                                     has accepted your friend request!</Text>
@@ -138,7 +138,7 @@ export default class UserMessages extends Component {
         if (props.cardType == "eventShare")
             return (
                 <Swipeable leftContent={leftContent}>
-                    <Card styles={styles.card}>
+                    <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
                             flexDirection: 'row',
@@ -147,7 +147,7 @@ export default class UserMessages extends Component {
                             marginRight: 30
                         }}>
 
-                            <Image style={ styles.image } source={{uri: props.picture.large}}/>
+                            <Image style={ styles.friendRequestImage} source={{uri: props.picture.large}}/>
                             <View style={{flexDirection: 'column'}}>
                                 <Text style={styles.cardContent}>{`${props.name.first} ${props.name.last} `}
                                     has invited you to join {props.eventName}!</Text>
@@ -181,25 +181,27 @@ export default class UserMessages extends Component {
         //swipeAction: () => this.setState({swipeAction})
 
         return (
-            <View style={styles.page}>
+            <Image source={require('../img/ciudad.jpg')} style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
                     renderRow={this.renderCards.bind(cardInfo)}>
                 </ListView>
-            </View>
-
+            </Image>
         );
     }
 }
 
 const styles = StyleSheet.create({
 
-    page: {
+    container: {
         flex: 1,
-        backgroundColor: '#E8E8EE'
+        backgroundColor: 'transparent',
+        width: undefined,
+        height: undefined,
+
     },
 
-    image: {
+    profileImage: {
         flexDirection: 'column',
         marginRight: 10,
         marginLeft: 15,
@@ -213,20 +215,34 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 10,
         borderWidth: 2,
-        borderColor: '#0A81D1'
+        borderColor: 'white'
     },
 
-    card: {
-        flex: 1,
-        width: 350,
-        height: 320
+    friendRequestImage: {
+        flexDirection: 'column',
+        marginRight: 10,
+        marginLeft: 15,
+        marginTop: 17,
+        height: 50,
+        width: 50,
+        borderRadius: 25,
+        shadowColor: '#000000',
+        shadowOffset: {
+            width: 0,
+            height: 3
+        },
+        shadowRadius: 10,
+        borderWidth: 2,
+        borderColor: 'white'
     },
+
 
     cardContent: {
         fontFamily: 'Noteworthy',
         fontSize: 17,
         marginRight: 45,
-        marginLeft: 26
+        marginLeft: 26,
+        color: 'white'
     },
 
     cardTitle: {
@@ -238,13 +254,13 @@ const styles = StyleSheet.create({
     buttonAccept: {
         marginHorizontal: 30,
         fontFamily: 'Noteworthy',
-        color: 'green'
+        color: 'white'
     },
 
     buttonReject: {
         marginHorizontal: 30,
         fontFamily: 'Noteworthy',
-        color: 'red'
+        color: '#FF5252'
     },
 
 });

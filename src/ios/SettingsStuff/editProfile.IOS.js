@@ -11,15 +11,23 @@ import {
     Alert,
     Image,
     TouchableOpacity,
+    ScrollView,
+    Platform,
     TouchableHighlight,
     Keyboard,
     TouchableWithoutFeedback,
     View,
     StatusBar
 } from 'react-native';
+import ModalPicker from "react-native-modal-picker"
 import ActionButton from "react-native-action-button";
 import ImagePicker from 'react-native-image-crop-picker';
+import RNFetchBlob from 'react-native-fetch-blob'
 
+const Blob = RNFetchBlob.polyfill.Blob
+const fs = RNFetchBlob.fs
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
+window.Blob = Blob
 
 class editProfile extends Component{
 
@@ -38,13 +46,46 @@ class editProfile extends Component{
 
         });
     }
-    changeDB() {
+
+    changeDB(uri, mime = 'image/jpg') {
         let userSettingsPath = "/user/" + this.props.userId;
-        firebase.database().ref(userSettingsPath).child('UserInfo').child('FirstName').set(this.state.firstName);
-        firebase.database().ref(userSettingsPath).child('UserInfo').child('LastName').set(this.state.lastName);
-        firebase.database().ref(userSettingsPath).child('UserInfo').child('PhoneNumber').set(this.state.phoneNumber);
-        firebase.database().ref(userSettingsPath).child('UserInfo').child('PhotoUrl').set(this.state.photo);
-        //no code yet for photo change
+        if(this.props.photo === uri)
+        {
+            firebase.database().ref(userSettingsPath).child('UserInfo').child('PhotoUrl').set(this.state.photo);
+            firebase.database().ref(userSettingsPath).child('UserInfo').child('FirstName').set(this.state.firstName);
+            firebase.database().ref(userSettingsPath).child('UserInfo').child('LastName').set(this.state.lastName);
+            firebase.database().ref(userSettingsPath).child('UserInfo').child('PhoneNumber').set(this.state.phoneNumber);
+        }
+        else
+        return new Promise((resolve, reject) => {
+            const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+            let uploadBlob = null
+
+            const imageRef = firebase.storage().ref(userSettingsPath).child('PhotoUrl')
+
+            fs.readFile(uploadUri, 'base64')
+                .then((data) => {
+                    return Blob.build(data, { type: `${mime};BASE64` })
+                })
+                .then((blob) => {
+                    uploadBlob = blob
+                    return imageRef.put(blob, { contentType: mime })
+                })
+                .then(() => {
+                    uploadBlob.close()
+                    return imageRef.getDownloadURL()
+                })
+                .then((url) => {
+                    this.state.photo = url
+                    firebase.database().ref(userSettingsPath).child('UserInfo').child('PhotoUrl').set(this.state.photo);
+                    firebase.database().ref(userSettingsPath).child('UserInfo').child('FirstName').set(this.state.firstName);
+                    firebase.database().ref(userSettingsPath).child('UserInfo').child('LastName').set(this.state.lastName);
+                    firebase.database().ref(userSettingsPath).child('UserInfo').child('PhoneNumber').set(this.state.phoneNumber);
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+        })
     }
     /*backToHome() {
         this.props.navigator.popToTop({
@@ -55,6 +96,32 @@ class editProfile extends Component{
     buttonSelect() {
         alert("Needs implementation")
     }
+    pickSingleWithCamera(cropping, circular=true) {
+        ImagePicker.openCamera({
+            cropping: cropping,
+            cropperCircleOverlay: circular,
+            width: 100,
+            height: 100,
+        }).then(image => {
+            console.log('received image', image);
+            this.setState({
+                photo: image.path,
+            });
+        }).catch(e => {
+            console.log(e);
+            if(e.message === "User cancelled image selection")
+            {
+
+            }
+            else if(e.message === "User did not grant camera permission.")
+            {
+                Alert.alert("Cannot access camera. Please allow access if you want to take a new photo" );
+            }
+            else if(e.message !== "")
+                Alert.alert(e.message );
+        });
+    }
+
     pickSingle(cropit, circular=true) {
         ImagePicker.openPicker({
             width: 100,
@@ -63,7 +130,7 @@ class editProfile extends Component{
             cropperCircleOverlay: circular,
             compressImageMaxWidth: 640,
             compressImageMaxHeight: 480,
-            compressImageQuality: 0.5,
+            compressImageQuality: 100,
             compressVideoPreset: 'MediumQuality',
         }).then(image => {
             console.log('received image', image);
@@ -72,7 +139,12 @@ class editProfile extends Component{
             });
         }).catch(e => {
             console.log(e);
-            Alert.alert(e.message ? e.message : e);
+            if(e.message === "User cancelled image selection")
+            {
+               
+            }
+            else
+            Alert.alert(e.message );
         });
     }
     renderImage(image) {
@@ -98,10 +170,10 @@ class editProfile extends Component{
             </BackButton.Button>
         );
         const data = [
-            { section: true, label: 'Change Profile Photo' },
-            { label: 'Get From Facebook' },
-            { label: 'Get From Gallery' },
-            { label: 'Take Photo' },
+            { section: true, key: 0, label: 'Change Profile Photo' },
+            { key: 1, label: 'Get From Facebook' },
+            { key: 2, label: 'Get From Gallery' },
+            { key: 3, label: 'Take Photo' },
         ];
 
         return (
@@ -116,15 +188,22 @@ class editProfile extends Component{
                     tintColor={'#eeeeee'}
                     style={{borderBottomWidth: 0.5, borderColor: '#A9A9A9'}}
                 />
+                <ScrollView>
                 <View style={{height: 5}}/>
                 <View style={styles.userInfo}>
                     <TouchableHighlight style={{paddingTop: 3}}>
                         {this.renderImage(this.state.photo)}
                     </TouchableHighlight>
                 </View>
-                <TouchableOpacity onPress={() => this.pickSingle(true)} style={styles.button}>
-                    <Text style={{color: '#0A81D1', paddingTop:20, textAlign: 'center', fontSize: 16}}>Change Profile Photo</Text>
-                </TouchableOpacity>
+                <View>
+                     <TouchableOpacity onPress={() => this.pickSingleWithCamera(true)} style={styles.button}>
+                          <Text style={{color: '#0A81D1', paddingTop:15, textAlign: 'center', fontSize: 16}}>Take New Picture</Text>
+                     </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => this.pickSingle(true)} style={styles.button}>
+                        <Text style={{color: '#0A81D1', paddingTop:15, textAlign: 'center', fontSize: 16}}>Select From Gallery</Text>
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.inputStyle}>
                     <Text style={{color: '#808080',  paddingLeft: 20,paddingBottom:7, fontSize: 17}}>Name</Text>
                     <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
@@ -195,11 +274,12 @@ class editProfile extends Component{
                 </View>
                 <View style={{height: 60}}/>
                 <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
-                    <TouchableOpacity onPress={() => this.changeDB()} style={styles.logoutButtonContainer}>
+                    <TouchableOpacity onPress={() => this.changeDB(this.state.photo)} style={styles.logoutButtonContainer}>
                         <Text style={{color: 'red',  margin: 0, fontSize: 17}}>Confirm Changes</Text>
                         <View style={{width: 250}}/>
                     </TouchableOpacity>
                 </View>
+                </ScrollView>
             </View>
         )
     }

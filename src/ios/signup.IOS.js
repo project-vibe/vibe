@@ -217,6 +217,7 @@ export default class SignUp extends Component {
                             clearButtonMode="while-editing"
                             multiline={false}
                             autoCorrect={false}
+                            autoCapitalize = 'none'
                             onChangeText={(email) => this.setState({email})}
                             value={this.state.email}
                         />

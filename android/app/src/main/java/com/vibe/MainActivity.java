@@ -1,6 +1,7 @@
 package com.vibe;
 
 import com.facebook.react.ReactActivity;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.beefe.picker.PickerViewPackage;
 import com.joshblour.reactnativepermissions.ReactNativePermissionsPackage;
 import com.devfd.RNGeocoder.RNGeocoderPackage;
