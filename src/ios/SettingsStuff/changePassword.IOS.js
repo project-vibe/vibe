@@ -20,15 +20,53 @@ import ActionButton from "react-native-action-button";
 
 
 class changePassword extends Component{
-
+    constructor(props) {
+        super(props);
+        this.state = {
+            password: '',
+            newPassword: '',
+            confirmPassword: ''
+        }
+    }
     backButtonListener() {
         this.props.navigator.pop({
 
         });
     }
-    confirmChangesButton() {
-        alert("Your Password is Changed!! YAAY!!!")
+    async confirmChangesButton() {
+        let passwordCorrect = false;
+        let password = this.state.password;
+        let newPassword = this.state.newPassword;
+        let confirmPassword = this.state.confirmPassword;
+
+        try {
+            await firebase.auth()
+                .signInWithEmailAndPassword(this.props.email, password);
+            passwordCorrect = true;
+        } catch(error) {
+            alert("Your current password is wrong!");
+        }
+
+        if(passwordCorrect) {
+            //check if password is correct
+            if (confirmPassword === newPassword) {
+                this.updatePassword();
+            } else {
+                alert("Passwords are not correct!");
+            }
+        }
     }
+
+    updatePassword() {
+        var user = firebase.auth().currentUser;
+
+        user.updatePassword(this.state.newPassword).then(function() {
+            alert("Password changed!")
+        }, function(error) {
+            alert(error.message);
+        });
+    }
+
     backToHome() {
         this.props.navigator.popToTop({
             title: 'BackToHome',
@@ -83,6 +121,8 @@ class changePassword extends Component{
                             multiline={false}
                             autoCorrect={false}
                             secureTextEntry={true}
+                            onChangeText={(password) => this.setState({password})}
+                            value={this.state.password}
                         />
                     </View>
                     <View style={{height: 40}}/>
@@ -98,6 +138,8 @@ class changePassword extends Component{
                                 multiline={false}
                                 autoCorrect={false}
                                 secureTextEntry={true}
+                                onChangeText={(newPassword) => this.setState({newPassword})}
+                                value={this.state.newPassword}
                             />
                     </View>
                     <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white',borderRadius: 1, borderBottomWidth: 0.5, borderColor: '#C0C0C0'}}>
@@ -112,6 +154,8 @@ class changePassword extends Component{
                             multiline={false}
                             autoCorrect={false}
                             secureTextEntry={true}
+                            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+                            value={this.state.confirmPassword}
                         />
                     </View>
                 </View>

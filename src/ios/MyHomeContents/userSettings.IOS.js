@@ -49,7 +49,12 @@ class userSettingsScreen extends Component {
         });
     }
     async backToHome() {
-        await auth.signOut();
+        await auth.signOut().then(function() {
+            // Sign-out successful.
+        }).catch(function(error) {
+            // An error happened.
+        });
+
         this.props.navigator.popToTop({
             title: 'BackToHome',
             passProps: {myElement: 'text'}
@@ -69,7 +74,7 @@ class userSettingsScreen extends Component {
             title: 'password',
             component: passwordChange,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', email: this.props.email}
         });
     }
     eventSettings() {

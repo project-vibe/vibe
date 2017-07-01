@@ -7,7 +7,7 @@ import {
 
 import shallowequal from 'shallowequal';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
-import md5 from 'react-native-md5';
+import md5 from 'md5';
 import LoadEarlier from './LoadEarlier';
 import Message from './Message';
 

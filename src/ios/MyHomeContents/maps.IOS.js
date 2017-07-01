@@ -11,17 +11,31 @@ import Polyline from '@mapbox/polyline';
 
 var UserHome = require('./userHome.IOS.js');
 
+const Permissions = require('react-native-permissions');
+
 export default class VibeMaps extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            coords: []
+            coords: [],
+            locationPermission: ''
         }
     }
 
     componentDidMount() {
-        this.getDirections("37.78825, -122.4324", "37.317356,-122.021288")
+        this.checkLocation();
+        let userLocation = this.props.latitude + ", " + this.props.longitude;
+        this.getDirections(userLocation, "37.317356,-122.021288");
+    }
+
+    async checkLocation() {
+        await Permissions.getPermissionStatus('location', 'whenInUse')
+            .then(response => {
+                //returns once the user has chosen to 'allow' or to 'not allow' access
+                //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+                this.setState({ locationPermission: response })
+            });
     }
 
     async getDirections(startLoc, destinationLoc) {
@@ -45,7 +59,7 @@ export default class VibeMaps extends Component {
 
     render () {
         const titleConfig = {
-            title: 'Settings',
+            title: this.props.userAddress,
             style: {fontWeight: 'bold', fontSize: 20, fontFamily: 'Noteworthy', color: 'black', paddingBottom: 5}
         };
 
@@ -54,6 +68,7 @@ export default class VibeMaps extends Component {
             </Icon.Button>
         );
 
+        if(this.state.locationPermission==='authorized')
         return (
             <View style={{flex: 1}}>
                 <NavigationBar
@@ -65,12 +80,12 @@ export default class VibeMaps extends Component {
                 />
                 <View style={styles.container}>
                     <MapView style={styles.map} initialRegion={{
-                        latitude:37.78825,
-                        longitude:-122.4324,
+                        latitude: parseFloat(this.props.latitude),
+                        longitude: parseFloat(this.props.longitude),
                         latitudeDelta: 0.5,
                         longitudeDelta: 0.5
                     }}>
-
+                        {/*first two not needed if location services disabled*/}
                         <MapView.Polyline
                             coordinates={this.state.coords}
                             strokeWidth={2}
@@ -78,8 +93,8 @@ export default class VibeMaps extends Component {
 
                         <MapView.Marker
                             coordinate={{
-                                latitude: 37.78825,
-                                longitude: -122.4324
+                                latitude: parseFloat(this.props.latitude),
+                                longitude: parseFloat(this.props.longitude),
                             }}
                             title={"Your Location!"}
                         />
@@ -89,7 +104,7 @@ export default class VibeMaps extends Component {
                                 latitude: 37.317356,
                                 longitude: -122.021288
                             }}
-                            title={"title"}
+                            title={this.props.eventTitle}
                             description={"description"}
                         />
 
@@ -100,6 +115,39 @@ export default class VibeMaps extends Component {
                 </View>
             </View>
         )
+        else
+            return (
+                <View style={{flex: 1}}>
+                    <NavigationBar
+                        title={titleConfig}
+                        leftButton={backButtonConfig}
+                        tintColor={'#eeeeee'}
+                        style={{borderBottomWidth: 0.4, borderBottomColor: '#47315a'}}
+                        // style={{borderWidth: 0.4, borderBottomColor: 'black'}}
+                    />
+                    <View style={styles.container}>
+                        <MapView style={styles.map} initialRegion={{
+                            latitude: parseFloat(this.props.latitude),
+                            longitude: parseFloat(this.props.longitude),
+                            latitudeDelta: 0.5,
+                            longitudeDelta: 0.5
+                        }}>
+                            <MapView.Marker
+                                coordinate={{
+                                    latitude: 37.317356,
+                                    longitude: -122.021288
+                                }}
+                                title={"title"}
+                                description={"description"}
+                            />
+
+                        </MapView>
+                    </View>
+                    <View style={{height: '10%', backgroundColor: '#eeeeee', borderTopColor: 'black'}}>
+                        <Text style={{paddingTop: 15, fontFamily: 'Noteworthy', fontSize: 18, textAlign: 'center'}}> 1213 Rembrandt Drive, Pomona, CA</Text>
+                    </View>
+                </View>
+            )
     }
 
     // switch screens

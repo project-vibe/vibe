@@ -38,7 +38,7 @@ var landingPage = React.createClass({
             title: 'signInHomeScreen',
             component: SignInScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', locationValue: this.state.locationPermission==='authorized'}
         });
     },
 
@@ -48,7 +48,7 @@ var landingPage = React.createClass({
             title: 'signUp',
             component: SignUpScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', locationValue: this.state.locationPermission==='authorized'}
         });
     },
 
@@ -57,7 +57,7 @@ var landingPage = React.createClass({
             .then(response => {
                 //returns once the user has chosen to 'allow' or to 'not allow' access
                 //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-                this.setState({ locationPermission: response })
+                this.setState({ locationPermission: response });
             });
     },
 

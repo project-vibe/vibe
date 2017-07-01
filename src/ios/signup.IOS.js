@@ -37,7 +37,11 @@ export default class SignUp extends Component {
             id: '',
             photoUrl: '',
             MyAddress: '',
-            State: ''
+            State: '',
+            latitude: 'null',
+            longitude: 'null',
+            lat: '',
+            long: ''
         }
     }
 
@@ -58,7 +62,9 @@ export default class SignUp extends Component {
             navigationBarHidden: true,
             passProps: {myElement: 'text', userId: this.state.id, photoUrl: this.state.photoUrl,
                 MyAddress: this.state.MyAddress, State: this.state.State,
-                email: this.state.email, phoneNumber: phoneNumber}
+                email: this.state.email, phoneNumber: phoneNumber,
+                latitude: this.state.latitude,
+                longitude: this.state.longitude, locationValue: this.props.locationValue}
         });
     }
 
@@ -79,17 +85,19 @@ export default class SignUp extends Component {
         await navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
+                    latitude: position.coords.latitude.toString(),
+                    longitude: position.coords.longitude.toString(),
+                    lat: position.coords.latitude,
+                    long: position.coords.longitude,
                     error: null
                 });
                 Geocoder.fallbackToGoogle("AIzaSyCEBP1ZAYZgvr-rzK0VNKToyfmQg1_3mns");
 
-                var myAddress = ''
+                var myAddress = '';
 
                 var NY = {
-                    lat: this.state.latitude,
-                    lng: this.state.longitude
+                    lat: this.state.lat,
+                    lng: this.state.long
                 };
 
                 let ret = Geocoder.geocodePosition(NY).then((res)=>
@@ -135,8 +143,8 @@ export default class SignUp extends Component {
                     Email: email.toLowerCase(),
                     PhoneNumber: phoneNumber,
                     PhotoUrl: "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg",
-                    Latitude: this.state.latitude.toString(),
-                    Longitude: this.state.longitude.toString()
+                    Latitude: this.state.latitude,
+                    Longitude: this.state.longitude
                 }
             });
 

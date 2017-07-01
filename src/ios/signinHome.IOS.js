@@ -44,12 +44,17 @@ signInScreen = React.createClass({
             firstName: '',
             lastName: '',
             MyAddress: '',
-            State: ''
+            State: '',
+            latitude: 'null',
+            longitude: 'null',
+            lat: '',
+            long: ''
         };
     },
 
     // Attempt a login using the Facebook login dialog,
     // asking for default permissions.
+    //add code for location permission...
     async _fbAuth () {
         await this.getLocation();
         var that = this;
@@ -63,73 +68,63 @@ signInScreen = React.createClass({
                         const credential = provider.credential(accessTokenData.accessToken);
                         return auth.signInWithCredential(credential);
                     })
-                    .then(credData => {
-                        // extract name
-                        let firstName = "";
-                        let lastName = "";
-                        let isFirstName = true;
-                        for(let i = 0; i < credData.displayName.length; i++) {
-                            if(credData.displayName.charAt(i) !== ' ' && isFirstName) {
-                                firstName += credData.displayName.charAt(i);
-                            } else if(credData.displayName.charAt(i) !== ' ' && !isFirstName) {
-                                lastName += credData.displayName.charAt(i);
-                            } else if(credData.displayName.charAt(i) === ' ') {
-                                isFirstName = false;
-                            }
-                        }
-                        // extract email
-                        let userId = "";
-                        let tempPhoneNum = "584939392";
-                        for(let i = 0; i < credData.email.length; i++) {
-                            if(credData.email.charAt(i) === '@' || credData.email.charAt(i) === '.') {
-                            } else {
-                                userId += credData.email.charAt(i).toLowerCase();
-                            }
-                        }
-
-                        let userSettingsPath = "/user/" + userId;
-
-                        let latitude = that.state.latitude;
-                        let longitude = that.state.longitude;
-
-                        if(latitude!=null || longitude!=null)
-                        firebase.database().ref(userSettingsPath).set({
-                            UserInfo: {
-                                FirstName: firstName,
-                                LastName: lastName,
-                                Email: credData.email,
-                                PhoneNumber: tempPhoneNum,
-                                PhotoUrl: credData.photoURL,
-                                Latitude: latitude.toString(),
-                                Longitude: longitude.toString()
-                            }
-                        });
-                        else
-                            firebase.database().ref(userSettingsPath).set({
-                                UserInfo: {
-                                    FirstName: firstName,
-                                    LastName: lastName,
-                                    Email: credData.email,
-                                    PhoneNumber: tempPhoneNum,
-                                    PhotoUrl: credData.photoURL
+                        .then(credData => {
+                            // extract name
+                            let firstName = "";
+                            let lastName = "";
+                            let isFirstName = true;
+                            for(let i = 0; i < credData.displayName.length; i++) {
+                                if(credData.displayName.charAt(i) !== ' ' && isFirstName) {
+                                    firstName += credData.displayName.charAt(i);
+                                } else if(credData.displayName.charAt(i) !== ' ' && !isFirstName) {
+                                    lastName += credData.displayName.charAt(i);
+                                } else if(credData.displayName.charAt(i) === ' ') {
+                                    isFirstName = false;
                                 }
-                            });
+                            }
+                            // extract email
+                            let userId = "";
+                            let tempPhoneNum = "584939392";
+                            for(let i = 0; i < credData.email.length; i++) {
+                                if(credData.email.charAt(i) === '@' || credData.email.charAt(i) === '.') {
+                                } else {
+                                    userId += credData.email.charAt(i).toLowerCase();
+                                }
+                            }
 
-                        let photoLink = credData.photoURL;
+                            let userSettingsPath = "/user/" + userId;
 
-                        that.props.navigator.push({
-                            title: 'userHomeScreen',
-                            component: UserHomeScreen,
-                            navigationBarHidden: true,
-                            passProps: {myElement: 'text', userId: userId, photoUrl: photoLink,
-                                MyAddress: that.state.MyAddress, State: that.state.State,
-                                email: credData.email, phoneNumber: tempPhoneNum}
+                            let latitude = that.state.latitude;
+                            let longitude = that.state.longitude;
+
+                                firebase.database().ref(userSettingsPath).set({
+                                    UserInfo: {
+                                        FirstName: firstName,
+                                        LastName: lastName,
+                                        Email: credData.email,
+                                        PhoneNumber: tempPhoneNum,
+                                        PhotoUrl: credData.photoURL,
+                                        Latitude: latitude.toString(),
+                                        Longitude: longitude.toString()
+                                    }
+                                });
+
+                            let photoLink = credData.photoURL;
+
+                                that.props.navigator.push({
+                                    title: 'userHomeScreen',
+                                    component: UserHomeScreen,
+                                    navigationBarHidden: true,
+                                    passProps: {myElement: 'text', userId: userId, photoUrl: photoLink,
+                                        MyAddress: that.state.MyAddress, State: that.state.State,
+                                        email: credData.email, phoneNumber: tempPhoneNum,
+                                        latitude: latitude.toString(), longitude: longitude.toString(), locationValue: that.props.locationValue}
+                                })
                         })
-                    })
-                    .catch(err => {
-                        alert("Error Here: " + err.valueOf());
-                        //alert("Sorry, you already have an account with this account! Please try again.")
-                    });
+                        .catch(err => {
+                            alert("Error Here: " + err.valueOf());
+                            //alert("Sorry, you already have an account with this account! Please try again.")
+                        });
                 }
             },
             function(error) {
@@ -147,20 +142,24 @@ signInScreen = React.createClass({
         });
     },
 
-    goUserHome: function(firstName, lastName, photo, MyAddress, State, email, phoneNumber) {
+    async goUserHome(firstName, lastName, photo, MyAddress, State, email, phoneNumber) {
 
         this.state.firstName = firstName;
         this.state.lastName = lastName;
         this.state.photo = photo;
 
-        this.props.navigator.push({
-            title: 'userHomeScreen',
-            component: UserHomeScreen,
-            navigationBarHidden: true,
-            passProps: {myElement: 'text', userId: this.state.loginId,
-                first: this.state.firstName, last: this.state.lastName, photoUrl: photo,
-            MyAddress: MyAddress, State: State, email: email, phoneNumber: phoneNumber}
-        });
+            this.props.navigator.push({
+                title: 'userHomeScreen',
+                component: UserHomeScreen,
+                navigationBarHidden: true,
+                passProps: {
+                    myElement: 'text', userId: this.state.loginId,
+                    first: this.state.firstName, last: this.state.lastName, photoUrl: photo,
+                    MyAddress: MyAddress, State: State, email: email,
+                    phoneNumber: phoneNumber, latitude: this.state.latitude.toString(),
+                    longitude: this.state.longitude.toString(), locationValue: this.props.locationValue
+                }
+            });
     },
 
     async getLocation() {
@@ -171,8 +170,10 @@ signInScreen = React.createClass({
         await navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
+                    latitude: position.coords.latitude.toString(),
+                    longitude: position.coords.longitude.toString(),
+                    lat: position.coords.latitude,
+                    long: position.coords.longitude,
                     error: null
                 });
                 Geocoder.fallbackToGoogle("AIzaSyCEBP1ZAYZgvr-rzK0VNKToyfmQg1_3mns");
@@ -180,8 +181,8 @@ signInScreen = React.createClass({
                 var myAddress = ''
 
                 var NY = {
-                    lat: this.state.latitude,
-                    lng: this.state.longitude
+                    lat: this.state.lat,
+                    lng: this.state.long
                 };
 
                 let ret = Geocoder.geocodePosition(NY).then((res)=>
@@ -232,28 +233,29 @@ signInScreen = React.createClass({
             var phoneNumber = '';
             var gotData = false;
             var that = this;
-            leadsRef.on('value', function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    //alert(this);
-                    childData = childSnapshot.val();
-                    //alert(childData);
-                    counter++;
-                   if(counter===2) {
-                       firstName = childData;
-                   }
-                    if(counter===3) {
-                        lastName = childData;
-                    }
-                    if(counter===6) {
-                        phoneNumber = childData;
-                    }
-                    if(counter===7){
-                       photo = childData
-                    }
-                    gotData = true;
+
+                await leadsRef.on('value', function (snapshot) {
+                    snapshot.forEach(function (childSnapshot) {
+                        //alert(this);
+                        childData = childSnapshot.val();
+                        //alert(childData);
+                        counter++;
+                        if (counter === 2) {
+                            firstName = childData;
+                        }
+                        if (counter === 3) {
+                            lastName = childData;
+                        }
+                        if (counter === 6) {
+                            phoneNumber = childData;
+                        }
+                        if (counter === 7) {
+                            photo = childData
+                        }
+                        gotData = true;
+                    });
+                    that.goUserHome(firstName, lastName, photo, that.state.MyAddress, that.state.State, email, phoneNumber);
                 });
-                that.goUserHome(firstName, lastName, photo, that.state.MyAddress, that.state.State, email, phoneNumber);
-            });
 
             console.log("Logged In!");
 
@@ -323,7 +325,7 @@ signInScreen = React.createClass({
                             <View style={{width: 50, height: 20}}/>
                             <View style={{opacity: 1.0}}>
                                 <TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>
-                                {/*<TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>*/}
+                                    {/*<TouchableOpacity onPress={() => this._handlePressLogin()} style={styles.buttonContainer}>*/}
                                     <Text style={{
                                         color: 'white',
                                         fontWeight: 'bold',
