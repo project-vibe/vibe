@@ -14,8 +14,9 @@ firebase.initializeApp({
     storageBucket: "vibe-backend.appspot.com",
 });
 
-var signInScreen = require('./src//ios/signinHome.IOS.js');
+// var signInScreen = require('./src//ios/signinHome.IOS.js');
 var landingPage = require('./src//ios/landingPage.IOS.js');
+// var eventInfo = require('./src//ios/MyHomeContents/CreateEventsContents/userEventInfo.IOS.js');
 
 var vibe = React.createClass({
   render() {
@@ -25,7 +26,7 @@ var vibe = React.createClass({
             initialRoute={{
               title: "Root",
               navigationBarHidden: true,
-              component:landingPage
+              component: landingPage
         }}/>
     );
   }

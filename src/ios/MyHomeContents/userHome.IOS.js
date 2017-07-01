@@ -1,12 +1,12 @@
 'use strict'
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, SegmentedControlIOS, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, View, Text, Image, Animated, TouchableHighlight, SegmentedControlIOS, TouchableOpacity, ScrollView, StatusBar } from 'react-native'
 import NavigationBar from 'react-native-navbar';
 import * as firebase from "firebase";
 import * as Animatable from 'react-native-animatable';
 
 /** Extra COMPONENTS **/
-import Modal from '../anm/react-native-simple-modal/index';
+import Modal from '../anm/react-native-simple-modal-1/index';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import Geocoder from 'react-native-geocoder';
@@ -48,8 +48,13 @@ export default class UserHome extends Component {
         this.openUsersModal = this.openUsersModal.bind(this);
         this.onScroll = this.onScroll.bind(this);
         this.onItemTap = this.onItemTap.bind(this);
+
         this.userEventsInfo = this.userEventsInfo.bind(this);
     };
+
+    componentDidMount() {
+        StatusBar.setBarStyle('light-content', true);
+    }
 
     openFriendsModal(text) {
         this.setState({
@@ -228,6 +233,11 @@ export default class UserHome extends Component {
                     tintColor={'#0A81D1'}
                 />
 
+                {/*<StatusBar*/}
+                    {/*color="white"*/}
+                    {/*barStyle="light-content"*/}
+                {/*/>*/}
+
                 <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
                     <View style={{backgroundColor:'red', width:'100%', height: 210}}>
                         <ScrollView ref="ad"
@@ -333,12 +343,13 @@ export default class UserHome extends Component {
 
                             <View style={{paddingTop: 15, marginBottom: 10, width: 300}}>
                                 <SegmentedControlIOS
-                                    values={['Sure', 'Maybe', 'Pass']}
+                                    values={['Confirm', 'Unsure']}
                                     tintColor={'#0A81D1'}
                                     selectedIndex={this.state.selectedIndex}
                                     onChange={(event) => {
                                         this.setState({selectedIndex: event.nativeEvent.selectedSegmentIndex});
                                     }}
+                                    style={{borderRadius: 20}}
                                 />
                             </View>
                             <View style={{backgroundColor: 'transparent', height: '77%', width: 300}}>

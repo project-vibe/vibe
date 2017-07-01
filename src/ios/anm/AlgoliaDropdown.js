@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import { StyleSheet, TextInput, View, Text, Animated, Dimensions, TouchableOpacity, ScrollView } from 'react-native'
 import algoliasearch from 'algoliasearch/reactnative'
+import Icon from 'react-native-vector-icons/EvilIcons';
+
+var BackPage = require('../MyHomeContents/userHome.IOS.js');
+var SelectFriendDM = require('../MyHomeContents/DirectMessaging/SelectFriend.IOS');
 
 const height = Dimensions.get('window').height;
 const width = Dimensions.get('window').width;
 // const { height, width } = Dimensions.get('window')
-const SEARCH_INPUT_HEIGHT = 30;
+const SEARCH_INPUT_HEIGHT = 35;
 
 function NoResults () {
     return (
@@ -40,7 +44,10 @@ export default class AlgoliaDropdown extends Component {
             results: [],
             cancelWidth: new Animated.Value(0),
             cancelOpacity: new Animated.Value(0),
+            backWidth: new Animated.Value(35),
+            backOpacity: new Animated.Value(1),
             resultsHeight: new Animated.Value(0),
+            alignText: 'center'
         }
 
         this.handleTextChange = this.handleTextChange.bind(this)
@@ -107,9 +114,12 @@ export default class AlgoliaDropdown extends Component {
         Animated.timing(this.state.resultsHeight, {toValue: height - SEARCH_INPUT_HEIGHT, duration: 500}).start()
         Animated.sequence([
             Animated.timing(this.state.cancelWidth, {toValue: 63, duration: 200}),
+            Animated.timing(this.state.backWidth, {toValue: 0, duration: 200}),
             Animated.timing(this.state.cancelOpacity, {toValue: 1, duration: 200}),
+            Animated.timing(this.state.backOpacity, {toValue: 0, duration: 200}),
         ]).start()
         this.setState({showOverlay: true})
+        this.setState({alignText: 'left'})
     }
 
     handleRemoveFocus () {
@@ -117,10 +127,15 @@ export default class AlgoliaDropdown extends Component {
         this.setState({showOverlay: false, results: []})
         this.input.clear()
         Animated.timing(this.state.resultsHeight, {toValue: 0, duration: 500}).start()
+
         Animated.sequence([
             Animated.timing(this.state.cancelOpacity, {toValue: 0, duration: 200}),
+            Animated.timing(this.state.backWidth, {toValue: 35, duration: 200}),
             Animated.timing(this.state.cancelWidth, {toValue: 0, duration: 200}),
+            Animated.timing(this.state.backOpacity, {toValue: 1, duration: 200}),
         ]).start()
+
+        this.setState({alignText: 'center'})
     }
 
     getInputStyle () {
@@ -128,14 +143,15 @@ export default class AlgoliaDropdown extends Component {
             flex: 1,
             height: SEARCH_INPUT_HEIGHT,
             borderColor: '#E4E4E4',
-            borderWidth: 1,
-            borderRadius: 10,
+            borderWidth: 0,
+            borderRadius: SEARCH_INPUT_HEIGHT/2,
             padding: 7,
             paddingLeft: 15,
             paddingRight: 15,
             margin: 5,
             backgroundColor: '#F3F3F3',
-            color: '#4E595D'
+            color: '#4E595D',
+            // textAlign: this.state.alignText
         }
 
         return this.props.inputStyle
@@ -143,15 +159,33 @@ export default class AlgoliaDropdown extends Component {
             : baseStyles
     }
 
+    myBackButton() {
+        this.props.backButtonListener();
+    }
+
+    myDMScreen() {
+        this.props.goToDM();
+    }
+
     render () {
         return (
             <View style={[styles.container, this.props.style]}>
                 <View style={styles.searchContainer}>
+                    <Animated.View style={{width: this.state.backWidth, opacity: this.state.backOpacity}}>
+                        <Icon name="chevron-left"
+                              size={42}
+                              color="#0A81D1"
+                              backgroundColor="transparent"
+                              onPress={() => this.myBackButton()}
+                        />
+                    </Animated.View>
+
                     <TextInput
                         ref={(ref) => this.input = ref}
                         autoCorrect={false}
+                        selectionColor={'#0A81D1'}
                         underlineColorAndroid='transparent'
-                        style={this.getInputStyle()}
+                        style={[this.getInputStyle(), {textAlign: this.state.alignText}]}
                         onFocus={this.handleFocus}
                         onChange={this.handleTextChange}
                         placeholder={this.props.placeholder} />
@@ -165,6 +199,15 @@ export default class AlgoliaDropdown extends Component {
                             {this.props.cancelText}
                         </Animated.Text>
                     </TouchableOpacity>
+
+                    <Animated.View style={{width: this.state.backWidth, opacity: this.state.backOpacity}}>
+                        <Icon name="comment"
+                              size={30}
+                              color="#0A81D1"
+                              backgroundColor="transparent"
+                              onPress={() => this.myDMScreen()}
+                        />
+                    </Animated.View>
                 </View>
                 <Animated.View style={{height: this.state.resultsHeight, backgroundColor: this.props.resultsContainerBackgroundColor}}>
                     {this.state.showOverlay === true
@@ -199,7 +242,7 @@ AlgoliaDropdown.propTypes = {
 AlgoliaDropdown.defaultProps = {
     placeholder: 'Search',
     cancelText: 'Cancel',
-    cancelButtonColor: '#4E595D',
+    cancelButtonColor: '#0A81D1',
     resultsContainerBackgroundColor: '#fff',
     backgroundColor: '#fff',
 };
@@ -208,6 +251,7 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'flex-start',
         alignItems: 'stretch',
+        backgroundColor: 'rgb(89,97,111)'
     },
     searchContainer: {
         height: SEARCH_INPUT_HEIGHT + 10,

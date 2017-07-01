@@ -2,9 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Photo Library Access Warning</string>
-    <key>LSApplicationCategoryType</key>
+    <key>NSCameraUsageDescription</key>
     <string/>
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
@@ -53,6 +51,8 @@
     <string>1791261341201368</string>
     <key>FacebookDisplayName</key>
     <string>Vibe</string>
+    <key>LSApplicationCategoryType</key>
+    <string/>
     <key>LSApplicationQueriesSchemes</key>
     <array>
       <string>fbapi</string>
@@ -75,6 +75,8 @@
     </dict>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string/>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Photo Library Access Warning</string>
     <key>UIAppFonts</key>
     <array>
       <string>Entypo.ttf</string>
@@ -92,15 +94,8 @@
       <string>Arial.ttf</string>
       <string>Comic Sans MS.ttf</string>
       <string>Courier New.ttf</string>
-      <string>Entypo.ttf</string>
-      <string>EvilIcons.ttf</string>
-      <string>FontAwesome.ttf</string>
-      <string>Foundation.ttf</string>
       <string>Georgia.ttf</string>
-      <string>Ionicons.ttf</string>
-      <string>MaterialIcons.ttf</string>
       <string>Microsoft Sans Serif.ttf</string>
-      <string>Octicons.ttf</string>
       <string>Roboto_medium.ttf</string>
       <string>Roboto.ttf</string>
       <string>rubicon-icon-font.ttf</string>
