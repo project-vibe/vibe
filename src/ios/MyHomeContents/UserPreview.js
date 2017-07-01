@@ -48,7 +48,10 @@ export default class UserPreview extends Component {
                         <Image style={ styles.image } source={{ uri: this.props.data.UserInfo.PhotoUrl }} />
                     </View>
                     <View style={{width: '60%'}}>
-                        <Text style={styles.username}>{this.props.data.UserInfo.FirstName} </Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.username}>{this.props.data.UserInfo.FirstName} </Text>
+                            <Text style={styles.userlastname}>{this.props.data.UserInfo.LastName} </Text>
+                        </View>
                         <Text style={styles.email}>{this.props.data.UserInfo.Email }</Text>
                     </View>
                     <View style={{width: '20%'}}>
@@ -88,6 +91,14 @@ const styles = StyleSheet.create({
         color: 'black',
         paddingTop: 10,
         paddingLeft: 10
+    },
+    userlastname: {
+        fontWeight: '600',
+        borderRadius: 2,
+        fontFamily: 'Bangla Sangam MN',
+        fontSize: 15,
+        color: 'black',
+        paddingTop: 10
     },
     email: {
         fontWeight: '600',

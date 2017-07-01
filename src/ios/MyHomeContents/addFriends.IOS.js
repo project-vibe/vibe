@@ -17,7 +17,6 @@ import {
 // Algolia Instantsearch
 import AlgoliaDropdown from '../anm/AlgoliaDropdown';
 import UserPreview from './UserPreview';
-import Row from './Row.js';
 
 // contacts list
 var AlphabetListView = require('react-native-alphabetlistview');
@@ -29,8 +28,6 @@ var BackPage = require('./userHome.IOS.js');
 var SelectFriendDM = require('./DirectMessaging/SelectFriend.IOS');
 
 class Cell extends Component {
-    // get the profile picture of the user from Firebase from userid
-
     state = {
         favStatus: 'true',
         friendshipStatus: 'true'
