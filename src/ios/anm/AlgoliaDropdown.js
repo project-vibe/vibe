@@ -251,6 +251,7 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'flex-start',
         alignItems: 'stretch',
+        backgroundColor: 'rgb(89,97,111)'
     },
     searchContainer: {
         height: SEARCH_INPUT_HEIGHT + 10,
