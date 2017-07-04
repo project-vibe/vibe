@@ -18,29 +18,18 @@ export default class VibeMaps extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            coords: [],
-            locationPermission: ''
+            coords: []
         }
     }
 
     componentDidMount() {
-        this.checkLocation();
-        let userLocation = this.props.latitude + ", " + this.props.longitude;
+        let userLocation = this.props.latitude + "," + this.props.longitude;
         this.getDirections(userLocation, "37.317356,-122.021288");
-    }
-
-    async checkLocation() {
-        await Permissions.getPermissionStatus('location', 'whenInUse')
-            .then(response => {
-                //returns once the user has chosen to 'allow' or to 'not allow' access
-                //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-                this.setState({ locationPermission: response })
-            });
     }
 
     async getDirections(startLoc, destinationLoc) {
         try {
-            let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`)
+            let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`);
             let respJson = await resp.json();
             let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
             let coords = points.map((point, index) => {
@@ -68,7 +57,7 @@ export default class VibeMaps extends Component {
             </Icon.Button>
         );
 
-        if(this.state.locationPermission==='authorized')
+        if(this.props.locationValue)
         return (
             <View style={{flex: 1}}>
                 <NavigationBar
@@ -85,7 +74,6 @@ export default class VibeMaps extends Component {
                         latitudeDelta: 0.5,
                         longitudeDelta: 0.5
                     }}>
-                        {/*first two not needed if location services disabled*/}
                         <MapView.Polyline
                             coordinates={this.state.coords}
                             strokeWidth={2}
@@ -148,6 +136,7 @@ export default class VibeMaps extends Component {
                     </View>
                 </View>
             )
+
     }
 
     // switch screens
