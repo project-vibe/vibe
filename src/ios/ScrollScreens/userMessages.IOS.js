@@ -1,3 +1,4 @@
+'use strict';
 import React, {Component} from 'react';
 import * as firebase from "firebase";
 import {
@@ -5,11 +6,11 @@ import {
     StyleSheet,
     StatusBar,
     Image,
+    Alert,
     TouchableOpacity,
     TouchableHighlight,
     ListView,
     Text,
-    Alert,
     ScrollView
 } from 'react-native';
 import Button from 'react-native-button';
@@ -30,16 +31,53 @@ const rightButtons = [
 ];
 
 var cardInfo = require('./cardInfo');
+var arrayPosition = -1;     //keeps track of the indices for each card
+
+//takes the index of the card, deletes it from cardInfo, and re-renders the listview
+function deleteCard(index) {
+    delete this.cardInfo[index];
+    this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.cardInfo)
+    })
+
+}
+
+/*takes attributes of card and pushes it as an entry to cardInfo, then re-renders the listview,
+ see the accept button onPress on the friendRequest for how to use(ln. 124) */
+function addCard(cardType, firstName, lastName, profileURL, eventName) {
+    cardInfo.push(
+        {
+            "cardType": cardType,
+            "name": {
+                "first": firstName,
+                "last": lastName,
+            },
+
+            "eventName": eventName, //NOTE: leave eventName as null if the card type doesn't use it(ex. friendRequest)
+
+            "picture": {
+                "large": profileURL,
+            },
+        },
+    );
+
+    this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.cardInfo)
+    })
+
+}
 
 
-export default class UserMessages extends Component {
+class UserMessages extends Component {
 
     constructor() {
         super();
         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.cardInfo = require('./cardInfo');
         this.state = {
-            dataSource: ds.cloneWithRows(cardInfo),
+            dataSource: ds.cloneWithRows(this.cardInfo),
         };
+
     }
 
     pullData() {
@@ -56,11 +94,15 @@ export default class UserMessages extends Component {
 
 
     renderCards(props) {
-        //see cardInfo for how the data blob's organized
-        if (props.cardType == "friendRequest")
+        if (props.cardType == "friendRequest") {
+            arrayPosition++;
             return (
                 <Swipeable
+                    onRef={ref => this.swipeable = ref}
+                    onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
                     leftContent={leftContent}>
+
+
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
@@ -77,8 +119,7 @@ export default class UserMessages extends Component {
                                 <View style={{flexDirection: 'row', paddingTop: 20}}>
                                     <Button
                                         style={styles.buttonAccept}
-                                        onPress={() => {
-                                        }}>
+                                        onPress={addCard.bind(this, "friendRequest", "Shanequa", "Wilkins", "https://randomuser.me/api/portraits/women/83.jpg", null)}>
                                         Accept
                                     </Button>
                                     <Button
@@ -93,9 +134,14 @@ export default class UserMessages extends Component {
                     </Card>
                 </Swipeable>
             )
-        if (props.cardType == "eventJoin")
+        }
+        else if (props.cardType == "eventJoin") {
+            arrayPosition++;
             return (
-                <Swipeable leftContent={leftContent}>
+                <Swipeable
+                    onRef={ref => this.swipeable = ref}
+                    onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
+                    leftContent={leftContent}>
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
@@ -114,9 +160,14 @@ export default class UserMessages extends Component {
                     </Card>
                 </Swipeable>
             )
-        if (props.cardType == "friendRequestAccepted")
+        }
+        else if (props.cardType == "friendRequestAccepted") {
+            arrayPosition++;
             return (
-                <Swipeable leftContent={leftContent}>
+                <Swipeable
+                    onRef={ref => this.swipeable = ref}
+                    onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
+                    leftContent={leftContent}>
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
@@ -135,9 +186,14 @@ export default class UserMessages extends Component {
                     </Card>
                 </Swipeable>
             )
-        if (props.cardType == "eventShare")
+        }
+        else if (props.cardType == "eventShare") {
+            arrayPosition++;
             return (
-                <Swipeable leftContent={leftContent}>
+                <Swipeable
+                    onRef={ref => this.swipeable = ref}
+                    onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
+                    leftContent={leftContent}>
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
@@ -169,22 +225,17 @@ export default class UserMessages extends Component {
                         </View>
                     </Card>
                 </Swipeable>
-            )
+            );
+        }
         return null;
     }
 
-    _swipeAction() {
-        alert("Swiped")
-    }
-
     render() {
-        //swipeAction: () => this.setState({swipeAction})
-
         return (
             <Image source={require('../img/ciudad.jpg')} style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
-                    renderRow={this.renderCards.bind(cardInfo)}>
+                    renderRow={this.renderCards.bind(this)}>
                 </ListView>
             </Image>
         );
@@ -266,3 +317,5 @@ const styles = StyleSheet.create({
 });
 
 module.exports = UserMessages;
+
+
