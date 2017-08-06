@@ -99,6 +99,7 @@ class UserMessages extends Component {
             return (
                 <Swipeable
                     onRef={ref => this.swipeable = ref}
+                    leftActionActivationDistance = {250}
                     onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
                     leftContent={leftContent}>
 
@@ -140,6 +141,7 @@ class UserMessages extends Component {
             return (
                 <Swipeable
                     onRef={ref => this.swipeable = ref}
+                    leftActionActivationDistance = {250}
                     onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
                     leftContent={leftContent}>
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
@@ -166,6 +168,7 @@ class UserMessages extends Component {
             return (
                 <Swipeable
                     onRef={ref => this.swipeable = ref}
+                    leftActionActivationDistance = {250}
                     onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
                     leftContent={leftContent}>
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
@@ -192,6 +195,7 @@ class UserMessages extends Component {
             return (
                 <Swipeable
                     onRef={ref => this.swipeable = ref}
+                    leftActionActivationDistance = {250}
                     onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
                     leftContent={leftContent}>
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
@@ -235,6 +239,7 @@ class UserMessages extends Component {
             <Image source={require('../img/ciudad.jpg')} style={styles.container}>
                 <ListView
                     dataSource={this.state.dataSource}
+                    enableEmptySections={true}
                     renderRow={this.renderCards.bind(this)}>
                 </ListView>
             </Image>
@@ -317,5 +322,3 @@ const styles = StyleSheet.create({
 });
 
 module.exports = UserMessages;
-
-
