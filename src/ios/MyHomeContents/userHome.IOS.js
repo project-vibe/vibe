@@ -261,8 +261,17 @@ export default class UserHome extends Component {
                                 <Text style={styles.location}>{this.props.MyAddress + this.props.State}</Text>
                                 <View style={{height: 20}} />
                             </View>
-                            <View style={{width:screen.width,  height:210,backgroundColor:'#0A81D1'}}>
-                                <Text>NEXT EVENT:</Text>
+                            <View style={styles.userInfo}>
+                                <View style={{paddingBottom:25}}>
+                                    <View style={styles.nextEvent}>
+                                        <Text style={styles.upcomingText}>Your Next Event!</Text>
+                                        <TouchableOpacity onPress={() => this.userEventsInfo()}>
+                                            <Text numberOfLines={1} style={styles.eventName}>Basketball at Rushi's</Text>
+                                        </TouchableOpacity>
+                                        <Text style={styles.upcomingText}>Wednesday, August 9th</Text>
+                                        <Text style={styles.upcomingText}>6:00 pm to 8:00 pm</Text>
+                                    </View>
+                                </View>
                             </View>
                         </ScrollView>
                         <PageControl style={{position:'absolute', left:0, right:0, bottom:20}}
@@ -590,6 +599,29 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         fontWeight: '800'
+    },
+    nextEvent: {
+        backgroundColor: '#ADD8E6',
+        borderRadius: 50,
+        borderColor: 'white',
+        borderWidth:1,
+        height: 175 ,
+        width:310,
+        alignItems: 'center'
+    },
+    upcomingText: {
+        paddingTop:6,
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: 20,
+        fontFamily: 'Noteworthy',
+    },
+    eventName: {
+        flexDirection: 'row',
+        color: '#0A81D1',
+        fontWeight: 'bold',
+        fontSize: 32,
+        fontFamily: 'Noteworthy',
     },
     image: {
         height:100,
