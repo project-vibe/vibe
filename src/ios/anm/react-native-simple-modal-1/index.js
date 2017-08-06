@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
    absolute: {
       position: 'absolute',
       top: 0,
-      left: 0,
+      left: -10,
       right: 0,
       bottom: 0,
       backgroundColor: 'rgba(0, 0, 0, 0)'
@@ -180,7 +180,8 @@ const styles = StyleSheet.create({
       borderRadius: 2,
       margin: 20,
       padding: 0,
-      backgroundColor: '#F5F5F5'
+      backgroundColor: '#F5F5F5',
+       width: '92.5%'
    },
    hidden: {
       top: -10000,

@@ -29,7 +29,7 @@ var SelectFriendDM = require('./DirectMessaging/SelectFriend.IOS');
 
 class Cell extends Component {
     state = {
-        favStatus: 'true',
+        favStatus: 'false',
         friendshipStatus: 'true'
     };
     getProfilePicture(item) {
@@ -113,7 +113,7 @@ class Cell extends Component {
                         this.setState({favStatus: 'true'})
                     }>
                     <View style={{width: '100%', height: '100%', marginTop: 20, marginLeft: 12}}>
-                        <Icon name="star-outline" size={24} color="rgb(78, 176, 232)" backgroundColor= 'transparent'/>
+                        {/*<Icon name="star-outline" size={24} color="rgb(78, 176, 232)" backgroundColor= 'transparent'/>*/}
                     </View>
                 </TouchableWithoutFeedback>
             )

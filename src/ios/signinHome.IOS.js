@@ -17,23 +17,13 @@ import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Geocoder from 'react-native-geocoder';
 
-var SignUpScreen = require('./signup.IOS.js');
+var SignUpScreen = require('./signup.IOS.js').default;
 var UserHomeScreen = require('./MyHomeContents/userHome.IOS.js');
-
 
 const auth = firebase.auth();
 const provider = firebase.auth.FacebookAuthProvider;
 
 var signInScreen;
-
-const fadeIn = {
-    from: {
-        opacity: 0,
-    },
-    to: {
-        opacity: 1,
-    },
-};
 
 signInScreen = React.createClass({
     getInitialState () {
@@ -107,17 +97,18 @@ signInScreen = React.createClass({
                                         Longitude: longitude.toString()
                                 });
 
+
                             let photoLink = credData.photoURL;
 
-                                that.props.navigator.push({
-                                    title: 'userHomeScreen',
-                                    component: UserHomeScreen,
-                                    navigationBarHidden: true,
-                                    passProps: {myElement: 'text', userId: userId, photoUrl: photoLink,
-                                        MyAddress: that.state.MyAddress, State: that.state.State,
-                                        email: credData.email, phoneNumber: tempPhoneNum,
-                                        latitude: latitude.toString(), longitude: longitude.toString(), locationValue: that.props.locationValue}
-                                })
+                            that.props.navigator.push({
+                                title: 'userHomeScreen',
+                                component: UserHomeScreen,
+                                navigationBarHidden: true,
+                                passProps: {myElement: 'text', userId: userId, photoUrl: photoLink,
+                                    MyAddress: that.state.MyAddress, State: that.state.State,
+                                    email: credData.email, phoneNumber: tempPhoneNum,
+                                    latitude: latitude.toString(), longitude: longitude.toString(), locationValue: that.props.locationValue}
+                            })
                         })
                         .catch(err => {
                             alert("Error Here: " + err.valueOf());
@@ -136,7 +127,7 @@ signInScreen = React.createClass({
             title: 'signUpScreen',
             component: SignUpScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            // passProps: {myElement: 'text'}
         });
     },
 
@@ -146,18 +137,18 @@ signInScreen = React.createClass({
         this.state.lastName = lastName;
         this.state.photo = photo;
 
-            this.props.navigator.push({
-                title: 'userHomeScreen',
-                component: UserHomeScreen,
-                navigationBarHidden: true,
-                passProps: {
-                    myElement: 'text', userId: this.state.loginId,
-                    first: this.state.firstName, last: this.state.lastName, photoUrl: photo,
-                    MyAddress: MyAddress, State: State, email: email,
-                    phoneNumber: phoneNumber, latitude: this.state.latitude.toString(),
-                    longitude: this.state.longitude.toString(), locationValue: this.props.locationValue
-                }
-            });
+        this.props.navigator.push({
+            title: 'userHomeScreen',
+            component: UserHomeScreen,
+            navigationBarHidden: true,
+            passProps: {
+                myElement: 'text', userId: this.state.loginId,
+                first: this.state.firstName, last: this.state.lastName, photoUrl: photo,
+                MyAddress: MyAddress, State: State, email: email,
+                phoneNumber: phoneNumber, latitude: this.state.latitude.toString(),
+                longitude: this.state.longitude.toString(), locationValue: this.props.locationValue
+            }
+        });
     },
 
     async getLocation() {
@@ -232,28 +223,28 @@ signInScreen = React.createClass({
             var gotData = false;
             var that = this;
 
-                await leadsRef.on('value', function (snapshot) {
-                    snapshot.forEach(function (childSnapshot) {
-                        //alert(this);
-                        childData = childSnapshot.val();
-                        //alert(childData);
-                        counter++;
-                        if (counter === 2) {
-                            firstName = childData;
-                        }
-                        if (counter === 3) {
-                            lastName = childData;
-                        }
-                        if (counter === 6) {
-                            phoneNumber = childData;
-                        }
-                        if (counter === 7) {
-                            photo = childData
-                        }
-                        gotData = true;
-                    });
-                    that.goUserHome(firstName, lastName, photo, that.state.MyAddress, that.state.State, email, phoneNumber);
+            await leadsRef.on('value', function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    //alert(this);
+                    childData = childSnapshot.val();
+                    //alert(childData);
+                    counter++;
+                    if (counter === 2) {
+                        firstName = childData;
+                    }
+                    if (counter === 3) {
+                        lastName = childData;
+                    }
+                    if (counter === 6) {
+                        phoneNumber = childData;
+                    }
+                    if (counter === 7) {
+                        photo = childData
+                    }
+                    gotData = true;
                 });
+                that.goUserHome(firstName, lastName, photo, that.state.MyAddress, that.state.State, email, phoneNumber);
+            });
 
             console.log("Logged In!");
 
@@ -382,8 +373,7 @@ signInScreen = React.createClass({
                             <View style={{height: 45}}>
                                 <View style={{height: 15}}/>
                                 <TouchableOpacity onPress={() => this.goSignUp()} style={{height: 20}}>
-                                    <Text style={{fontWeight: 'bold', color: '#0A81D1', margin: 5, fontSize: 12}}>Sign
-                                        up.</Text>
+                                    <Text style={{fontWeight: 'bold', color: '#0A81D1', margin: 5, fontSize: 12}}>Sign up.</Text>
                                 </TouchableOpacity>
                                 <View style={{height: 15}}/>
                             </View>

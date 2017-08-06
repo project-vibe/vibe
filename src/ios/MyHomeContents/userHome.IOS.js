@@ -7,6 +7,7 @@ import * as Animatable from 'react-native-animatable';
 
 /** Extra COMPONENTS **/
 import Modal from '../anm/react-native-simple-modal-1/index';
+import ModalRegular from '../anm/react-native-simple-modal-1/regular/index';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import Geocoder from 'react-native-geocoder';
@@ -32,6 +33,7 @@ var UserSettingsScreen = require('./userSettings.IOS.js');
 var AddFriendsScreen = require('./addFriends.IOS.js');
 var VibeMapsScreen = require('./maps.IOS.js');
 var UserEventInfo = require('./CreateEventsContents/userEventInfo.IOS');
+var NewActivity = require('./QuickAdd/newActivity.IOS');
 
 /** SCROLLER **/
 var screen = require('Dimensions').get('window');
@@ -92,7 +94,7 @@ export default class UserHome extends Component {
         currentPage: 0,
         selectedIndex: 1,
     };
-     _getDataNewer = () => {
+    _getDataNewer = () => {
         let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
         var counter = 0;
         var childData = "";
@@ -102,7 +104,7 @@ export default class UserHome extends Component {
         var lastName = "LastNameDefault";
         var leadsRef = firebase.database().ref(userSettingsPath);
 
-         leadsRef.on('value', function(snapshot) {
+        leadsRef.on('value', function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 childData = childSnapshot.val();
                 counter++;
@@ -135,21 +137,21 @@ export default class UserHome extends Component {
         var lastName = "LastNameDefault";
         var leadsRef = firebase.database().ref(userSettingsPath);
 
-            leadsRef.on('value', function (snapshot) {
-                snapshot.forEach(function (childSnapshot) {
-                    childData = childSnapshot.val();
-                    counter++;
-                    if (counter === 2)
-                        firstName = childData;
-                    if (counter === 3)
-                        lastName = childData;
-                    if (counter === 6)
-                        phoneNumber = childData;
-                    if (counter === 7)
-                        photo = childData;
+        leadsRef.on('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                childData = childSnapshot.val();
+                counter++;
+                if (counter === 2)
+                    firstName = childData;
+                if (counter === 3)
+                    lastName = childData;
+                if (counter === 6)
+                    phoneNumber = childData;
+                if (counter === 7)
+                    photo = childData;
 
-                });
             });
+        });
 
         this.state.firstName = firstName;
         this.state.lastName = lastName;
@@ -234,8 +236,8 @@ export default class UserHome extends Component {
                 />
 
                 {/*<StatusBar*/}
-                    {/*color="white"*/}
-                    {/*barStyle="light-content"*/}
+                {/*color="white"*/}
+                {/*barStyle="light-content"*/}
                 {/*/>*/}
 
                 <View style={{flex:1, justifyContent: 'center', alignItems: 'center'}}>
@@ -259,8 +261,17 @@ export default class UserHome extends Component {
                                 <Text style={styles.location}>{this.props.MyAddress + this.props.State}</Text>
                                 <View style={{height: 20}} />
                             </View>
-                            <View style={{width:screen.width,  height:210,backgroundColor:'#0A81D1'}}>
-                                <Text>NEXT EVENT:</Text>
+                            <View style={styles.userInfo}>
+                                <View style={{paddingBottom:25}}>
+                                    <View style={styles.nextEvent}>
+                                        <Text style={styles.upcomingText}>Your Next Event!</Text>
+                                        <TouchableOpacity onPress={() => this.userEventsInfo()}>
+                                            <Text numberOfLines={1} style={styles.eventName}>Basketball at Rushi's</Text>
+                                        </TouchableOpacity>
+                                        <Text style={styles.upcomingText}>Wednesday, August 9th</Text>
+                                        <Text style={styles.upcomingText}>6:00 pm to 8:00 pm</Text>
+                                    </View>
+                                </View>
                             </View>
                         </ScrollView>
                         <PageControl style={{position:'absolute', left:0, right:0, bottom:20}}
@@ -319,7 +330,7 @@ export default class UserHome extends Component {
                                 <Text style={{textAlign: 'right', color: 'grey', fontSize: 12}}> Pomona, CA</Text>
                             </TouchableOpacity>
                             <Text style={{color: 'grey', fontWeight: '800',fontSize: 12}}> · </Text>
-                            <TouchableOpacity onPress={() => alert("Open list of friends who have ")} style={{width: '49%'}}>
+                            <TouchableOpacity onPress={() => alert("Open list of friends who have ")} style={{width: '48%'}}>
                                 <Text style={{color: 'grey', fontSize: 12}}> 32 Invited </Text>
                             </TouchableOpacity>
                         </View>
@@ -360,7 +371,7 @@ export default class UserHome extends Component {
                 </Modal>
 
                 <View style={{position: 'absolute'}}>
-                    <Modal
+                    <ModalRegular
                         animationType={"fade"}
                         open={this.state.openUserModal}
                         modalDidOpen={() => console.log('modal did open')}
@@ -374,21 +385,21 @@ export default class UserHome extends Component {
                                     <Animatable.View animation="fadeInUpBig" ref="view" style={{flexDirection: 'row'}}>
                                         <TouchableOpacity
                                             style={{paddingLeft: screen.width/9, alignItems: 'center'}}
-                                            onPress={() => alert("hello")}
+                                            onPress={() => this.goToActivity('Beach')}
                                         >
                                             <Image style={ styles.icon } source={icon1} />
                                             <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Beach </Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={{paddingLeft: screen.width/10, alignItems: 'center'}}
-                                            onPress={() => alert("hello")}
+                                            onPress={() => this.goToActivity('Coffee')}
                                         >
                                             <Image style={ styles.icon } source={icon2} />
                                             <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Coffee </Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={{paddingLeft: screen.width/10, alignItems: 'center'}}
-                                            onPress={() => alert("hello")}
+                                            onPress={() => this.goToActivity('Beach')}
                                         >
                                             <Image style={ styles.icon } source={icon3} />
                                             <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Beach </Text>
@@ -398,21 +409,21 @@ export default class UserHome extends Component {
                                     <Animatable.View animation="fadeInUpBig" ref="view" style={{flexDirection: 'row', paddingTop: 20}}>
                                         <TouchableOpacity
                                             style={{paddingLeft: screen.width/9, alignItems: 'center'}}
-                                            onPress={() => alert("hello")}
+                                            onPress={() => this.goToActivity('Library')}
                                         >
                                             <Image style={ styles.icon } source={icon4} />
                                             <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Library </Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={{paddingLeft: screen.width/12, alignItems: 'center'}}
-                                            onPress={() => alert("hello")}
+                                            onPress={() => this.goToActivity('Group Study')}
                                         >
                                             <Image style={ styles.icon } source={icon5} />
                                             <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Group Study </Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={{paddingLeft: screen.width/12, alignItems: 'center'}}
-                                            onPress={() => alert("hello")}
+                                            onPress={() => this.goToActivity('Theaters')}
                                         >
                                             <Image style={ styles.icon } source={icon6} />
                                             <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Theaters </Text>
@@ -422,21 +433,21 @@ export default class UserHome extends Component {
                                     <Animatable.View animation="fadeInUpBig" ref="view" style={{flexDirection: 'row', paddingTop: 20}}>
                                         <TouchableOpacity
                                             style={{paddingLeft: screen.width/9, alignItems: 'center'}}
-                                            onPress={() => alert("hello")}
+                                            onPress={() => this.goToActivity('Sports')}
                                         >
                                             <Image style={ styles.icon } source={icon7} />
                                             <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Sports </Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={{paddingLeft: screen.width/9, alignItems: 'center'}}
-                                            onPress={() => alert("hello")}
+                                            onPress={() => this.goToActivity('Food')}
                                         >
                                             <Image style={ styles.icon } source={icon8} />
                                             <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Food </Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                             style={{paddingLeft: screen.width/10, alignItems: 'center'}}
-                                            onPress={() => alert("hello")}
+                                            onPress={() => this.goToActivity('Create')}
                                         >
                                             <Image style={ styles.icon } source={icon9} />
                                             <Text style={{fontWeight: 'bold', fontSize: 15, fontFamily: 'Noteworthy', color: 'white'}}> Create </Text>
@@ -450,7 +461,7 @@ export default class UserHome extends Component {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </Modal>
+                    </ModalRegular>
                 </View>
 
             </Animated.View>
@@ -458,6 +469,15 @@ export default class UserHome extends Component {
     }
 
     // screen navigations!
+    goToActivity(eventType) {
+        this.props.navigator.push({
+            title: 'NewActivity',
+            component: NewActivity,
+            navigationBarHidden: true,
+            passProps: {myElement: 'text', eventType: eventType}
+        });
+    }
+
     goToMaps() {
         this.props.navigator.push({
             title: 'VibeMaps',
@@ -475,7 +495,7 @@ export default class UserHome extends Component {
             component: UserSettingsScreen,
             navigationBarHidden: true,
             passProps: {myElement: 'text', photoId: this.props.photo, userId: this.props.userId,
-            firstName: this.state.firstName, lastName: this.state.lastName,
+                firstName: this.state.firstName, lastName: this.state.lastName,
                 photo: this.state.photo, locationValue: this.props.locationValue,
                 email: this.props.email, phoneNumber: this.state.phoneNumber}
         });
@@ -579,6 +599,29 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
         fontWeight: '800'
+    },
+    nextEvent: {
+        backgroundColor: '#ADD8E6',
+        borderRadius: 50,
+        borderColor: 'white',
+        borderWidth:1,
+        height: 175 ,
+        width:310,
+        alignItems: 'center'
+    },
+    upcomingText: {
+        paddingTop:6,
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: 20,
+        fontFamily: 'Noteworthy',
+    },
+    eventName: {
+        flexDirection: 'row',
+        color: '#0A81D1',
+        fontWeight: 'bold',
+        fontSize: 32,
+        fontFamily: 'Noteworthy',
     },
     image: {
         height:100,

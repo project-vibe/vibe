@@ -7,15 +7,14 @@ import * as firebase from "firebase";
 export default class UserPreview extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            addFriend: 'false'
+        };
     }
 
     componentDidMount() {
         this.checkUser(this.props.data.UserInfo.Email);
     }
-
-    state = {
-        addFriend: 'false'
-    };
 
     getButton(friendEmail) {
         if(this.state.addFriend === 'false') {
