@@ -23,7 +23,6 @@ export default class VibeMaps extends Component {
     }
 
     componentDidMount() {
-        this.checkLocation();
         let userLocation = this.props.latitude + "," + this.props.longitude;
         this.getDirections(userLocation, "37.317356,-122.021288");
     }
