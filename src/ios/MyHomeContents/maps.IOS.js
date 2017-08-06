@@ -18,24 +18,14 @@ export default class VibeMaps extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            coords: [],
-            locationPermission: ''
+            coords: []
         }
     }
 
     componentDidMount() {
         this.checkLocation();
-        let userLocation = this.props.latitude + ", " + this.props.longitude;
-        this.getDirections("37.3230, 122.0322", "37.317356,-122.021288");
-    }
-
-    async checkLocation() {
-        await Permissions.getPermissionStatus('location', 'whenInUse')
-            .then(response => {
-                //returns once the user has chosen to 'allow' or to 'not allow' access
-                //response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
-                this.setState({ locationPermission: response })
-            });
+        let userLocation = this.props.latitude + "," + this.props.longitude;
+        this.getDirections(userLocation, "37.317356,-122.021288");
     }
 
     async getDirections(startLoc, destinationLoc) {
@@ -68,7 +58,7 @@ export default class VibeMaps extends Component {
             </Icon.Button>
         );
 
-        if(this.state.locationPermission==='authorized')
+        if(this.props.locationValue)
         return (
             <View style={{flex: 1}}>
                 <NavigationBar
@@ -85,7 +75,6 @@ export default class VibeMaps extends Component {
                         latitudeDelta: 0.5,
                         longitudeDelta: 0.5
                     }}>
-                        {/*first two not needed if location services disabled*/}
                         <MapView.Polyline
                             coordinates={this.state.coords}
                             strokeWidth={2}
@@ -148,6 +137,7 @@ export default class VibeMaps extends Component {
                     </View>
                 </View>
             )
+
     }
 
     // switch screens

@@ -5,13 +5,11 @@ export default cardInfo = [
             "first": "Jon",
             "last": "Doeliteeederewrwerewrewrewre",
         },
+        "eventName": null,
+
         "picture": {
-            "large": "https://randomuser.me/api/portraits/men/4.jpg",
-            "medium": "https://randomuser.me/api/portraits/med/men/4.jpg",
-            "thumbnail": "https://randomuser.me/api/portraits/thumb/men/4.jpg"
+            "large": "https://randomuser.me/api/portraits/men/11.jpg",
         },
-
-
     },
 
     {
@@ -25,8 +23,6 @@ export default cardInfo = [
 
         "picture": {
             "large": "https://randomuser.me/api/portraits/men/47.jpg",
-            "medium": "https://randomuser.me/api/portraits/med/men/4.jpg",
-            "thumbnail": "https://randomuser.me/api/portraits/thumb/men/4.jpg"
         },
     },
 
@@ -39,10 +35,7 @@ export default cardInfo = [
         },
         "picture": {
             "large": "https://randomuser.me/api/portraits/women/22.jpg",
-            "medium": "https://randomuser.me/api/portraits/med/men/4.jpg",
-            "thumbnail": "https://randomuser.me/api/portraits/thumb/men/4.jpg"
         },
-
     },
 
     {
@@ -51,12 +44,10 @@ export default cardInfo = [
             "first": "Steve",
             "last": "Smith",
         },
+        "eventName": null,
         "picture": {
             "large": "https://randomuser.me/api/portraits/men/4.jpg",
-            "medium": "https://randomuser.me/api/portraits/med/men/4.jpg",
-            "thumbnail": "https://randomuser.me/api/portraits/thumb/men/4.jpg"
         }, //may later be changed to an event picture
-
     },
 ]
 

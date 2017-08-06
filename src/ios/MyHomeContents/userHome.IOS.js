@@ -476,7 +476,7 @@ export default class UserHome extends Component {
             navigationBarHidden: true,
             passProps: {myElement: 'text', latitude: this.props.latitude,
                 longitude: this.props.longitude, userAddress: this.props.MyAddress + this.props.State,
-                eventTitle: this.state.userModalTitle}
+            eventTitle: this.state.userModalTitle, locationValue: this.props.locationValue}
         });
     }
 
