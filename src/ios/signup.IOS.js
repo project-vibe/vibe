@@ -136,8 +136,7 @@ export default class SignUp extends Component {
 
             let userSettingsPath = "/user/" + userId;
 
-            firebase.database().ref(userSettingsPath).set({
-                UserInfo: {
+            firebase.database().ref(userSettingsPath).child('UserInfo').set({
                     FirstName: firstName,
                     LastName: lastName,
                     Email: email.toLowerCase(),
@@ -145,7 +144,6 @@ export default class SignUp extends Component {
                     PhotoUrl: "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg",
                     Latitude: this.state.latitude,
                     Longitude: this.state.longitude
-                }
             });
 
             this.state.photoUrl = "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg";

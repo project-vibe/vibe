@@ -2,22 +2,29 @@ import React, { Component } from 'react'
 import { Text, View, Image, StyleSheet, TouchableWithoutFeedback} from 'react-native'
 // icon
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as firebase from "firebase";
 
 export default class UserPreview extends Component {
     constructor(props) {
         super(props);
     }
 
+    componentDidMount() {
+        this.checkUser(this.props.data.UserInfo.Email);
+    }
+
     state = {
-        addFriend: 'true'
+        addFriend: 'false'
     };
 
-    getButton() {
-        if(this.state.addFriend === 'true') {
+    getButton(friendEmail) {
+        if(this.state.addFriend === 'false') {
             return (
                 <TouchableWithoutFeedback
-                    onPress={() =>
-                        this.setState({addFriend: 'false'})
+                    onPress={() => {
+                        this.setState({addFriend: 'true'});
+                        this.addFriend(friendEmail);
+                        }
                     }>
                     <View style={{width: '67%', backgroundColor: 'transparent', borderWidth: 1, borderColor: '#0A81D1', borderRadius: 50, marginTop: 15, marginLeft: 5, alignItems: 'center'}}>
                         <Icon name="account-plus" size={24} color='#0A81D1' backgroundColor= 'transparent' style={{paddingRight: 3, paddingTop: 5}}/>
@@ -26,10 +33,14 @@ export default class UserPreview extends Component {
                 </TouchableWithoutFeedback>
             )
         } else {
+            //add friend
+            this.addFriend(friendEmail);
             return (
                 <TouchableWithoutFeedback
-                    onPress={() =>
-                        this.setState({addFriend: 'true'})
+                    onPress={() => {
+                        this.setState({addFriend: 'false'});
+                        this.removeFriend(friendEmail);
+                        }
                     }>
                     <View style={{width: '67%', backgroundColor: '#0A81D1', borderWidth: 1, borderColor: '#0A81D1', borderRadius: 20, marginTop: 15, marginLeft: 5, alignItems: 'center'}}>
                         <Icon name="account-plus" size={24} color='white' backgroundColor= '#0A81D1' style={{paddingRight: 3, paddingTop: 5}}/>
@@ -38,6 +49,111 @@ export default class UserPreview extends Component {
                 </TouchableWithoutFeedback>
             )
         }
+    }
+
+    async checkUser(email) {
+
+        let userEmail = firebase.auth().currentUser.email;
+        let friendId = "";
+        let userId = "";
+
+        // get id for friend
+        for (let i = 0; i < email.length; i++) {
+            if (email.charAt(i) === '@' || email.charAt(i) === '.') {
+            } else {
+                friendId += email.charAt(i).toLowerCase();
+            }
+        }
+
+        // get id for current user
+        for (let i = 0; i < userEmail.length; i++) {
+            if (userEmail.charAt(i) === '@' || userEmail.charAt(i) === '.') {
+            } else {
+                userId += userEmail.charAt(i).toLowerCase();
+            }
+        }
+
+        let self = this;
+        let friendSettingsPath = "/user/" + friendId;
+        let userSettingsPath = "/user/" + userId + "/Friends/OutgoingRequests";
+
+        var leadsRef = firebase.database().ref(userSettingsPath);
+        await leadsRef.once('value', function (snapshot) {
+            if (snapshot.hasChild(friendId)) {
+                self.setState({addFriend: 'true'});
+            }
+        });
+
+        //firebase.database().ref(friendSettingsPath).child('Friends').child('AcceptedFriends').set({[friendId]: email});
+        //firebase.database().ref(friendSettingsPath).child('Friends').child('IncomingRequests').child(userId).set({userId: userId, email: userEmail});
+        //firebase.database().ref(userSettingsPath).child('Friends').child('OutgoingRequests').child(friendId).set({userId: friendId, email: email});
+
+    }
+
+    addFriend(email) {
+        //check if data exists
+        let userEmail = firebase.auth().currentUser.email;
+        let friendId = "";
+        let userId = "";
+
+        // get id for friend
+        for (let i = 0; i < email.length; i++) {
+            if (email.charAt(i) === '@' || email.charAt(i) === '.') {
+            } else {
+                friendId += email.charAt(i).toLowerCase();
+            }
+        }
+
+        // get id for current user
+        for (let i = 0; i < userEmail.length; i++) {
+            if (userEmail.charAt(i) === '@' || userEmail.charAt(i) === '.') {
+            } else {
+                userId += userEmail.charAt(i).toLowerCase();
+            }
+        }
+
+        let friendSettingsPath = "/user/" + friendId;
+        let userSettingsPath = "/user/" + userId;
+
+        //firebase.database().ref(friendSettingsPath).child('Friends').child('AcceptedFriends').set({[friendId]: email});
+        firebase.database().ref(friendSettingsPath).child('Friends').child('IncomingRequests').child(userId).set({userId: userId, email: userEmail});
+        firebase.database().ref(userSettingsPath).child('Friends').child('OutgoingRequests').child(friendId).set({userId: friendId, email: email});
+
+    }
+
+    removeFriend(email) {
+        let userEmail = firebase.auth().currentUser.email;
+        let friendId = "";
+        let userId = "";
+
+        // get id for friend
+        for (let i = 0; i < email.length; i++) {
+            if (email.charAt(i) === '@' || email.charAt(i) === '.') {
+            } else {
+                friendId += email.charAt(i).toLowerCase();
+            }
+        }
+
+        // get id for current user
+        for (let i = 0; i < userEmail.length; i++) {
+            if (userEmail.charAt(i) === '@' || userEmail.charAt(i) === '.') {
+            } else {
+                userId += userEmail.charAt(i).toLowerCase();
+            }
+        }
+
+        let friendSettingsPath = "/user/" + friendId;
+        let userSettingsPath = "/user/" + userId;
+
+        /*firebase.database().ref(friendSettingsPath).child('Friends').child('AcceptedFriends').remove({[userId]: userEmail});
+        firebase.database().ref(userSettingsPath).child('Friends').child('AcceptedFriends').remove({[friendId]: email});
+        firebase.database().ref(userSettingsPath).child('Friends').child('OutgoingRequests').remove({[friendId]: email});
+        firebase.database().ref(friendSettingsPath).child('Friends').child('IncomingRequests').remove({[userId]: userEmail});*/
+
+        firebase.database().ref(friendSettingsPath).child('Friends').child('AcceptedFriends').child(userId).remove();
+        firebase.database().ref(userSettingsPath).child('Friends').child('AcceptedFriends').child(friendId).remove();
+        firebase.database().ref(userSettingsPath).child('Friends').child('OutgoingRequests').child(friendId).remove();
+        firebase.database().ref(friendSettingsPath).child('Friends').child('IncomingRequests').child(userId).remove();
     }
 
     render() {
@@ -55,7 +171,7 @@ export default class UserPreview extends Component {
                         <Text style={styles.email}>{this.props.data.UserInfo.Email }</Text>
                     </View>
                     <View style={{width: '20%'}}>
-                        {this.getButton()}
+                        {this.getButton(this.props.data.UserInfo.Email)}
                     </View>
                 </View>
                 <View style={{width: '100%', height: 0.5, backgroundColor: 'rgb(231,235,236)' }} />

@@ -196,6 +196,7 @@ class addFriendsScreen extends Component {
     state = {
         filterWidth: 100,
         // user ids
+        //have method that go through acceptedFriends branch and fill in data
         data: {
             A: ['John Agnew','Joshua Allison', 'Abhay Varshney'],
             B: ['some','entries','are here'],

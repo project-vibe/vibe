@@ -97,8 +97,7 @@ signInScreen = React.createClass({
                             let latitude = that.state.latitude;
                             let longitude = that.state.longitude;
 
-                                firebase.database().ref(userSettingsPath).set({
-                                    UserInfo: {
+                                firebase.database().ref(userSettingsPath).child('UserInfo').set({
                                         FirstName: firstName,
                                         LastName: lastName,
                                         Email: credData.email,
@@ -106,7 +105,6 @@ signInScreen = React.createClass({
                                         PhotoUrl: credData.photoURL,
                                         Latitude: latitude.toString(),
                                         Longitude: longitude.toString()
-                                    }
                                 });
 
                             let photoLink = credData.photoURL;
