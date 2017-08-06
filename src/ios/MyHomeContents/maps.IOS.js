@@ -26,7 +26,7 @@ export default class VibeMaps extends Component {
     componentDidMount() {
         this.checkLocation();
         let userLocation = this.props.latitude + ", " + this.props.longitude;
-        this.getDirections(userLocation, "37.317356,-122.021288");
+        this.getDirections("37.3230, 122.0322", "37.317356,-122.021288");
     }
 
     async checkLocation() {
@@ -40,7 +40,7 @@ export default class VibeMaps extends Component {
 
     async getDirections(startLoc, destinationLoc) {
         try {
-            let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`)
+            let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`);
             let respJson = await resp.json();
             let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
             let coords = points.map((point, index) => {

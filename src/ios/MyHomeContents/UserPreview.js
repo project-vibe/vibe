@@ -7,7 +7,6 @@ export default class UserPreview extends Component {
     constructor(props) {
         super(props);
     }
-
     state = {
         addFriend: 'true'
     };
