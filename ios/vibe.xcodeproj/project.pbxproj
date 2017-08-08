@@ -1058,11 +1058,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = XR9TAC2UM5;
+						DevelopmentTeam = R8865J6UK6;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = XR9TAC2UM5;
+						DevelopmentTeam = R8865J6UK6;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -1644,7 +1644,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = XR9TAC2UM5;
+				DEVELOPMENT_TEAM = R8865J6UK6;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_TESTABILITY = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
@@ -1693,7 +1693,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = XR9TAC2UM5;
+				DEVELOPMENT_TEAM = R8865J6UK6;
 				ENABLE_ON_DEMAND_RESOURCES = NO;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Frameworks/";
@@ -1741,7 +1741,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = XR9TAC2UM5;
+				DEVELOPMENT_TEAM = R8865J6UK6;
 				ENABLE_TESTABILITY = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks/",
@@ -1769,7 +1769,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.projevibe.vibe;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.projevib.vibe;
 				PRODUCT_NAME = vibe;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1784,7 +1784,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XR9TAC2UM5;
+				DEVELOPMENT_TEAM = R8865J6UK6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/Frameworks/",
 					"$(SRCROOT)",
@@ -1810,7 +1810,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.projevibe.vibe;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.projevib.vibe;
 				PRODUCT_NAME = vibe;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;

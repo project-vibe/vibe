@@ -1,6 +1,7 @@
 'use strict'
 import React, { Component } from 'react'
 import NavigationBar from 'react-native-navbar';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import BackButton from 'react-native-vector-icons/EvilIcons';
 import * as firebase from "firebase";
@@ -57,42 +58,42 @@ class editProfile extends Component{
             firebase.database().ref(userSettingsPath).child('UserInfo').child('PhoneNumber').set(this.state.phoneNumber);
         }
         else
-        return new Promise((resolve, reject) => {
-            const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
-            let uploadBlob = null
+            return new Promise((resolve, reject) => {
+                const uploadUri = Platform.OS === 'ios' ? uri.replace('file://', '') : uri
+                let uploadBlob = null
 
-            const imageRef = firebase.storage().ref(userSettingsPath).child('PhotoUrl')
+                const imageRef = firebase.storage().ref(userSettingsPath).child('PhotoUrl')
 
-            fs.readFile(uploadUri, 'base64')
-                .then((data) => {
-                    return Blob.build(data, { type: `${mime};BASE64` })
-                })
-                .then((blob) => {
-                    uploadBlob = blob
-                    return imageRef.put(blob, { contentType: mime })
-                })
-                .then(() => {
-                    uploadBlob.close()
-                    return imageRef.getDownloadURL()
-                })
-                .then((url) => {
-                    this.state.photo = url
-                    firebase.database().ref(userSettingsPath).child('UserInfo').child('PhotoUrl').set(this.state.photo);
-                    firebase.database().ref(userSettingsPath).child('UserInfo').child('FirstName').set(this.state.firstName);
-                    firebase.database().ref(userSettingsPath).child('UserInfo').child('LastName').set(this.state.lastName);
-                    firebase.database().ref(userSettingsPath).child('UserInfo').child('PhoneNumber').set(this.state.phoneNumber);
-                })
-                .catch((error) => {
-                    reject(error)
-                })
-        })
+                fs.readFile(uploadUri, 'base64')
+                    .then((data) => {
+                        return Blob.build(data, { type: `${mime};BASE64` })
+                    })
+                    .then((blob) => {
+                        uploadBlob = blob
+                        return imageRef.put(blob, { contentType: mime })
+                    })
+                    .then(() => {
+                        uploadBlob.close()
+                        return imageRef.getDownloadURL()
+                    })
+                    .then((url) => {
+                        this.state.photo = url
+                        firebase.database().ref(userSettingsPath).child('UserInfo').child('PhotoUrl').set(this.state.photo);
+                        firebase.database().ref(userSettingsPath).child('UserInfo').child('FirstName').set(this.state.firstName);
+                        firebase.database().ref(userSettingsPath).child('UserInfo').child('LastName').set(this.state.lastName);
+                        firebase.database().ref(userSettingsPath).child('UserInfo').child('PhoneNumber').set(this.state.phoneNumber);
+                    })
+                    .catch((error) => {
+                        reject(error)
+                    })
+            })
     }
     /*backToHome() {
-        this.props.navigator.popToTop({
-            title: 'BackToHome',
-            passProps: {myElement: 'text'}
-        });
-    }*/
+     this.props.navigator.popToTop({
+     title: 'BackToHome',
+     passProps: {myElement: 'text'}
+     });
+     }*/
     buttonSelect() {
         alert("Needs implementation")
     }
@@ -100,8 +101,8 @@ class editProfile extends Component{
         ImagePicker.openCamera({
             cropping: cropping,
             cropperCircleOverlay: circular,
-            width: 100,
-            height: 100,
+            width: 200,
+            height: 200,
         }).then(image => {
             console.log('received image', image);
             this.setState({
@@ -124,8 +125,8 @@ class editProfile extends Component{
 
     pickSingle(cropit, circular=true) {
         ImagePicker.openPicker({
-            width: 100,
-            height: 100,
+            width: 200,
+            height: 200,
             cropping: cropit,
             cropperCircleOverlay: circular,
             compressImageMaxWidth: 640,
@@ -141,14 +142,14 @@ class editProfile extends Component{
             console.log(e);
             if(e.message === "User cancelled image selection")
             {
-               
+
             }
             else
-            Alert.alert(e.message );
+                Alert.alert(e.message );
         });
     }
     renderImage(image) {
-        return <Image style={{height:100, width: 100, borderRadius: 50, shadowColor: '#000000', shadowRadius: 10,
+        return <Image style={{height:150, width: 150, borderRadius: 75, shadowColor: '#000000', shadowRadius: 10,
             borderWidth: 2, borderColor: 'white', resizeMode: 'contain'}} source={{uri: image}} />
     }
 
@@ -157,12 +158,6 @@ class editProfile extends Component{
         const titleConfig = {
             title: 'Edit Profile',
             style: {fontWeight: 'bold', fontSize: 16, fontFamily: 'Noteworthy', color: 'black'}
-        };
-
-        const rightConfig = {
-            title: 'Done',
-            tintColor:'black',
-            handler: () => alert('done'),
         };
 
         const backButtonConfig = (
@@ -184,102 +179,110 @@ class editProfile extends Component{
                 <NavigationBar
                     title={titleConfig}
                     leftButton={backButtonConfig}
-                    rightButton={rightConfig}
                     tintColor={'#eeeeee'}
                     style={{borderBottomWidth: 0.5, borderColor: '#A9A9A9'}}
                 />
+                <KeyboardAwareScrollView
+                    style={{ backgroundColor: 'transparent' }}
+                    resetScrollToCoords={{ x: 0, y: 0 }}
+                    contentContainerStyle={styles.container}
+                    scrollEnabled={false}
+                >
                 <ScrollView>
-                <View style={{height: 5}}/>
-                <View style={styles.userInfo}>
-                    <TouchableHighlight style={{paddingTop: 3}}>
-                        {this.renderImage(this.state.photo)}
-                    </TouchableHighlight>
-                </View>
-                <View>
-                     <TouchableOpacity onPress={() => this.pickSingleWithCamera(true)} style={styles.button}>
-                          <Text style={{color: '#0A81D1', paddingTop:15, textAlign: 'center', fontSize: 16}}>Take New Picture</Text>
-                     </TouchableOpacity>
+                    <View style={{height: 25}}/>
+                    <View style={styles.userInfo}>
+                        <TouchableHighlight style={{paddingTop: 15}}>
+                            {this.renderImage(this.state.photo)}
+                        </TouchableHighlight>
+                    </View>
+                    <View style={{height: 30}}/>
+                    <View>
+                        <TouchableOpacity onPress={() => this.pickSingleWithCamera(true)} style={styles.button}>
+                            <Text style={{color: '#0A81D1', paddingTop:15, textAlign: 'center', fontSize: 16}}>Take New Picture</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => this.pickSingle(true)} style={styles.button}>
-                        <Text style={{color: '#0A81D1', paddingTop:15, textAlign: 'center', fontSize: 16}}>Select From Gallery</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.inputStyle}>
-                    <Text style={{color: '#808080',  paddingLeft: 20,paddingBottom:7, fontSize: 17}}>Name</Text>
-                    <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
-                        <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
-                            <Icon name="account" size={30} color="#A9A9A9" />
-                        </View>
-                        <TextInput
-                            style={styles.firstPTextInputStyle}
-                            defaultValue={this.props.firstName}
-                            placeholder="FirstName"
-                            placeholderTextColor="#C0C0C0"
-                            clearButtonMode="while-editing"
-                            multiline={false}
-                            autoCorrect={false}
-                            onChangeText={(firstName) => this.setState({firstName})}
-                            value={this.state.firstName}
-                        />
+                        <TouchableOpacity onPress={() => this.pickSingle(true)} style={styles.button}>
+                            <Text style={{color: '#0A81D1', paddingTop:15, textAlign: 'center', fontSize: 16}}>Select From Gallery</Text>
+                        </TouchableOpacity>
                     </View>
-                    <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
-                        <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
-                            <Icon name="account" size={30} color="#A9A9A9" />
+                    <View style={styles.inputStyle}>
+                        <Text style={{color: '#808080',  paddingLeft: 20,paddingBottom:7, fontSize: 17}}>Name</Text>
+                        <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
+                            <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
+                                <Icon name="account" size={30} color="#A9A9A9" />
+                            </View>
+                            <TextInput
+                                style={styles.firstPTextInputStyle}
+                                defaultValue={this.props.firstName}
+                                placeholder="FirstName"
+                                placeholderTextColor="#C0C0C0"
+                                clearButtonMode="while-editing"
+                                multiline={false}
+                                autoCorrect={false}
+                                onChangeText={(firstName) => this.setState({firstName})}
+                                value={this.state.firstName}
+                            />
                         </View>
-                        <TextInput
-                            style={styles.firstPTextInputStyle}
-                            defaultValue={this.props.lastName}
-                            placeholder="LastName"
-                            placeholderTextColor="#C0C0C0"
-                            clearButtonMode="while-editing"
-                            multiline={false}
-                            autoCorrect={false}
-                            onChangeText={(lastName) => this.setState({lastName})}
-                            value={this.state.lastName}
-                        />
-                    </View>
-                    <View style={{height: 40}}/>
-                    <Text style={{color: '#808080',  paddingLeft: 20,paddingBottom:7, fontSize: 17}}>Info</Text>
-                    <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
-                        <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
-                            <Icon name="email" size={30} color="#A9A9A9" />
+                        <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
+                            <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
+                                <Icon name="account" size={30} color="#A9A9A9" />
+                            </View>
+                            <TextInput
+                                style={styles.firstPTextInputStyle}
+                                defaultValue={this.props.lastName}
+                                placeholder="LastName"
+                                placeholderTextColor="#C0C0C0"
+                                clearButtonMode="while-editing"
+                                multiline={false}
+                                autoCorrect={false}
+                                onChangeText={(lastName) => this.setState({lastName})}
+                                value={this.state.lastName}
+                            />
                         </View>
-                        <TextInput
-                            style={styles.firstPTextInputStyle}
-                            defaultValue={this.props.email}
-                            placeholder="email"
-                            placeholderTextColor="#C0C0C0"
-                            clearButtonMode="while-editing"
-                            multiline={false}
-                            autoCorrect={false}
-                            editable={false}
-                        />
-                    </View>
-                    <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white',borderRadius: 1, borderBottomWidth: 0.5, borderColor: '#C0C0C0'}}>
-                        <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
-                            <Icon name="phone" size={30} color="#A9A9A9" />
+                        <View style={{height: 40}}/>
+                        <Text style={{color: '#808080',  paddingLeft: 20,paddingBottom:7, fontSize: 17}}>Info</Text>
+                        <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white', borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
+                            <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
+                                <Icon name="email" size={30} color="#A9A9A9" />
+                            </View>
+                            <TextInput
+                                style={styles.firstPTextInputStyle}
+                                defaultValue={this.props.email}
+                                placeholder="email"
+                                placeholderTextColor="#C0C0C0"
+                                clearButtonMode="while-editing"
+                                multiline={false}
+                                autoCorrect={false}
+                                editable={false}
+                            />
                         </View>
-                        <TextInput
-                            style={styles.lastPTextInputStyle}
-                            defaultValue={this.props.phoneNumber}
-                            placeholder="Phone number"
-                            placeholderTextColor="#C0C0C0"
-                            clearButtonMode="while-editing"
-                            multiline={false}
-                            autoCorrect={false}
-                            onChangeText={(phoneNumber) => this.setState({phoneNumber})}
-                            value={this.state.phoneNumber}
-                        />
+                        <View style={{flexDirection: 'row', paddingLeft: 20, backgroundColor: 'white',borderRadius: 1, borderBottomWidth: 0.5, borderColor: '#C0C0C0'}}>
+                            <View style={{flexDirection: 'row', paddingTop: 6,paddingRight: 20, backgroundColor: 'white'}}>
+                                <Icon name="phone" size={30} color="#A9A9A9" />
+                            </View>
+                            <TextInput
+                                style={styles.lastPTextInputStyle}
+                                defaultValue={this.props.phoneNumber}
+                                placeholder="Phone number"
+                                placeholderTextColor="#C0C0C0"
+                                clearButtonMode="while-editing"
+                                multiline={false}
+                                autoCorrect={false}
+                                onChangeText={(phoneNumber) => this.setState({phoneNumber})}
+                                value={this.state.phoneNumber}
+                            />
+                        </View>
                     </View>
-                </View>
-                <View style={{height: 60}}/>
-                <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
-                    <TouchableOpacity onPress={() => this.changeDB(this.state.photo)} style={styles.logoutButtonContainer}>
-                        <Text style={{color: 'red',  margin: 0, fontSize: 17}}>Confirm Changes</Text>
-                        <View style={{width: 250}}/>
-                    </TouchableOpacity>
-                </View>
+                    <View style={{height: 60}}/>
+                    <View style = {{backgroundColor:'white', paddingLeft: 20, borderRadius: 1, borderBottomWidth: 0.5, borderTopWidth: 0.5, borderColor: '#C0C0C0'}}>
+                        <TouchableOpacity onPress={() => this.changeDB(this.state.photo)} style={styles.logoutButtonContainer}>
+                            <Text style={{color: 'red',  margin: 0, fontSize: 17}}>Confirm Changes</Text>
+                            <View style={{width: 250}}/>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{height: 50}}/>
                 </ScrollView>
+                </KeyboardAwareScrollView>
             </View>
         )
     }

@@ -30,6 +30,7 @@
     "react-native-gifted-messenger": "^0.1.4",
     "react-native-icons": "^0.7.1",
     "react-native-image-crop-picker": "^0.13.1",
+    "react-native-keyboard-aware-scroll-view": "^0.2.9",
     "react-native-maps": "^0.15.2",
     "react-native-material-switch": "0.0.4",
     "react-native-md5": "^1.0.0",
