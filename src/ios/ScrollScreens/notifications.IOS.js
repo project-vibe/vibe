@@ -1,108 +1,96 @@
 'use strict';
 import React, {Component} from 'react';
-import * as firebase from "firebase";
 import {
     View,
     StyleSheet,
-    StatusBar,
     Image,
-    Alert,
-    TouchableOpacity,
-    TouchableHighlight,
     ListView,
-    Text,
-    ScrollView
+    Text
 } from 'react-native';
 import Button from 'react-native-button';
-import {
-    Card,
-    CardImage,
-    CardTitle,
-    CardContent,
-    CardAction,
-} from 'react-native-card-view';
-
+import { Card } from 'react-native-card-view';
 import Swipeable from 'react-native-swipeable';
-const leftContent = <Text>Pull to activate</Text>;
+const _ = require('lodash');
+const cardInfo = require('./data/notifications-data-tester.json');
 
-const rightButtons = [
-    <TouchableHighlight><Text>Button 1</Text></TouchableHighlight>,
-    <TouchableHighlight><Text>Button 2</Text></TouchableHighlight>
-];
-
-var cardInfo = require('./cardInfo');
-var arrayPosition = -1;     //keeps track of the indices for each card
-
-//takes the index of the card, deletes it from cardInfo, and re-renders the listview
 function deleteCard(index) {
-    delete this.cardInfo[index];
-    this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.cardInfo)
-    })
+    // removes from json
+    _.pullAt(this.cardInfo, [index]);
 
+    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.setState({
+        dataSource: ds.cloneWithRows(this.cardInfo)
+    })
 }
 
-/*takes attributes of card and pushes it as an entry to cardInfo, then re-renders the listview,
- see the accept button onPress on the friendRequest for how to use(ln. 124) */
-function addCard(cardType, firstName, lastName, profileURL, eventName) {
-    cardInfo.push(
-        {
-            "cardType": cardType,
-            "name": {
-                "first": firstName,
-                "last": lastName,
-            },
-
-            "eventName": eventName, //NOTE: leave eventName as null if the card type doesn't use it(ex. friendRequest)
-
-            "picture": {
-                "large": profileURL,
-            },
-        },
-    );
-
+function acceptRequest(index) {
+    this.cardInfo[index].cardType = "friendRequestAccepted";
+    this.cardInfo[index].eventName = null;
+    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(this.cardInfo)
+        dataSource: ds.cloneWithRows(this.cardInfo)
     })
-
 }
 
+function rejectRequest(index) {
+    deleteCard = deleteCard.bind(this);
+    deleteCard(index);
+}
 
-class UserMessages extends Component {
+function acceptInvitation(index) {
+    this.cardInfo[index].cardType = "eventJoin";
+    this.cardInfo[index].eventName = "Study Session";
+    this.cardInfo[index].name.first = "You";
+    this.cardInfo[index].name.last = "";
+    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    this.setState({
+        dataSource: ds.cloneWithRows(this.cardInfo)
+    })
+}
 
+function rejectInvitation(index) {
+    deleteCard = deleteCard.bind(this);
+    deleteCard(index);
+}
+
+class Notifications extends Component {
     constructor() {
         super();
-        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        this.cardInfo = require('./cardInfo');
+        let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        this.cardInfo = _.cloneDeep(cardInfo.data);
         this.state = {
             dataSource: ds.cloneWithRows(this.cardInfo),
         };
-
     }
 
-    pullData() {
-        let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
-        alert("path " + userSettingsPath);
-        var leadsRef = firebase.database().ref(userSettingsPath);
-        leadsRef.on('value', function (snapshot) {
-            snapshot.forEach(function (childSnapshot) {
-                var childData = childSnapshot.val();
-                alert(childData);
-            });
-        });
+    grammarFix(name) {
+        if(name === "You") return "have";
+        else return "has";
     }
-
 
     renderCards(props) {
-        if (props.cardType == "friendRequest") {
-            arrayPosition++;
+        let swipeBtns = [
+            {
+                text: 'Delete',
+                backgroundColor: 'red',
+                underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+                onPress: () => { alert('delete')}
+            },
+            {
+                text: 'Duplicate',
+                backgroundColor: 'blue',
+                underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+                onPress: () => { alert('hello ')}
+            }
+        ];
+
+        if(props.cardType === "friendRequest") {
             return (
                 <Swipeable
                     onRef={ref => this.swipeable = ref}
                     leftActionActivationDistance = {250}
-                    onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
-                    leftContent={leftContent}>
-
+                    onLeftActionActivate={deleteCard.bind(this, _.findIndex(this.cardInfo, props))}
+                    leftContent={<Text> </Text>}>
 
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
@@ -112,21 +100,19 @@ class UserMessages extends Component {
                             marginTop: 20,
                             marginRight: 30
                         }}>
-
                             <Image style={ styles.friendRequestImage} source={{uri: props.picture.large}}/>
                             <View style={{flexDirection: 'column'}}>
                                 <Text style={styles.cardContent}>{`${props.name.first} ${props.name.last} `}
                                     has requested to add you!</Text>
-                                <View style={{flexDirection: 'row', paddingTop: 20}}>
+                                <View style={{flexDirection: 'row', paddingTop: 20, paddingBottom: 10}}>
                                     <Button
                                         style={styles.buttonAccept}
-                                        onPress={addCard.bind(this, "friendRequest", "Shanequa", "Wilkins", "https://randomuser.me/api/portraits/women/83.jpg", null)}>
+                                        onPress={acceptRequest.bind(this, _.findIndex(this.cardInfo, props))}>
                                         Accept
                                     </Button>
                                     <Button
                                         style={styles.buttonReject}
-                                        onPress={() => {
-                                        }}>
+                                        onPress={rejectRequest.bind(this, _.findIndex(this.cardInfo, props))}>
                                         Reject
                                     </Button>
                                 </View>
@@ -135,93 +121,86 @@ class UserMessages extends Component {
                     </Card>
                 </Swipeable>
             )
-        }
-        else if (props.cardType == "eventJoin") {
-            arrayPosition++;
+        } else if(props.cardType === "eventJoin") {
             return (
                 <Swipeable
                     onRef={ref => this.swipeable = ref}
                     leftActionActivationDistance = {250}
-                    onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
-                    leftContent={leftContent}>
+                    onLeftActionActivate={deleteCard.bind(this, _.findIndex(this.cardInfo, props))}
+                    leftContent={<Text> </Text>}>
+
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
                             flexDirection: 'row',
-                            marginBottom: 10,
+                            marginBottom: 20,
                             marginTop: 20,
                             marginRight: 30
                         }}>
-
                             <Image style={ styles.profileImage } source={{uri: props.picture.large}}/>
                             <View style={{flexDirection: 'column'}}>
                                 <Text style={styles.cardContent}>{`${props.name.first} ${props.name.last} `}
-                                    has joined {props.eventName}!</Text>
+                                    {this.grammarFix(props.name.first)} joined the {props.eventName}!</Text>
                             </View>
                         </View>
                     </Card>
                 </Swipeable>
             )
-        }
-        else if (props.cardType == "friendRequestAccepted") {
-            arrayPosition++;
+        } else if(props.cardType === "friendRequestAccepted") {
             return (
                 <Swipeable
                     onRef={ref => this.swipeable = ref}
                     leftActionActivationDistance = {250}
-                    onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
-                    leftContent={leftContent}>
+                    onLeftActionActivate={deleteCard.bind(this, _.findIndex(this.cardInfo, props))}
+                    leftContent={<Text> </Text>}>
+
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
                             flexDirection: 'row',
-                            marginBottom: 10,
+                            marginBottom: 20,
                             marginTop: 20,
                             marginRight: 30
                         }}>
-
                             <Image style={ styles.profileImage } source={{uri: props.picture.large}}/>
                             <View style={{flexDirection: 'column'}}>
-                                <Text style={styles.cardContent}>{`${props.name.first} ${props.name.last} `}
-                                    has accepted your friend request!</Text>
+                                <Text style={styles.cardContent}>
+                                    {`You have accepted ${props.name.first} ${props.name.last}'s friend request.`}
+                                </Text>
                             </View>
                         </View>
                     </Card>
                 </Swipeable>
             )
-        }
-        else if (props.cardType == "eventShare") {
-            arrayPosition++;
+        } else if(props.cardType === "eventShare") {
             return (
                 <Swipeable
                     onRef={ref => this.swipeable = ref}
                     leftActionActivationDistance = {250}
-                    onLeftActionActivate={deleteCard.bind(this, arrayPosition)}
-                    leftContent={leftContent}>
+                    onLeftActionActivate={deleteCard.bind(this, _.findIndex(this.cardInfo, props))}
+                    leftContent={<Text> </Text>}>
+
                     <Card styles={{card: {backgroundColor: '#00aad1', opacity: 0.8}}}>
                         <View style={{
                             width: 325,
                             flexDirection: 'row',
-                            marginBottom: 10,
+                            marginBottom: 20,
                             marginTop: 20,
                             marginRight: 30
                         }}>
-
                             <Image style={ styles.friendRequestImage} source={{uri: props.picture.large}}/>
                             <View style={{flexDirection: 'column'}}>
                                 <Text style={styles.cardContent}>{`${props.name.first} ${props.name.last} `}
                                     has invited you to join {props.eventName}!</Text>
-                                <View style={{flexDirection: 'row', paddingTop: 20}}>
+                                <View style={{flexDirection: 'row', paddingTop: 20, paddingBottom: 10}}>
                                     <Button
                                         style={styles.buttonAccept}
-                                        onPress={() => {
-                                        }}>
+                                        onPress={acceptInvitation.bind(this, _.findIndex(this.cardInfo, props))}>
                                         Accept
                                     </Button>
                                     <Button
                                         style={styles.buttonReject}
-                                        onPress={() => {
-                                        }}>
+                                        onPress={rejectInvitation.bind(this, _.findIndex(this.cardInfo, props))}>
                                         Reject
                                     </Button>
                                 </View>
@@ -229,34 +208,29 @@ class UserMessages extends Component {
                         </View>
                     </Card>
                 </Swipeable>
-            );
+            )
         }
         return null;
     }
 
     render() {
         return (
-            <Image source={require('../img/ciudad.jpg')} style={styles.container}>
-                <ListView
-                    dataSource={this.state.dataSource}
-                    enableEmptySections={true}
-                    renderRow={this.renderCards.bind(this)}>
-                </ListView>
-            </Image>
+            <ListView
+                dataSource={this.state.dataSource}
+                enableEmptySections={true}
+                renderRow={this.renderCards.bind(this)}>
+            </ListView>
         );
     }
 }
 
 const styles = StyleSheet.create({
-
     container: {
         flex: 1,
         backgroundColor: 'transparent',
         width: undefined,
         height: undefined,
-
     },
-
     profileImage: {
         flexDirection: 'column',
         marginRight: 10,
@@ -292,9 +266,8 @@ const styles = StyleSheet.create({
         borderColor: 'white'
     },
 
-
     cardContent: {
-        fontFamily: 'Noteworthy',
+        fontFamily: 'Bangla Sangam MN',
         fontSize: 17,
         marginRight: 45,
         marginLeft: 26,
@@ -304,21 +277,21 @@ const styles = StyleSheet.create({
     cardTitle: {
         fontSize: 15,
         backgroundColor: 'transparent',
-        fontFamily: 'Noteworthy',
+        fontFamily: 'Bangla Sangam MN',
         fontWeight: 'bold'
     },
     buttonAccept: {
         marginHorizontal: 30,
-        fontFamily: 'Noteworthy',
+        fontFamily: 'Bangla Sangam MN',
         color: 'white'
     },
 
     buttonReject: {
         marginHorizontal: 30,
-        fontFamily: 'Noteworthy',
+        fontFamily: 'Bangla Sangam MN',
         color: '#FF5252'
     },
 
 });
 
-module.exports = UserMessages;
+module.exports = Notifications;

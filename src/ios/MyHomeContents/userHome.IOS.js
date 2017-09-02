@@ -15,7 +15,7 @@ import Geocoder from 'react-native-geocoder';
 /** SCROLL SCREENS **/
 import HomeEvents from '../ScrollScreens/homeEventList.IOS.js';
 import CreateEvents from '../ScrollScreens/createEvents.IOS.js';
-import UserMessages from '../ScrollScreens/userMessages.IOS.js';
+import UserMessages from '../ScrollScreens/notifications.IOS.js';
 
 /** ICONS FOR CREATING EVENT **/
 import icon1 from '../img/icons/beach.png';
