@@ -87,6 +87,11 @@ signInScreen = React.createClass({
                             let latitude = that.state.latitude;
                             let longitude = that.state.longitude;
 
+                            let location = that.state.MyAddress + that.state.State;
+                            if(!location.trim().length>0){
+                                location = 'null';
+                            }
+
                                 firebase.database().ref(userSettingsPath).child('UserInfo').set({
                                         FirstName: firstName,
                                         LastName: lastName,
@@ -94,7 +99,8 @@ signInScreen = React.createClass({
                                         PhoneNumber: tempPhoneNum,
                                         PhotoUrl: credData.photoURL,
                                         Latitude: latitude.toString(),
-                                        Longitude: longitude.toString()
+                                        Longitude: longitude.toString(),
+                                        Location: location
                                 });
 
 
@@ -235,10 +241,10 @@ signInScreen = React.createClass({
                     if (counter === 3) {
                         lastName = childData;
                     }
-                    if (counter === 6) {
+                    if (counter === 7) {
                         phoneNumber = childData;
                     }
-                    if (counter === 7) {
+                    if (counter === 8) {
                         photo = childData
                     }
                     gotData = true;

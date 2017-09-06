@@ -42,7 +42,10 @@ var PageControl = require('react-native-page-control');
 /** MESSENGER **/
 import MessengerContainer from './MessengerContainer';
 
-export default class UserHome extends Component {
+//contacts
+import FriendsData from './Data/friends-data.json';
+
+class UserHome extends Component {
 
     constructor(props) {
         super(props);
@@ -50,12 +53,12 @@ export default class UserHome extends Component {
         this.openUsersModal = this.openUsersModal.bind(this);
         this.onScroll = this.onScroll.bind(this);
         this.onItemTap = this.onItemTap.bind(this);
-
         this.userEventsInfo = this.userEventsInfo.bind(this);
     };
 
     componentDidMount() {
         StatusBar.setBarStyle('light-content', true);
+        this.grabData();
     }
 
     openFriendsModal(text) {
@@ -93,6 +96,7 @@ export default class UserHome extends Component {
         userModalTitle: '',
         currentPage: 0,
         selectedIndex: 1,
+        contacts: ''
     };
     _getDataNewer = () => {
         let userSettingsPath = "/user/" + this.props.userId + "/UserInfo";
@@ -112,9 +116,9 @@ export default class UserHome extends Component {
                     firstName = childData;
                 if(counter===3)
                     lastName = childData;
-                if(counter===6)
-                    phoneNumber = childData;
                 if(counter===7)
+                    phoneNumber = childData;
+                if(counter===8)
                     photo = childData;
 
             });
@@ -145,9 +149,9 @@ export default class UserHome extends Component {
                     firstName = childData;
                 if (counter === 3)
                     lastName = childData;
-                if (counter === 6)
-                    phoneNumber = childData;
                 if (counter === 7)
+                    phoneNumber = childData;
+                if (counter === 8)
                     photo = childData;
 
             });
@@ -161,10 +165,7 @@ export default class UserHome extends Component {
     };
 
     _handleChangeTab = index => {
-        //alert("before" + index);
-        console.log("before", index);
         this.setState({ index });
-        console.log("after", index);
     };
 
     _renderIcon = ({ route }) => {
@@ -207,6 +208,52 @@ export default class UserHome extends Component {
         // this.setState({
         //     currentPage: index
         // });
+    }
+
+    grabData() {
+        let self = this;
+        let userSettingsPath = "/user/" + this.props.userId + "/Friends/AcceptedFriends/";
+        let data = [];
+        let childData = "";
+        let leadsRef = firebase.database().ref(userSettingsPath);
+
+        leadsRef.on('value', function (snapshot) {
+            for(var i = 65; i <= 90; i++) {
+                let letter = String.fromCharCode(i);
+                FriendsData[letter] = [];
+            }
+            snapshot.forEach(function (childSnapshot) {
+                childData = childSnapshot.val();
+                self.addToList(childData.id);
+            });
+            self.setState({contacts: FriendsData});
+        });
+    }
+
+    createObject(name, photoUrl, location){
+        let obj = new String(name);
+        obj.meta = {
+            name: name || "",
+            photoUrl: photoUrl || "",
+            location: location || ""
+        }
+
+        return obj;
+    }
+
+    addToList(friendsId){
+        let self = this;
+        firebase.database().ref("/user/" + friendsId + "/UserInfo").once('value', function (snapshot) {
+            let name = snapshot.val().FirstName + " " + snapshot.val().LastName;
+            let photoUrl = snapshot.val().PhotoUrl;
+            let location = snapshot.val().Location;
+            let firstLetter = name.substring(0,1);
+            if(/^[a-zA-Z]+$/.test(firstLetter)){
+                FriendsData[firstLetter].push(self.createObject(name, photoUrl, location));
+            } else {
+                FriendsData['A'].push(self.createObject(name, photoUrl, location));
+            }
+        });
     }
 
     render () {
@@ -506,7 +553,7 @@ export default class UserHome extends Component {
             title: 'addFriendsScreen',
             component: AddFriendsScreen,
             navigationBarHidden: true,
-            passProps: {myElement: 'text'}
+            passProps: {myElement: 'text', userId: this.props.userId, contacts: this.state.contacts}
         });
     }
 }

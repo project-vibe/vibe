@@ -125,6 +125,11 @@ export default class SignUp extends Component {
 
             let userSettingsPath = "/user/" + userId;
 
+            let location = this.state.MyAddress + this.state.State;
+            if(!location.trim().length>0){
+                location = 'null';
+            }
+
             firebase.database().ref(userSettingsPath).child('UserInfo').set({
                     FirstName: firstName,
                     LastName: lastName,
@@ -132,7 +137,8 @@ export default class SignUp extends Component {
                     PhoneNumber: phoneNumber,
                     PhotoUrl: "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg",
                     Latitude: this.state.latitude,
-                    Longitude: this.state.longitude
+                    Longitude: this.state.longitude,
+                    Location:location
             });
 
             this.state.photoUrl = "https://www.watsonmartin.com/wp-content/uploads/2016/03/default-profile-picture.jpg";
