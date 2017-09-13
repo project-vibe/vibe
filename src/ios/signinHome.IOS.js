@@ -158,10 +158,8 @@ signInScreen = React.createClass({
     },
 
     async getLocation() {
-        var latitude = '42';
-        var longitude = '-17';
-        var locality = 'Northridge';
-        var state = 'CALI';
+        let locality = 'Northridge';
+        let state = 'CALI';
         await navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({
@@ -173,19 +171,15 @@ signInScreen = React.createClass({
                 });
                 Geocoder.fallbackToGoogle("AIzaSyCEBP1ZAYZgvr-rzK0VNKToyfmQg1_3mns");
 
-                var myAddress = ''
-
-                var NY = {
+                let NY = {
                     lat: this.state.lat,
                     lng: this.state.long
                 };
 
                 let ret = Geocoder.geocodePosition(NY).then((res)=>
                 {
-                    //console.log(res)
                     locality = res["0"].locality;
                     state = res["0"].adminArea;
-                    //console.log(myAddress);
                     this.setState({
                         MyAddress: locality + " , ",
                         State: state
@@ -217,17 +211,15 @@ signInScreen = React.createClass({
             this.state.loginId = userId;
 
             let userSettingsPath = "/user/" + userId + "/UserInfo";
-            //alert(userSettingsPath);
-            //alert(this);
-            var counter = 0;
-            var childData = "";
-            var leadsRef = firebase.database().ref(userSettingsPath);
-            var firstName = "";
-            var lastName = "";
-            var photo = "";
-            var phoneNumber = '';
-            var gotData = false;
-            var that = this;
+            let counter = 0;
+            let childData = "";
+            let leadsRef = firebase.database().ref(userSettingsPath);
+            let firstName = "";
+            let lastName = "";
+            let photo = "";
+            let phoneNumber = '';
+            let gotData = false;
+            let that = this;
 
             await leadsRef.on('value', function (snapshot) {
                 snapshot.forEach(function (childSnapshot) {
