@@ -92,16 +92,16 @@ signInScreen = React.createClass({
                                 location = 'null';
                             }
 
-                                firebase.database().ref(userSettingsPath).child('UserInfo').set({
-                                        FirstName: firstName,
-                                        LastName: lastName,
-                                        Email: credData.email,
-                                        PhoneNumber: tempPhoneNum,
-                                        PhotoUrl: credData.photoURL,
-                                        Latitude: latitude.toString(),
-                                        Longitude: longitude.toString(),
-                                        Location: location
-                                });
+                            firebase.database().ref(userSettingsPath).child('UserInfo').set({
+                                FirstName: firstName,
+                                LastName: lastName,
+                                Email: credData.email,
+                                PhoneNumber: tempPhoneNum,
+                                PhotoUrl: credData.photoURL,
+                                Latitude: latitude.toString(),
+                                Longitude: longitude.toString(),
+                                Location: location
+                            });
 
 
                             let photoLink = credData.photoURL;
@@ -382,7 +382,6 @@ signInScreen = React.createClass({
         );
     }
 });
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -426,6 +425,4 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 });
-
-
 module.exports = signInScreen;
