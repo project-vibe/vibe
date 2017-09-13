@@ -17,8 +17,8 @@ import {
 // Algolia Instantsearch
 import AlgoliaDropdown from '../anm/AlgoliaDropdown';
 import UserPreview from './UserPreview';
+import * as firebase from "firebase";
 
-// contacts list
 var AlphabetListView = require('react-native-alphabetlistview');
 
 // icon
@@ -33,15 +33,19 @@ class Cell extends Component {
         friendshipStatus: 'true'
     };
     getProfilePicture(item) {
-        return <Image style={ styles.profilePic } source={{ uri: 'https://scontent-lax3-1.xx.fbcdn.net/v/t31.0-8/16487709_1253209434774020_5441397503346611987_o.jpg?oh=608b2750047c6e000f020ac2ac5198e2&oe=59825DC0' }} />
+        return <Image style={ styles.profilePic } source={{ uri: item }} />
     }
 
     // get user's location from Firebase from userid
     getUserLocation(item) {
+        let location = item;
+        if(location.toString() === 'null'){
+            location = '';
+        }
         return (
             <View style={{flexDirection: 'row'}}>
                 <Icon name="map-marker" size={14} color='rgb(143,153,163)' backgroundColor= 'transparent' style={{paddingRight: 3, paddingTop: 2}}/>
-                <Text style={styles.locationText}>Cupertino, CA</Text>
+                <Text style={styles.locationText}>{location}</Text>
             </View>
         )
     }
@@ -127,11 +131,11 @@ class Cell extends Component {
                     {this.getFav(this.props.item)}
                 </View>
                 <View style={{width: '15%', height: '100%'}}>
-                    {this.getProfilePicture(this.props.item)}
+                    {this.getProfilePicture(this.props.item['meta'].photoUrl)}
                 </View>
                 <View style={{width: '40%', height: '100%'}}>
                     {this.getUsername(this.props.item)}
-                    {this.getUserLocation(this.props.item)}
+                    {this.getUserLocation(this.props.item['meta'].location)}
                 </View>
                 <View style={{width: '35%', height: '100%'}}>
                     {this.getStatus(this.props.item)}
@@ -186,45 +190,13 @@ class addFriendsScreen extends Component {
         super(props);
         this.backButtonListener = this.backButtonListener.bind(this);
         this.goToDM = this.goToDM.bind(this);
-
-        // var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        // this.state = {
-        //     dataSource: ds.cloneWithRows(data),
-        // };
     }
 
     state = {
         filterWidth: 100,
         // user ids
         //have method that go through acceptedFriends branch and fill in data
-        data: {
-            A: ['John Agnew','Joshua Allison', 'Abhay Varshney'],
-            B: ['some','entries','are here'],
-            C: ['some','entries','are here'],
-            D: ['some','entries','are here'],
-            E: ['some','entries','are here'],
-            F: ['some','entries','are here'],
-            G: ['some','entries','are here'],
-            H: ['some','entries','are here'],
-            I: ['some','entries','are here'],
-            J: ['some','entries','are here'],
-            K: ['some','entries','are here'],
-            L: ['some','entries','are here'],
-            M: ['some','entries','are here'],
-            N: ['some','entries','are here'],
-            O: ['some','entries','are here'],
-            P: ['some','entries','are here'],
-            Q: ['some','entries','are here'],
-            R: ['some','entries','are here'],
-            S: ['some','entries','are here'],
-            T: ['some','entries','are here'],
-            U: ['some','entries','are here'],
-            V: ['some','entries','are here'],
-            W: ['some','entries','are here'],
-            X: ['some','entries','are here'],
-            Y: ['some','entries','are here'],
-            Z: ['some','entries','are here'],
-        },
+        data: this.props.contacts,
         selectedTab: 'blueTab'
     };
 

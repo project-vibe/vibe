@@ -75,9 +75,16 @@ export default class UserPreview extends Component {
         let self = this;
         let friendSettingsPath = "/user/" + friendId;
         let userSettingsPath = "/user/" + userId + "/Friends/OutgoingRequests";
+        let acceptedFriendsPath = "/user/" + userId + "/Friends/AcceptedFriends";
 
         var leadsRef = firebase.database().ref(userSettingsPath);
+        var acceptedFriendsRef = firebase.database().ref(acceptedFriendsPath);
         await leadsRef.once('value', function (snapshot) {
+            if (snapshot.hasChild(friendId)) {
+                self.setState({addFriend: 'true'});
+            }
+        });
+        await acceptedFriendsRef.once('value', function (snapshot) {
             if (snapshot.hasChild(friendId)) {
                 self.setState({addFriend: 'true'});
             }
@@ -86,7 +93,6 @@ export default class UserPreview extends Component {
         //firebase.database().ref(friendSettingsPath).child('Friends').child('AcceptedFriends').set({[friendId]: email});
         //firebase.database().ref(friendSettingsPath).child('Friends').child('IncomingRequests').child(userId).set({userId: userId, email: userEmail});
         //firebase.database().ref(userSettingsPath).child('Friends').child('OutgoingRequests').child(friendId).set({userId: friendId, email: email});
-
     }
 
     addFriend(email) {
@@ -114,7 +120,8 @@ export default class UserPreview extends Component {
         let friendSettingsPath = "/user/" + friendId;
         let userSettingsPath = "/user/" + userId;
 
-        //firebase.database().ref(friendSettingsPath).child('Friends').child('AcceptedFriends').set({[friendId]: email});
+        //firebase.database().ref(userSettingsPath).child('Friends').child('AcceptedFriends').child(friendId).set({"id": friendId});
+        //just need next two lines but testing rn
         firebase.database().ref(friendSettingsPath).child('Friends').child('IncomingRequests').child(userId).set({userId: userId, email: userEmail});
         firebase.database().ref(userSettingsPath).child('Friends').child('OutgoingRequests').child(friendId).set({userId: friendId, email: email});
 
