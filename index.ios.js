@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import * as firebase from "firebase";
 import {
-    View,
     AppRegistry,
     StyleSheet,
-    NavigatorIOS
+    NavigatorIOS,
+    StatusBar
 } from 'react-native';
 
 firebase.initializeApp({
@@ -14,22 +14,25 @@ firebase.initializeApp({
     storageBucket: "vibe-backend.appspot.com",
 });
 
-// var signInScreen = require('./src//ios/signinHome.IOS.js');
-var landingPage = require('./src//ios/landingPage.IOS.js');
-// var eventInfo = require('./src//ios/MyHomeContents/CreateEventsContents/userEventInfo.IOS.js');
+let landingPage = require('./src/ios/AppIntro/lntro.IOS.js');
 
-var vibe = React.createClass({
-  render() {
-    return (
-        <NavigatorIOS
-            style = {styles.container}
-            initialRoute={{
-              title: "Root",
-              navigationBarHidden: true,
-              component: landingPage
-        }}/>
-    );
-  }
+let vibe = React.createClass({
+    componentDidMount() {
+        // Hide the status bar
+        StatusBar.setHidden(true);
+    },
+
+    render() {
+        return (
+            <NavigatorIOS
+                style = {styles.container}
+                initialRoute={{
+                  title: "Root",
+                  navigationBarHidden: true,
+                  component: landingPage
+            }}/>
+        );
+    }
 });
 
 const styles = StyleSheet.create({

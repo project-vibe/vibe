@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
 import * as firebase from "firebase";
 import {
     StyleSheet,
@@ -12,21 +12,22 @@ import {
     StatusBar,
     View
 } from 'react-native';
-import Hr from './hr.dist';
+import Hr from './anm/hr.dist';
 import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Geocoder from 'react-native-geocoder';
 
-var SignUpScreen = require('./signup.IOS.js').default;
-var UserHomeScreen = require('./MyHomeContents/userHome.IOS.js');
+let SignUpScreen = require('./signup.IOS.js').default;
+let UserHomeScreen = require('./MyHomeContents/userHome.IOS.js');
 
 const auth = firebase.auth();
 const provider = firebase.auth.FacebookAuthProvider;
 
-var signInScreen;
+let signInScreen;
 
 signInScreen = React.createClass({
     getInitialState () {
+        StatusBar.setHidden(false);
         return {
             username: '',
             password: '',
@@ -322,7 +323,6 @@ signInScreen = React.createClass({
                                 </TouchableOpacity>
                             </View>
                             <View style={{width: 50, height: 70}}/>
-                            {/* look in hr.dist.js for changes */}
                             <View style={{width: 300, height: 40, flexDirection: 'row'}}>
                                 <View style={{width: 140, flex: 2}}>
                                     <Hr style={{width: 140}}/>

@@ -197,7 +197,7 @@ class UserHome extends Component {
     };
 
     onScroll (event){
-        var offsetX = event.nativeEvent.contentOffset.x,
+        let offsetX = event.nativeEvent.contentOffset.x,
             pageWidth = screen.width;
         this.setState({
             currentPage: Math.floor((offsetX - pageWidth / 2) / pageWidth) + 1

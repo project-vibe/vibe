@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
-    View
+    View,
+    StyleSheet
 } from 'react-native';
 import Timeline from '../anm/react-native-timeline-listview';
 import ActionButton from 'react-native-action-button';
@@ -48,7 +49,7 @@ export default class CreateEvents extends Component {
                     }}
                     goToEventsInfo = {this.goToEventsInfo}
                 />
-                <ActionButton offsetX={25} offsetY={25} buttonColor="#279AF1" onPress={() => this.changeState()}>
+                <ActionButton size={45} offsetX={25} offsetY={25} buttonColor="#279AF1" onPress={() => this.changeState()}>
                 </ActionButton>
             </View>
         )

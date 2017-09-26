@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import * as firebase from "firebase";
-import Hr from './hr2.dist';
+import Hr from './anm/hr2.dist';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PhoneInput from 'react-native-phone-input';
 import Geocoder from 'react-native-geocoder';
@@ -14,7 +14,6 @@ import {
     TouchableOpacity,
     StyleSheet,
     TextInput,
-    KeyboardAvoidingView,
     Keyboard,
     TouchableWithoutFeedback
 } from 'react-native';
@@ -22,7 +21,7 @@ import {
 var UserHomeScreen = require('./MyHomeContents/userHome.IOS.js');
 var BackPage = require('./signinHome.IOS.js');
 
-export default class SignUp extends Component {
+class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = {
