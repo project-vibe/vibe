@@ -6,17 +6,23 @@ import {
     StyleSheet,   // CSS-like styles
     Text,         // Renders text
     View,          // Container component
-    Image
+    Image,
+    StatusBar
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Swiper from './Components/Swiper';
 
 class LandingPage extends Component {
+    componentDidMount() {
+        // Hide the status bar
+        StatusBar.setHidden(true);
+    }
+
     render() {
         return (
             <Swiper navigator={this.props.navigator}>
                 {/* First screen */}
-                <Image source={require('../img/backdrop.jpg')} style={{height: '100%', width: '100%', alignItems: 'center', paddingTop: 200}}>
+                <Image source={require('../img/backdrop4.jpg')} style={{height: '100%', width: '100%', alignItems: 'center', paddingTop: 200}}>
                     <Icon name="ios-bonfire" {...iconStyles} />
                     <View style={{height: 20}} />
                     <Text style={styles.header}>SOCIALIZE</Text>
