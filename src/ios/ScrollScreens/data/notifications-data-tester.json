@@ -8,7 +8,6 @@
                 "last": "Stevens"
             },
             "eventName": "Study Session",
-            "timeStamp": 50,
             "picture": {
                 "large": "https://randomuser.me/api/portraits/men/47.jpg"
             }
@@ -21,7 +20,6 @@
                 "last": "Donovan"
             },
             "eventName": null,
-            "timeStamp": 24,
             "picture": {
                 "large": "https://randomuser.me/api/portraits/men/11.jpg"
             }
@@ -34,7 +32,6 @@
 				"last": "Doe"
 			},
 			"eventName": "Dance Session",
-			"timeStamp": 60,
 			"picture": {
 				"large": "https://randomuser.me/api/portraits/women/22.jpg"
 			}
@@ -47,7 +44,6 @@
 				"last": "Smith"
 			},
 			"eventName": null,
-			"timeStamp": 80,
 			"picture": {
 				"large": "https://randomuser.me/api/portraits/men/4.jpg"
 			}

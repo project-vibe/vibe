@@ -15,7 +15,7 @@ import Geocoder from 'react-native-geocoder';
 /** SCROLL SCREENS **/
 import HomeEvents from '../ScrollScreens/homeEventList.IOS.js';
 import CreateEvents from '../ScrollScreens/createEvents.IOS.js';
-import UserMessages from '../ScrollScreens/notifications.IOS.js';
+import Notifications from '../ScrollScreens/notifications.IOS.js';
 
 /** ICONS FOR CREATING EVENT **/
 import icon1 from '../img/icons/beach.png';
@@ -186,7 +186,7 @@ class UserHome extends Component {
     _renderScene = ({ route }) => {
         switch (route.key) {
             case '1':
-                return <UserMessages />;
+                return <Notifications userId={this.props.userId}/>;
             case '2':
                 return <HomeEvents openFriendsModal = {this.openFriendsModal}/>;
             case '3':

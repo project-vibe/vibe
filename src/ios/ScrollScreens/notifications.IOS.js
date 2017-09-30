@@ -10,8 +10,11 @@ import {
 import Button from 'react-native-button';
 import { Card } from 'react-native-card-view';
 import Swipeable from 'react-native-swipeable';
+import * as firebase from "firebase";
 const _ = require('lodash');
-const cardInfo = require('./data/notifications-data-tester.json');
+//const cardInfo = require('./data/notifications-data-tester.json');
+const cardInfo = require('./data/notifications-data.json');
+const cardTypes = ["eventJoin", "friendRequest", "eventShare", "friendRequestAccepted"];
 
 function deleteCard(index) {
     // removes from json
@@ -29,12 +32,33 @@ function acceptRequest(index) {
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
         dataSource: ds.cloneWithRows(this.cardInfo)
-    })
+    });
+
+    let userId = this.props.userId;
+    let friendId = this.cardInfo[index].userId;
+    let userPath = "/user/" + userId;
+    let friendPath = "/user/" + friendId;
+
+    firebase.database().ref(userPath).child('Friends').child('AcceptedFriends').child(friendId).set({"id": friendId});
+    firebase.database().ref(friendPath).child('Friends').child('AcceptedFriends').child(userId).set({"id": userId});
+    firebase.database().ref(userPath).child('Friends').child('IncomingRequests').child(friendId).remove();
+    firebase.database().ref(userPath).child('Friends').child('OutgoingRequests').child(friendId).remove();
+    firebase.database().ref(friendPath).child('Friends').child('OutgoingRequests').child(userId).remove();
 }
 
 function rejectRequest(index) {
     deleteCard = deleteCard.bind(this);
     deleteCard(index);
+
+    // let userId = this.props.userId;
+    // let friendId = this.cardInfo[index].userId;
+    // let userPath = "/user/" + userId;
+    // let friendPath = "/user/" + friendId;
+    //
+    // firebase.database().ref(friendPath).child('Friends').child('AcceptedFriends').child(userId).remove();
+    // firebase.database().ref(userPath).child('Friends').child('AcceptedFriends').child(friendId).remove();
+    // firebase.database().ref(userPath).child('Friends').child('IncomingRequests').child(friendId).remove();
+    // firebase.database().ref(friendPath).child('Friends').child('OutgoingRequests').child(userId).remove();
 }
 
 function acceptInvitation(index) {
@@ -54,13 +78,71 @@ function rejectInvitation(index) {
 }
 
 class Notifications extends Component {
-    constructor() {
+    constructor(props) {
         super();
         let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.cardInfo = _.cloneDeep(cardInfo.data);
         this.state = {
             dataSource: ds.cloneWithRows(this.cardInfo),
         };
+    }
+
+    componentDidMount(){
+        this.grabData(this.props.userId);
+    }
+
+    grabData(userId) {
+        let userSettingsPath = "/user/" + userId + "/Friends/IncomingRequests/";
+        let childData = "";
+        let leadsRef = firebase.database().ref(userSettingsPath);
+
+        leadsRef.on('value', (snapshot) => {
+            this.cardInfo = [];
+            snapshot.forEach((childSnapshot) => {
+                childData = childSnapshot.val();
+                let user = {
+                    eventName: null,
+                    profileURL: 'https://randomuser.me/api/portraits/men/47.jpg',
+                    leadsRef: firebase.database().ref("/user/" + childData.userId + "/UserInfo"),
+                    userId: childData.userId
+                };
+
+                user.leadsRef.on('value',(snapshot) =>{
+                    let counter = 0;
+                    snapshot.forEach((childSnapshot) =>{
+                        counter++;
+                        if (counter === 2) {
+                            user.firstName = childSnapshot.val();
+                        }
+                        if (counter === 3) {
+                            user.lastName = childSnapshot.val();
+                        }
+                        if (counter === 8) {
+                            user.profileURL = childSnapshot.val();
+                        }
+                    });
+                    this.cardInfo.push(
+                        {
+                            "cardType": cardTypes[1],
+                            "userId": user.userId,
+                            "name": {
+                                "first": user.firstName,
+                                "last": user.lastName,
+                            },
+
+                            "eventName": user.eventName, //NOTE: leave eventName as null if the card type doesn't use it(ex. friendRequest)
+
+                            "picture": {
+                                "large": user.profileURL,
+                            },
+                        },
+                    );
+                    let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+                    this.setState({dataSource: ds.cloneWithRows(this.cardInfo)});
+                });
+            });
+        });
     }
 
     grammarFix(name) {
