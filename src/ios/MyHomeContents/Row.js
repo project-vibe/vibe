@@ -1,6 +1,5 @@
-/**
- * Created by chamath on 5/20/17.
- */
+'use strict';
+
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 

@@ -17,9 +17,9 @@ import {
 } from 'react-native';
 
 var BackPage = require('./userHome.IOS.js');
-var passwordChange = require('../SettingsStuff/changePassword.IOS');
-var editProfile = require('../SettingsStuff/editProfile.IOS.js');
-var eventSettings = require('../SettingsStuff/eventSettings.IOS');
+var passwordChange = require('../SettingsContent/changePassword.IOS');
+var editProfile = require('../SettingsContent/editProfile.IOS.js');
+var eventSettings = require('../SettingsContent/eventSettings.IOS');
 
 const auth = firebase.auth();
 const Permissions = require('react-native-permissions');
@@ -48,6 +48,7 @@ class userSettingsScreen extends Component {
             passProps: {myElement: 'text'}
         });
     }
+
     async backToHome() {
         await auth.signOut().then(function() {
             // Sign-out successful.
@@ -60,15 +61,19 @@ class userSettingsScreen extends Component {
             passProps: {myElement: 'text'}
         });
     }
+
     termsPolicy() {
         alert("Terms and Policy Redirect")
     }
+
     helpCenter() {
         alert("Help Center Redirect")
     }
+
     reportProblem() {
         alert("Report a Problem Redirect")
     }
+
     passwordPage() {
         this.props.navigator.push({
             title: 'password',
@@ -77,6 +82,7 @@ class userSettingsScreen extends Component {
             passProps: {myElement: 'text', email: this.props.email}
         });
     }
+
     eventSettings() {
         this.props.navigator.push({
             title: 'eventSettings',
@@ -85,6 +91,7 @@ class userSettingsScreen extends Component {
             passProps: {myElement: 'text'}
         });
     }
+
     profilePage() {
         this.props.navigator.push({
             title: 'editProfile',
